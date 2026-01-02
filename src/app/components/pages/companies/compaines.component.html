@@ -1,0 +1,29 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-2 py-2">
+            <p-toolbar  [ngClass]="{'rtl': languageFactor === 'ar'}">
+                <ng-template pTemplate="left">
+                    <h4><i class="fas fa-building fa-xl">&nbsp;</i>{{'Compaines'|translateToArabic:languageFactor}}</h4>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <div *ngIf="AddCompany" class="my-2">
+                        <button pButton pRipple class="p-button-success mr-2" (click)="openForm()"><i class="pi pi-plus-circle">&nbsp;</i> {{'Add'|translateToArabic:languageFactor}}</button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+            <app-basic-table
+                [mainList]="compaines"
+                [filteredList]="filteredCompaines"
+                [ActionsList]="actionsList"
+                [model]="model"
+                [hasFilterRow]="true"
+                [hasCaptionRow]="true"
+                [rowReorder]="false"
+                [columnReorder]="false"
+                [SelectShownColumns]="false"
+                resizableColumns="false"
+            />
+        </div>
+    </div>
+</div>
+

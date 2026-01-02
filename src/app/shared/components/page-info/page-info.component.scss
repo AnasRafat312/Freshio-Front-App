@@ -1,0 +1,624 @@
+// Variables
+$primary-color: #4b766e;
+$secondary-color: #4d7686;
+$accent-color: #81b4ee;
+$light-bg: #f8f9fa;
+$dark-text: #333;
+$light-text: #fff;
+$border-radius: 8px;
+$box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+
+// Global styles
+.page-info-container {
+  // margin-top: 20px;
+  // margin-bottom: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+// Menu Section Styling
+.menu-section {
+  background: linear-gradient(135deg, #7273ce, #6d4aa5);
+  border-radius: $border-radius;
+  padding: 20px;
+  box-shadow: $box-shadow;
+  color: $light-text;
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+  position: relative;
+  
+  .navigation-header {
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    
+    .navigation-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: $light-text;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+  
+  .tree-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: $border-radius;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .info-logo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    transition: $transition;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Tree Component Styling
+::ng-deep .custom-tree {
+  .p-tree {
+    background: transparent;
+    border: none;
+    color: $light-text;
+    
+    .p-treenode {
+      padding: 8px 0;
+      
+      .p-treenode-content {
+        border-radius: $border-radius;
+        transition: $transition;
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        &.p-highlight {
+          background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .p-tree-toggler {
+          color: $light-text;
+        }
+        
+        .tree-node-label {
+          font-size: 16px;
+          font-weight: 500;
+          color: $light-text;
+        }
+      }
+    }
+  }
+}
+
+// Rest of the original code
+::ng-deep .mat-mdc-form-field-error-wrapper {
+  position: relative !important;
+  top: -20px !important;
+  left: 0;
+  right: 0;
+  padding: 0 16px;
+}
+
+::ng-deep .mat-mdc-form-field-error-wrapper {
+  position: relative !important;
+  top: -20px !important;
+  left: 0;
+  right: 0;
+  padding: 0 16px;
+}
+
+::ng-deep .p-datatable>.p-datatable-wrapper {
+  //overflow-x: auto !important;
+  overflow: visible !important;
+}
+
+mat-card {
+  max-height: 100%;
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+mat-card-content {
+  height: 100%;
+}
+
+tbody, td, tfoot, th, thead, tr {
+  text-align: center !important;
+}
+
+/* ::ng-deep .mat-mdc-form-field-subscript-wrapper ,
+::ng-deep .mat-mdc-form-field-subscript-wrapper  {
+  display: none !important;
+} */
+
+::ng-deep .mat-mdc-form-field-error-wrapper {
+  position: relative !important;
+  top: -20px !important;
+  left: 0;
+  right: 0;
+  padding: 0 16px;
+}
+
+.example-full-width{
+  float: left;
+  margin-right: 50px;
+  margin-top: 10px;
+  width: 100%;
+  font-size: small;
+}
+
+.section-header {
+  padding: 10px 60px !important;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.scrollable-message {
+  max-height: 200px;
+  overflow-y: auto;
+}
+.example-full-width-searchable {
+float: left;
+margin-right: 0;
+margin-bottom: 0;
+margin-top: 0;
+width: 100%;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+appearance: none;
+margin: 0;
+}
+::ng-deep .mat-mdc-form-field-subscript-wrapper ,
+::ng-deep .mat-mdc-form-field-subscript-wrapper  {
+  display: none !important;
+}
+
+// serial code
+.serial-code {
+position: absolute;
+  top: 23px;
+  left: 25px;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #22C55E;
+  color: #FFF;
+}
+@media(max-width: 610px){
+.serial-code {
+  position: relative;
+  width: fit-content;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 30px;
+  margin-top: -13px;
+}
+}
+// add row button style
+p-table th button:first-child {
+background-color: lavender;
+display: flex;
+justify-content: center;
+align-items: baseline;
+.p-button-rounded {
+  font-size: 15px;
+}
+}
+p-table th button:last-child {
+background-color: #cf3347;
+}
+::ng-deep .p-dropdown {
+  width: 100% !important;
+}
+.input {
+margin-bottom: 25px;
+}
+.close-btn {
+position: absolute;
+top: 5px;
+right: 15px;
+font-size: 20px;
+color: red;
+font-weight: bold;
+cursor: pointer;
+}
+
+
+.description {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.step-list {
+  margin-left: 30px; /* Adjust as needed */
+}
+
+.step {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.step-bullet {
+  width: 20px; /* Adjust size as needed */
+  height: 20px; /* Adjust size as needed */
+  border-radius: 50%;
+  background-color: #007ad9; /* Adjust color as needed */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.step-order {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.step-description {
+  font-size: 16px;
+}
+.page-name{
+padding: 10px;
+background: rgb(205 226 248);
+border-radius: 10px;
+box-shadow: 0 0 3px 4px #6e89b9;
+display: inline-block;
+margin-bottom: 15px;
+}
+
+.image-container {
+max-width: auto; /* Ensure the image container does not exceed its parent's width */
+height: auto; /* Maintain aspect ratio */
+
+}
+// Content Section Styling
+.details-section {
+  background: linear-gradient(135deg, #a577f5, #5c4281);
+  border-radius: $border-radius;
+  padding: 20px;
+  box-shadow: $box-shadow;
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+  
+  .panel-content {
+    height: 100%;
+  }
+  
+  // Card styling
+  .content-card {
+    background-color: $light-bg;
+    border-radius: $border-radius;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: $transition;
+    
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      background: linear-gradient(90deg, #666f9d, #0e2977);
+      color: $light-text;
+      
+      .header-icon {
+        margin-right: 10px;
+        font-size: 18px;
+      }
+      
+      .header-title {
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+    }
+    
+    .card-body {
+      padding: 20px;
+      
+      .content-title {
+        color: $primary-color;
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+      
+      .content-description {
+        font-size: 16px;
+        line-height: 1.6;
+        color: $dark-text;
+      }
+    }
+  }
+  
+  // Steps styling
+  .step-container {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    .step-content {
+      margin-bottom: 15px;
+    }
+    
+    .step-text {
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 10px 0;
+      padding-left: 20px;
+      position: relative;
+      
+      &:before {
+        content: '•';
+        position: absolute;
+        left: 5px;
+        color: $primary-color;
+        font-weight: bold;
+      }
+    }
+    
+    .step-image-container {
+      text-align: center;
+      margin: 15px 0;
+      
+      .step-image {
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: $transition;
+        
+        &:hover {
+          transform: scale(1.02);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+      }
+    }
+  }
+}
+.title-style
+{
+font-size: 25px;
+font-weight: bold;
+}
+.items-list {
+font-size: 22px;
+margin-left: 35px;
+font-weight: 500;
+}
+a{
+color: rgb(0, 0, 0);
+}
+#imageLogo
+{
+border-radius: 50%;
+}
+.cards-background
+{
+background-color: rgb(194 223 255);
+}
+.image-borderRd
+{
+border-radius: 2%;
+}
+.p-tree .p-tree-container .p-treenode .p-treenode-content{
+font-size: 25px  !important;
+}
+::ng-deep .custom-tree .p-component {
+font-size: 17px !important;
+font-weight: bold;
+font-family: 'Times New Roman', Times, serif;
+}
+.image-container {
+width: 190px;
+height: 190px;
+img {
+  width: 100%;
+  height: 100%;
+}
+}
+// Link and Button Styling
+a {
+  color: $secondary-color;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  transition: $transition;
+  
+  &:hover {
+    color: darken($secondary-color, 15%);
+    text-decoration: underline;
+  }
+}
+
+.anchor-like-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: $secondary-color;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: $transition;
+  
+  &:hover {
+    color: darken($secondary-color, 15%);
+    text-decoration: underline;
+  }
+}
+
+.anchor-like-button:focus {
+  outline: none;
+}
+
+// Image Dialog Styling
+::ng-deep .p-dialog {
+  .p-dialog-header {
+    background: linear-gradient(90deg, $primary-color, $secondary-color);
+    color: $light-text;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    padding: 1rem;
+    
+    .p-dialog-title {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+    
+    .p-dialog-header-icon {
+      color: $light-text;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: $light-text;
+      }
+    }
+  }
+  
+  .p-dialog-content {
+    padding: 0;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    
+    .dialog-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      background-color: $light-bg;
+      
+      img {
+        max-width: 100%;
+        max-height: 80vh;
+        border-radius: $border-radius;
+        box-shadow: $box-shadow;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 992px) {
+  .page-info-container {
+    .row {
+      flex-direction: column;
+    }
+    
+    .menu-section, .details-section {
+      height: auto;
+      max-height: 500px;
+      margin-bottom: 20px;
+      width: auto;
+    }
+  }
+  
+  .content-card {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-section {
+    .navigation-header .navigation-title {
+      font-size: 20px;
+    }
+    
+    .info-logo {
+      width: 150px;
+      height: 150px;
+    }
+  }
+  
+  .details-section {
+    .content-card {
+      .card-header .header-title {
+        font-size: 16px;
+      }
+      
+      .card-body {
+        padding: 15px;
+        
+        .content-title {
+          font-size: 18px;
+        }
+        
+        .content-description {
+          font-size: 14px;
+        }
+      }
+    }
+    
+    .step-container .step-text {
+      font-size: 14px;
+    }
+  }
+}
+
+// RTL Support for Arabic
+[dir="rtl"] {
+  .menu-section .navigation-header .navigation-title {
+    letter-spacing: 0;
+  }
+  
+  .details-section {
+    .card-header .header-icon {
+      margin-right: 0;
+      margin-left: 10px;
+    }
+    
+    .step-container .step-text {
+      padding-left: 0;
+      padding-right: 20px;
+      
+      &:before {
+        left: auto;
+        right: 5px;
+      }
+    }
+  }
+}
+
+@media(max-width: 768px) {
+  .details-section {
+    height: auto;
+    overflow: auto;
+  }
+  .container-ar {
+    flex-direction: column-reverse;
+  }
+  .menu-section {
+    display: block !important;
+    height: auto;
+    overflow: auto;
+  }
+  .image-container {
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+  }
+}

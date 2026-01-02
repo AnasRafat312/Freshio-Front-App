@@ -1,0 +1,201 @@
+<p-table
+        #table
+        [styleClass]="'p-datatable-sm'"
+        [value]="filteredList"
+        responsiveLayout="scroll"
+        [rows]="10"
+        dataKey="ID"
+        [columns]="_selectedColumns"
+        [exportHeader]="'customExportHeader'"
+        [globalFilterFields]="globalFilterFields"
+        [paginator]="true"
+        [rowsPerPageOptions]="[10,20,30]"
+        [showCurrentPageReport]="true" currentPageReportTemplate="{{'Showing'|translateToArabic:languageFactor}} {first} {{'to'|translateToArabic:languageFactor}} {last} {{'of'|translateToArabic:languageFactor}} {totalRecords} {{'entries'|translateToArabic:languageFactor}}"
+        [rowHover]="true"
+        selectionMode="single"
+        [(selection)]="selectedRow"
+        (onRowSelect)="onRowSelect($event)"
+        [resizableColumns]="resizableColumns"
+        [reorderableColumns]="columnReorder"
+        (onRowReorder)="onRowReorder($event)"
+        [(contextMenuSelection)]="selectedRow">
+        <ng-container *ngIf="hasCaptionRow">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between caption-table">
+                    <span class="d-flex gap-2">
+                        <button pButton label="{{'Clear'|translateToArabic:languageFactor}}" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(table)"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2" [matTooltip]="'XLS'| translateToArabic : languageFactor"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-danger mr-2" [matTooltip]="'PDF'| translateToArabic : languageFactor"></button>
+                    </span>
+                    <span class="d-flex gap-2">
+                            <p-multiSelect
+                            *ngIf="SelectShownColumns"
+                            [options]="cols"
+                            [(ngModel)]="_selectedColumns"
+                            (onChange)="onColsSelect($event)"
+                            optionLabel="{{'header'|translateToArabic:languageFactor}}"
+                            placeholder="{{'Select'|translateToArabic:languageFactor}}" />
+                            <div class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="table.filterGlobal($event.target.value, 'contains')" placeholder="{{'Search'|translateToArabic:languageFactor}}" />
+                            </div>
+                        </span>
+                </div>
+            </ng-template>
+        </ng-container>
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngIf="rowReorder"></th>
+                <th *ngFor="let col of columns; let i = index" pReorderableColumn pResizableColumn>
+                    <div class="d-flex gap-2 align-items-center  justify-content-center ">
+                        {{col.header|translateToArabic:languageFactor}}
+                        <div class="flex justify-content-center gap-1">
+                            <ng-container *ngIf="hasFilterRow">
+                                <p-columnFilter *ngIf="col.filterType == 1" type="text" [field]="col.field" display="menu"></p-columnFilter>
+                                <p-columnFilter *ngIf="col.filterType == 3 || col.filterType == 9" [field]="col.field" type="numeric" display="menu"></p-columnFilter>
+                                <p-columnFilter  *ngIf="col.filterType == 4 ||col.filterType ==  7 ||col.filterType ==  8" type="date" [field]="col.field" display="menu"></p-columnFilter>
+                                <p-columnFilter *ngIf="col.filterType == 2" [field]="col.field" matchMode="in" display="menu"  [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">{{col.header|translateToArabic:languageFactor}}</span>
+                                        </div>
+                                    </ng-template>
+                                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                            <p-multiSelect [appendTo]="'body'"
+                                            [ngModel]="columnContainer[col.field].list"
+                                            [options]="model[col.field].filterList"
+                                            [placeholder]="col.header|translateToArabic:languageFactor"
+                                            (onChange)="filterColumn($event.value,col.field)" optionLabel="Name">
+                                                <ng-template let-option pTemplate="item">
+                                                    <div class="inline-block vertical-align-middle">
+                                                        <span class="ml-1 mt-1">{{ option.Name }}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </p-multiSelect>
+                                        </ng-template>
+                                </p-columnFilter>
+                                <p-columnFilter *ngIf="col.filterType == 5" type="boolean" [field]="col.field" display="menu" />
+                            </ng-container>
+                            <span *ngIf="col.hideSorting" [pSortableColumn]="col.field"><p-sortIcon [field]="col.field"></p-sortIcon></span>
+                        </div>
+                    </div>
+                </th>
+                <th *ngFor="let col of ActionsList; let i = index" style="width: 55px;"></th>
+            </tr>
+            <!-- <tr>
+                <th *ngIf="rowReorder"></th>
+                <th *ngFor="let col of columns; let i = index">
+                    <div class="flex justify-content-center">
+                        <p-columnFilter *ngIf="col.filterType == 1" type="text" [field]="col.field" display="menu"></p-columnFilter>
+                        <p-columnFilter *ngIf="col.filterType == 3" [field]="col.field" type="numeric" display="menu"></p-columnFilter>
+                        <p-columnFilter  *ngIf="col.filterType == 4 ||col.filterType ==  7 ||col.filterType ==  8" type="date" [field]="col.field" display="menu"></p-columnFilter>
+                        <p-columnFilter *ngIf="col.filterType == 2" [field]="col.field" matchMode="in" display="menu"  [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                            <ng-template pTemplate="header">
+                                <div class="px-3 pt-3 pb-0">
+                                    <span class="font-bold">{{col.header|translateToArabic:languageFactor}}</span>
+                                </div>
+                            </ng-template>
+                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [appendTo]="'body'"
+                                    [ngModel]="columnContainer[col.field].list"
+                                    [options]="model[col.field].filterList"
+                                    [placeholder]="col.header|translateToArabic:languageFactor"
+                                    (onChange)="filterColumn($event.value,col.field)" optionLabel="Name">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="inline-block vertical-align-middle">
+                                                <span class="ml-1 mt-1">{{ option.Name }}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                        </p-columnFilter>
+                        <p-columnFilter *ngIf="col.filterType == 5" type="boolean" [field]="col.field" display="menu" />
+                        <span [pSortableColumn]="col.field"><p-sortIcon [field]="col.field"></p-sortIcon></span>
+                    </div>
+                </th>
+                <th *ngFor="let col of ActionsList; let i = index" style="width: 55px;"></th>
+            </tr> -->
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-index="rowIndex" let-columns="columns">
+            <!-- in english -->
+            <tr [pContextMenuRow]="row" [pSelectableRow]="row" *ngIf="filteredList.length > 0" [pReorderableRow]="index"  [style.background-color]="(movedRowIndex === index) ? backgroundColor : ''">
+                <td *ngIf="rowReorder">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="pi pi-bars" pReorderableRowHandle>  {{index+1}}</span>
+                        <span class="d-flex align-items-center justify-content-between">
+                            <span (click)="rowDown(index)">
+                                <i class="pi pi-arrow-down text-danger"></i>
+                            </span>
+                            <span (click)="rowUp(index)">
+                                <i class="pi pi-arrow-up text-success"></i>
+                            </span>
+                        </span>
+                    </div>
+                </td>
+                <td *ngFor="let col of columns; let i = index">
+                    <!-- Check if this is the Status column and we have a custom template -->
+                   <ng-container *ngIf="col.field === 'Status' && statusCellTemplate">
+                       <ng-container *ngTemplateOutlet="statusCellTemplate; context: { $implicit: row, index: index }"></ng-container>
+                   </ng-container>
+
+                    <!-- Check if this is the IsInBudgetText column and we have a custom template -->
+                   <ng-container *ngIf="col.field === 'IsInBudgetText' && isInBudgetCellTemplate">
+                       <ng-container *ngTemplateOutlet="isInBudgetCellTemplate; context: { $implicit: row, index: index }"></ng-container>
+                   </ng-container>
+
+                    <!-- Default rendering for other columns -->
+                    <ng-container *ngIf="(col.field !== 'Status' || !statusCellTemplate) && (col.field !== 'IsInBudgetText' || !isInBudgetCellTemplate)">
+                        <span *ngIf="col.filterType == 3">{{row[col.field]| number:'1.0-5'}}</span>
+                        <span *ngIf="col.filterType == 9">{{row[col.field] / 100| percent:'1.0-2'}}</span>
+                        <span *ngIf="col.filterType == 4">{{row[col.field]| date: 'yyyy-MM-dd'}}</span>
+                        <span *ngIf="col.filterType == 7">{{row[col.field]| date: 'yyyy-MM-dd, h:mm a'}}</span>
+                        <span *ngIf="col.filterType == 8">{{row[col.field]| date: 'h:mm a'}}</span>
+                        <span *ngIf="col.filterType == 1 || col.filterType == 2 || col.filterType == null"  tooltipPosition="top" [pTooltip]="row[col.field]"  tooltipStyleClass="toolTipeStyle" fitContent="true">{{row[col.field]  | pragraphSlice:10}}</span>
+                        <span *ngIf="col.filterType == 5">
+                            <i
+                                class="pi bool-icon"
+                                style="font-size: 1.5rem"
+                                [ngClass]="{
+                                    'text-green-500 pi-check-circle':
+                                    row[col.field],
+                                    'text-red-500 pi-times-circle':
+                                        !row[col.field]
+                                }"
+                            ></i>
+                        </span>
+                        <ng-container *ngIf="col.filterType == 10">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <img
+                            [src]="row.ProfilePicture ? '../../../../../../assets/images/user_avatar.png' : '../../../../../../assets/images/user_avatar.png'"
+                            width="50"
+                            class="rounded-circle"
+                            alt="User Profile"
+                            />
+                        </div>
+                        </ng-container>
+                    </ng-container>
+                </td>
+                <ng-container *ngIf="ActionsList?.length > 0">
+                    <td *ngFor="let action of ActionsList" style="width: 55px;">
+                        <!-- Check condition before showing button -->
+                      <button
+                        *ngIf="!action?.condition || action?.condition(row)"
+                        pButton
+                        pRipple
+                        [matTooltip]="action?.tooltip | translateToArabic:languageFactor"
+                        [ngClass]="action?.styleClass"
+                        [icon]="action?.icon"
+                        (click)="action?.action(row,index)"
+                        class="mr-2"
+                        [disabled]="action?.disabled ? action.disabled(row,index) : false"
+                      ></button>
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+                <ng-content select=".footer"></ng-content>
+        </ng-template>
+
+</p-table>

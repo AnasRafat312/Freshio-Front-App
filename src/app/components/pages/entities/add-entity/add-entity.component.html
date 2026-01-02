@@ -1,0 +1,864 @@
+<mat-card class="container">
+  <!--Start Basic Data-->
+  <mat-card-header id="basicData" [ngClass]="{'rtl': languageFactor === 'ar'}">
+    <mat-card-title class="ml-2" *ngIf="!id"><i class="fas fa-plus-circle fa-xl"></i>&nbsp; {{'Add Entity'|translateToArabic:languageFactor}}</mat-card-title>
+      <mat-card-title class="ml-2" *ngIf="id > 0"><i class="fas fa-edit fa-xl"></i>&nbsp; {{'Edit Entity'|translateToArabic:languageFactor}}</mat-card-title>
+  </mat-card-header>
+  <br>
+  <mat-card-content class="example-container">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+    <div *ngIf="IsSameCompanyID" class="form-comtent row">
+        <app-input-field class="mb-3 col-md-4 col-sm-6 col-xs-12" *ngIf="id"
+            [label]="'Code' | translateToArabic: languageFactor"
+            [languageFactor]="languageFactor"
+            [icon]="'pi pi-barcode'"
+            [isRequired]="hasRequiredValidator(form, 'Code')"
+            [isValid]="form.get('Code')?.valid">
+            <input type="text" pInputText formControlName="Code"/>
+        </app-input-field>
+        <app-input-field class="mb-3 col-md-4 col-sm-6 col-xs-12"
+            [label]="'Legal Name' | translateToArabic: languageFactor"
+            [languageFactor]="languageFactor"
+            [icon]="'pi pi-briefcase'"
+            [isRequired]="hasRequiredValidator(form, 'LegalName')"
+            [isValid]="form.get('LegalName')?.valid">
+            <input type="text" pInputText formControlName="LegalName"/>
+        </app-input-field>
+        <app-input-field class="mb-3 col-md-4 col-sm-6 col-xs-12"
+            [label]="'English Name' | translateToArabic: languageFactor"
+            [languageFactor]="languageFactor"
+            [icon]="'pi pi-user'"
+            [isRequired]="hasRequiredValidator(form, 'EnglishName')"
+            [isValid]="form.get('EnglishName')?.valid">
+            <input type="text" pInputText formControlName="EnglishName"/>
+        </app-input-field>
+        <app-input-field class="mb-3 col-md-4 col-sm-6 col-xs-12"
+            [label]="'Arabic Name' | translateToArabic: languageFactor"
+            [languageFactor]="languageFactor"
+            [icon]="'pi pi-user'"
+            [isRequired]="hasRequiredValidator(form, 'ArabicName')"
+            [isValid]="form.get('ArabicName')?.valid">
+            <input type="text" pInputText formControlName="ArabicName"/>
+        </app-input-field>
+        <app-input-field class="mb-3 col-md-4 col-sm-6 col-xs-12"
+            [label]="'Nationality' | translateToArabic: languageFactor"
+            [languageFactor]="languageFactor"
+            [icon]="'pi pi-flag'"
+            [isRequired]="hasRequiredValidator(form, 'NationalityID')"
+            [isValid]="form.get('NationalityID')?.valid">
+            <p-dropdown
+                placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                formControlName="NationalityID"
+                [options]="nationalityList"
+                optionLabel="Name"
+                optionValue="ID"
+                [filter]="true"
+                filterBy="Name"
+                [showClear]="true"
+                [appendTo]="'body'"
+                [virtualScroll]="true"
+            [virtualScrollItemSize]="10"
+            [ngClass]="{'ng-invalid ng-dirty': form.get('NationalityID')?.invalid && form.get('NationalityID')?.touched}"
+          >
+            </p-dropdown>
+        </app-input-field>
+        <app-input-field class="mb-3 col-md-4 col-sm-6 col-xs-12"
+            [label]="'Entity Type' | translateToArabic: languageFactor"
+            [languageFactor]="languageFactor"
+            [icon]="'pi pi-tags'"
+            [isRequired]="hasRequiredValidator(form, 'EntityType')"
+            [isValid]="form.get('EntityType')?.valid">
+            <p-dropdown
+                placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                formControlName="EntityType"
+                [options]="entityTypes"
+                optionLabel="label"
+                optionValue="value"
+                [filter]="true"
+                filterBy="label"
+                [showClear]="true"
+                [appendTo]="'body'"
+                [virtualScroll]="true"
+                [virtualScrollItemSize]="10"
+            (onChange)="checkTaxNoValidity()"
+            [ngClass]="{'ng-invalid ng-dirty': form.get('EntityType')?.invalid && form.get('EntityType')?.touched}"
+          >
+            </p-dropdown>
+        </app-input-field>
+        <div class="mb-3 col-12">
+            <div class="d-flex align-items-center justify-content-center w-100" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+                <label for="up" class="w-100">
+                  <div class="upload-container my-2">
+                    <div class="upload-label">
+                      <img class="upload-img rounded-circle" [src]="selectedImageUrl || '../../../../../assets/images/photo-file.svg'" alt="" width="50" height="50">
+                      <input #files type="file" id="up" class="upload-input" name="files" accept="image/*" (change)="handleFileInputChange($event)">
+                      <div *ngIf="languageFactor == 'en'" class="text-center">Drop or<span class="text-primary"> Select Image</span></div>
+                      <div *ngIf="languageFactor == 'ar'" class="text-center"><span class="text-primary">أختر صور</span>أدرج أو </div>
+                    </div>
+                  </div>
+                </label>
+            </div>
+        </div>
+        <div class="mb-3 col-10 check-boxs">
+          <section class="row">
+            <mat-checkbox *ngIf="dataType != 'warehouse'" formControlName="IsVendor" class="example-margin col" (change)="checkTaxNoValidity()">{{'Is Vendor ?'|translateToArabic:languageFactor}}</mat-checkbox>
+            <mat-checkbox *ngIf="dataType == 'person'"  formControlName="IsEmployee" class="example-margin col" (change)="checkTaxNoValidity()">{{'Is Employee ?'|translateToArabic:languageFactor}}</mat-checkbox>
+            <mat-checkbox *ngIf="dataType != 'warehouse'" formControlName="IsSupplier" class="example-margin col">{{'Is Supplier?'|translateToArabic:languageFactor}}</mat-checkbox>
+            <mat-checkbox *ngIf="dataType != 'warehouse'" formControlName="IsClient" class="example-margin col">{{'Is Client?'|translateToArabic:languageFactor}}</mat-checkbox>
+          </section>
+        </div>
+    </div>
+      <!--End Basic Data-->
+      <!--Start Compnay Data-->
+      <div *ngIf="dataType == 'company' && IsSameCompanyID">
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header (click)="toggleDropdown(companyData)">
+            <mat-panel-title class="w-100">
+              <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="d-flex align-items-center">
+                  <i class="pi pi-building me-2" style="font-size: 1.2rem"></i>
+                  <span #companyData>{{'Company Data'|translateToArabic:languageFactor}}</span>
+                </div>
+                <mat-icon [ngClass]="{'arrow-down': !isDropdownOpen, 'arrow-up': isDropdownOpen}">
+                  keyboard_arrow_down
+                </mat-icon>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <br>
+          <div class="row">
+            <app-input-field class="mb-2 col-md-3 col-sm-6 col-xs-12"
+                [label]="'Start Date' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-calendar'"
+                [isRequired]="hasRequiredValidator(form, 'StartDate')"
+                [isValid]="form.get('StartDate')?.valid">
+                <p-calendar class="calender-filter" formControlName="StartDate" [appendTo]="'body'" [showIcon]="true"></p-calendar>
+            </app-input-field>
+            <div class="mb-2 col-md-3 col-sm-6 col-xs-12">
+                <app-input-field class="w-100"
+                    [label]="'Tax Reg No.' | translateToArabic: languageFactor"
+                    [languageFactor]="languageFactor"
+                    [icon]="'pi pi-file-excel'"
+                    [isRequired]="hasRequiredValidator(form, 'taxRegNo')"
+                    [isValid]="form.get('taxRegNo')?.valid">
+                    <div class="taxRegNo">
+                        <input type="number" pInputText formControlName="taxRegNo" (input)="checkTaxNoValidity(form.value.taxRegNo)" />
+                        <div class="attatch-icon-content" *ngIf="Attachments" (click)="addAttachments('company','taxRegNo')">
+                            <i class="fa-solid fa-paperclip w-100 h-100"></i>
+                        </div>
+                    </div>
+                </app-input-field>
+                <div *ngIf="f['taxRegNo'].errors && f['taxRegNo'].errors['taxNoExist'] ">
+                    <strong class="text-danger">{{'Tax Reg No Already Exist'|translateToArabic:languageFactor}}</strong>
+                </div>
+            </div>
+            <app-input-field class="mb-2 col-md-3 col-sm-6 col-xs-12"
+                [label]="'Tax Card Start Date' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-calendar'"
+                [isRequired]="hasRequiredValidator(form, 'taxCardStartDate')"
+                [isValid]="form.get('taxCardStartDate')?.valid">
+                <p-calendar class="calender-filter" formControlName="taxCardStartDate" [appendTo]="'body'" [showIcon]="true"></p-calendar>
+            </app-input-field>
+            <app-input-field class="mb-2 col-md-3 col-sm-6 col-xs-12"
+                [label]="'Commercial No.' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-file-excel'"
+                [isRequired]="hasRequiredValidator(form, 'commercialNo')"
+                [isValid]="form.get('commercialNo')?.valid">
+                <div class="taxRegNo">
+                    <input type="number" pInputText formControlName="commercialNo" (input)="checkTaxNoValidity()"/>
+                    <div class="attatch-icon-content" *ngIf="Attachments" (click)="addAttachments('company','commercialNo')">
+                        <i class="fa-solid fa-paperclip w-100 h-100"></i>
+                    </div>
+                </div>
+            </app-input-field>
+            <app-input-field class="mb-2 col-md-3 col-sm-6 col-xs-12"
+                [label]="'Tax Card End Date' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-calendar'"
+                [isRequired]="hasRequiredValidator(form, 'taxCardEndDate')"
+                [isValid]="form.get('taxCardEndDate')?.valid">
+                <p-calendar class="calender-filter" formControlName="taxCardEndDate" [appendTo]="'body'" [showIcon]="true"></p-calendar>
+            </app-input-field>
+            <app-input-field class="mb-2 col-md-3 col-sm-6 col-xs-12"
+                [label]="'Lootcom Date' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-calendar'"
+                [isRequired]="hasRequiredValidator(form, 'lootcomDate')"
+                [isValid]="form.get('lootcomDate')?.valid">
+                <p-calendar class="calender-filter" formControlName="lootcomDate" [appendTo]="'body'" [showIcon]="true"></p-calendar>
+            </app-input-field>
+            <app-input-field class="mb-2 col-md-3 col-sm-6 col-xs-12"
+                [label]="'Industry' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-cog'"
+                [isRequired]="hasRequiredValidator(form, 'IndustryID')"
+                [isValid]="form.get('IndustryID')?.valid">
+                <p-dropdown
+                    placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                    formControlName="IndustryID"
+                    [options]="industryList"
+                    optionLabel="Name"
+                    optionValue="ID"
+                    [filter]="true"
+                    filterBy="Name"
+                    [showClear]="true"
+                    [appendTo]="'body'"
+                    [virtualScroll]="true"
+                    [virtualScrollItemSize]="10"
+                    [virtualScrollItemSize]="20"
+                (onChange)="filterCompanyActivityByIndustryID(form.value.IndustryID)"
+                [ngClass]="{'ng-invalid ng-dirty': form.get('IndustryID')?.invalid && form.get('IndustryID')?.touched}"
+              >
+                </p-dropdown>
+            </app-input-field>
+            <app-input-field class="mb-2 col-md-3 col-sm-6 col-xs-12"
+                [label]="'Company Activity' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-briefcase'"
+                [isRequired]="hasRequiredValidator(form, 'ActivityIDs')"
+                [isValid]="form.get('ActivityIDs')?.valid">
+                <p-multiSelect
+                    [showClear]="true"
+                    [appendTo]="'body'"
+                    [options]="filteredCompanyActivityTypes"
+                    [virtualScroll]="true"
+                    [filter]="true"
+                    [virtualScrollItemSize]="43"
+                    optionLabel="EnglishName"
+                    optionValue="ID"
+                    class="multiselect-custom-virtual-scroll"
+                    placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                formControlName="ActivityIDs"
+                [ngClass]="{'ng-invalid ng-dirty': form.get('ActivityIDs')?.invalid && form.get('ActivityIDs')?.touched}"
+                />
+                </app-input-field>
+            </div>
+        </mat-expansion-panel>
+      </div>
+      <!--End Compnay Data-->
+      <!--Start Personal Data-->
+
+      <div *ngIf="dataType == 'person'">
+        <mat-expansion-panel hideToggle class="drop-down-container">
+          <mat-expansion-panel-header (click)="toggleDropdown(personalData)">
+            <mat-panel-title class="w-100">
+              <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="d-flex align-items-center">
+                  <i class="pi pi-user me-2" style="font-size: 1.2rem"></i>
+                  <span #personalData>{{'Personal Data'|translateToArabic:languageFactor}}</span>
+                </div>
+                <mat-icon [ngClass]="{'arrow-down': !isDropdownOpen, 'arrow-up': isDropdownOpen}">
+                  keyboard_arrow_down
+                </mat-icon>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <br>
+          <div class="row">
+            <div class="mb-2 col-md-4 col-sm-6 col-xs-12">
+                <app-input-field class="w-100"
+                    [label]="'National ID' | translateToArabic: languageFactor"
+                    [languageFactor]="languageFactor"
+                    [icon]="'pi pi-id-card'"
+                    [isRequired]="hasRequiredValidator(form, 'nationalId')"
+                    [isValid]="form.get('nationalId')?.valid">
+                    <div class="taxRegNo">
+                        <input type="number" pInputText formControlName="nationalId" (input)="checkTaxNoValidity(form.value.nationalId)"/>
+                        <div *ngIf="Attachments" class="attatch-icon-content" (click)="addAttachments('person','nationalId')">
+                            <i class="fa-solid fa-paperclip w-100 h-100"></i>
+                        </div>
+                    </div>
+                </app-input-field>
+                <div *ngIf="f['nationalId'].errors && f['nationalId'].errors['nationalIdExist'] ">
+                    <strong class="text-danger">{{'National ID Already Exist'|translateToArabic:languageFactor}}</strong>
+                </div>
+            </div>
+            <app-input-field class="mb-2 col-md-4 col-sm-6 col-xs-12"
+                [label]="'Passport ID' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-book'"
+                [isRequired]="hasRequiredValidator(form, 'passportNo')"
+                [isValid]="form.get('passportNo')?.valid">
+                <div class="taxRegNo">
+                    <input type="number" pInputText formControlName="passportNo"/>
+                    <div *ngIf="Attachments" class="attatch-icon-content" (click)="addAttachments('person','passportNo')">
+                        <i class="fa-solid fa-paperclip w-100 h-100"></i>
+                    </div>
+                </div>
+            </app-input-field>
+            <app-input-field class="mb-2 col-md-4 col-sm-6 col-xs-12"
+                [label]="'Birth Date' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-calendar'"
+                [isRequired]="hasRequiredValidator(form, 'birthDate')"
+                [isValid]="form.get('birthDate')?.valid">
+                <p-calendar class="calender-filter" formControlName="birthDate" [appendTo]="'body'" [showIcon]="true"></p-calendar>
+            </app-input-field>
+            <app-input-field class="mb-3 col-md-4 col-sm-6 col-xs-12"
+                [label]="'Marital Status' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-heart'"
+                [isRequired]="hasRequiredValidator(form, 'moritalStatus')"
+                [isValid]="form.get('moritalStatus')?.valid">
+                <p-dropdown
+                    placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                    formControlName="moritalStatus"
+                    [options]="moritalStatusList"
+                    optionLabel="label"
+                    optionValue="value"
+                    [filter]="true"
+                    filterBy="label"
+                    [showClear]="true"
+                    [appendTo]="'body'"
+                    [virtualScroll]="true"
+                [virtualScrollItemSize]="10"
+                [ngClass]="{'ng-invalid ng-dirty': form.get('moritalStatus')?.invalid && form.get('moritalStatus')?.touched}"
+              >
+                </p-dropdown>
+            </app-input-field>
+            <app-input-field class="mb-3 col-md-4 col-sm-6 col-xs-12"
+                [label]="'Gender' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-user'"
+                [isRequired]="hasRequiredValidator(form, 'gender')"
+                [isValid]="form.get('gender')?.valid">
+                <p-dropdown
+                    placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                    formControlName="gender"
+                    [options]="genderList"
+                    optionLabel="label"
+                    optionValue="value"
+                    [filter]="true"
+                    filterBy="label"
+                    [showClear]="true"
+                    [appendTo]="'body'"
+                    [virtualScroll]="true"
+                [virtualScrollItemSize]="10"
+                [ngClass]="{'ng-invalid ng-dirty': form.get('gender')?.invalid && form.get('gender')?.touched}"
+              >
+                </p-dropdown>
+            </app-input-field>
+          </div>
+        </mat-expansion-panel>
+      </div>
+      <!--End Personal Data-->
+      <!--Start Web Data-->
+      <div *ngIf="dataType !== 'warehouse' && IsSameCompanyID" class="web-data">
+        <mat-expansion-panel hideToggle class="drop-down-container">
+          <mat-expansion-panel-header (click)="toggleDropdown(webData)">
+            <mat-panel-title class="w-100">
+              <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="d-flex align-items-center">
+                  <i class="pi pi-globe me-2" style="font-size: 1.2rem"></i>
+                  <span #webData>{{'Web Data'|translateToArabic:languageFactor}}</span>
+                </div>
+                <mat-icon [ngClass]="{'arrow-down': !webDataIsDropdownOpen, 'arrow-up': webDataIsDropdownOpen}">
+                  keyboard_arrow_down
+                </mat-icon>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <br>
+
+          <div formArrayName="emails">
+            <div *ngFor="let emailGroup of emailFields.controls; let i = index" [formGroupName]="i">
+              <div class="row align-items-center">
+                <app-input-field class="col-sm-3"
+                  [label]="'Type' | translateToArabic: languageFactor"
+                  [languageFactor]="languageFactor"
+                  [icon]="'pi pi-globe'"
+                  [isRequired]="hasRequiredValidator(emailGroup, 'Addresstype')"
+                  [isValid]="emailGroup.get('Addresstype')?.valid">
+                    <p-dropdown
+                      placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                      formControlName="Addresstype"
+                      [options]="webDataList"
+                      optionLabel="label"
+                      optionValue="value"
+                      [filter]="true"
+                      filterBy="label"
+                      [showClear]="true"
+                      [appendTo]="'body'"
+                      [virtualScroll]="true"
+                      [virtualScrollItemSize]="10">
+                    </p-dropdown>
+                </app-input-field>
+                <div class="col-sm-8">
+                  <app-input-field class="w-100"
+                    [label]="'URL' | translateToArabic: languageFactor"
+                    [languageFactor]="languageFactor"
+                    [icon]="'pi pi-link'"
+                    [isRequired]="hasRequiredValidator(emailGroup, 'WebAddress')"
+                    [isValid]="emailGroup.get('WebAddress')?.valid">
+                      <input type="text" pInputText formControlName="WebAddress"/>
+                  </app-input-field>
+                  <small class="text-danger" *ngIf="emailGroup.get('WebAddress')?.hasError('required')">{{'Required'|translateToArabic:languageFactor}}</small>
+                  <small class="text-danger" *ngIf="emailGroup.get('WebAddress')?.hasError('WebAddress')">{{'Invalid URL'|translateToArabic:languageFactor}}</small>
+                </div>
+                <div class="mt-3 col-sm-1" *ngIf="i === emailFields.length - 1">
+                  <button mat-icon-button (click)="addEmailField()" [disabled]="!emailFields.value[i].WebAddress || (emailFields.value[i].Addresstype !== 0 && emailFields.value[i].Addresstype !== 1)">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div class="mt-3 col-sm-1" *ngIf="i < emailFields.length - 1">
+                  <button mat-icon-button (click)="deleteEmailField(i)">
+                    <mat-icon class="text-danger">delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </div>
+      <!--End Web Data-->
+      <!--Start Phones-->
+      <div *ngIf="dataType !== 'warehouse' && IsSameCompanyID" class="phones">
+        <mat-expansion-panel hideToggle class="drop-down-container">
+          <mat-expansion-panel-header (click)="toggleDropdown(phoneNumbers)">
+            <mat-panel-title class="w-100">
+              <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="d-flex align-items-center">
+                  <i class="pi pi-phone me-2" style="font-size: 1.2rem"></i>
+                  <span #phoneNumbers>{{'Phone Numbers'|translateToArabic:languageFactor}}</span>
+                </div>
+                <mat-icon
+                  [ngClass]="{'arrow-down': !phoneNumbersIsDropdownOpen, 'arrow-up': phoneNumbersIsDropdownOpen}">
+                  keyboard_arrow_down
+                </mat-icon>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <br>
+          <div formArrayName="phones">
+            <div *ngFor="let phoneGroup of phoneFields.controls; let i = index" [formGroupName]="i">
+                <div class="d-flex align-items-start">
+                    <div class="flex-grow-1">
+                        <app-input-field class="w-100"
+                            [label]="'Phone Number' | translateToArabic: languageFactor"
+                            [languageFactor]="languageFactor"
+                            [icon]="'pi pi-phone'"
+                            [isRequired]="hasRequiredValidator(phoneGroup, 'Telephone')"
+                            [isValid]="phoneGroup.get('Telephone')?.valid">
+                            <input type="number" pInputText formControlName="Telephone"/>
+                        </app-input-field>
+                        <small class="text-danger fw-bold" *ngIf="phoneGroup.get('Telephone').hasError('invalidNumber')">
+                            <strong>{{ 'Maximum Phone Number length is 15 digits' | translateToArabic: languageFactor }}</strong>
+                        </small>
+                    </div>
+                    <div class="mt-4 ms-2 d-flex">
+                        <button mat-icon-button *ngIf="i === phoneFields.length - 1" (click)="addPhoneField()" [disabled]="isPhoneButtonDisabled(i) || (phoneGroup.get('Telephone').hasError('invalidNumber') || phoneGroup.get('Telephone').hasError('maxlength'))">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <button mat-icon-button *ngIf="i < phoneFields.length - 1" (click)="deletePhoneField(i)">
+                            <mat-icon class="text-danger">delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </div>
+      <!--End Phones-->
+      <!--Start Company Contacts-->
+      <div *ngIf="dataType == 'company'" class="company-contacts">
+        <mat-expansion-panel hideToggle class="drop-down-container">
+          <mat-expansion-panel-header (click)="toggleDropdown(companyContacts)">
+            <mat-panel-title class="w-100">
+              <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="d-flex align-items-center">
+                  <i class="pi pi-users me-2" style="font-size: 1.2rem"></i>
+                  <span #companyContacts>{{'Company Contacts'|translateToArabic:languageFactor}}</span>
+                </div>
+                <mat-icon
+                  [ngClass]="{'arrow-down': !companyContactsIsDropdownOpen, 'arrow-up': companyContactsIsDropdownOpen}">
+                  keyboard_arrow_down
+                </mat-icon>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <br>
+          <div class="row align-items-center">
+            <app-input-field class="mb-3 col-sm-4 col-xs-12"
+                [label]="'Role In Company' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-briefcase'"
+                [isRequired]="hasRequiredValidator(form, 'RoleInCompany')"
+                [isValid]="form.get('RoleInCompany')?.valid">
+                <input type="text" pInputText formControlName="RoleInCompany" (input)="checkFormValidity()"/>
+            </app-input-field>
+            <app-input-field class="mb-3 col-sm-3 col-xs-12"
+                [label]="'Role Classification' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-sitemap'"
+                [isRequired]="hasRequiredValidator(form, 'RoleClassificationID')"
+                [isValid]="form.get('RoleClassificationID')?.valid">
+                <p-dropdown
+                    placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                    formControlName="RoleClassificationID"
+                    [options]="roleClassList"
+                    optionLabel="classificationName"
+                    optionValue="ID"
+                    [filter]="true"
+                    filterBy="classificationName"
+                    [showClear]="true"
+                    [appendTo]="'body'"
+                    [virtualScroll]="true"
+                    [virtualScrollItemSize]="10">
+                </p-dropdown>
+            </app-input-field>
+            <app-input-field class="mb-3 col-sm-3 col-xs-12"
+                [label]="'Persons Contacts' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-users'"
+                [isRequired]="hasRequiredValidator(form, 'PersonsContacts')"
+                [isValid]="form.get('PersonsContacts')?.valid">
+                <p-dropdown
+                    placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                    formControlName="PersonsContacts"
+                    [options]="personContactsList"
+                    optionLabel="Name"
+                    optionValue="ID"
+                    [filter]="true"
+                    filterBy="Name"
+                    [showClear]="true"
+                    [appendTo]="'body'"
+                    [virtualScroll]="true"
+                    [virtualScrollItemSize]="10"
+                    (onChange)="checkFormValidity()">
+                </p-dropdown>
+            </app-input-field>
+            <div class="mt-2 col-sm-2 text-right">
+                <button mat-icon-button type="button" (click)="addContact()" [disabled]="addButtonDisabled"><mat-icon>add</mat-icon></button>
+            </div>
+          </div>
+          <div class="table-container" *ngIf="companyContactsList.length > 0">
+            <table class="table table-striped text-center">
+              <thead>
+                <tr>
+                  <!-- in arabic -->
+                  <th *ngIf="languageFactor === 'ar'"></th>
+                  <th *ngIf="languageFactor === 'ar'">{{'Person Contact'|translateToArabic:languageFactor}}</th>
+                  <th *ngIf="languageFactor === 'ar'">{{'Role Classification'|translateToArabic:languageFactor}}</th>
+                  <th *ngIf="languageFactor === 'ar'">{{'Role In Company'|translateToArabic:languageFactor}}</th>
+                  <th *ngIf="languageFactor === 'ar'">#</th> <!-- Add this row for row numbers -->
+                  <!-- in english -->
+                  <th *ngIf="languageFactor === 'en'">#</th> <!-- Add this row for row numbers -->
+                  <th *ngIf="languageFactor === 'en'">{{'Role In Company'|translateToArabic:languageFactor}}</th>
+                  <th *ngIf="languageFactor === 'en'">{{'Role Classification'|translateToArabic:languageFactor}}</th>
+                  <th *ngIf="languageFactor === 'en'">{{'Person Contact'|translateToArabic:languageFactor}}</th>
+                  <th *ngIf="languageFactor === 'en'"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- in arabic -->
+                <tr *ngFor="let contact of companyContactsList; let i = index">
+                  <td *ngIf="languageFactor === 'ar'" class="text-left">
+                    <button class="text-danger" mat-icon-button (click)="deleteContact(i)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                  <td *ngIf="languageFactor === 'ar'">{{ contact.personContactInTable }}</td>
+                  <td *ngIf="languageFactor === 'ar'">{{ contact.roleClassInTable }}</td>
+                  <td *ngIf="languageFactor === 'ar'">{{ contact.RoleInCompany }}</td>
+                  <td *ngIf="languageFactor === 'ar'">{{ i + 1|translateToArabic:languageFactor }}</td> <!-- Row numbers start from 1 -->
+                  <!-- in english -->
+                  <td *ngIf="languageFactor === 'en'">{{ i + 1|translateToArabic:languageFactor }}</td> <!-- Row numbers start from 1 -->
+                  <td *ngIf="languageFactor === 'en'">{{ contact.RoleInCompany }}</td>
+                  <td *ngIf="languageFactor === 'en'">{{ contact.roleClassInTable }}</td>
+                  <td *ngIf="languageFactor === 'en'">{{ contact.personContactInTable }}</td>
+                  <td *ngIf="languageFactor === 'en'" class="text-right">
+                    <button class="text-danger" mat-icon-button (click)="deleteContact(i)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-expansion-panel>
+      </div>
+      <!--End Company Contacts-->
+      <!--Start Address-->
+      <div *ngIf="dataType !== 'warehouse' && IsSameCompanyID" class="address">
+        <mat-expansion-panel hideToggle class="drop-down-container">
+          <mat-expansion-panel-header (click)="toggleDropdown(address)">
+            <mat-panel-title class="w-100">
+              <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="d-flex align-items-center">
+                  <i class="pi pi-map-marker me-2" style="font-size: 1.2rem"></i>
+                  <span #address>{{'Address'|translateToArabic:languageFactor}}</span>
+                </div>
+                <mat-icon [ngClass]="{'arrow-down': !addressIsDropdownOpen, 'arrow-up': addressIsDropdownOpen}">
+                  keyboard_arrow_down
+                </mat-icon>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <br>
+          <div class="row align-items-center">
+            <app-input-field class="mb-3 col-sm-3 col-xs-12"
+                [label]="'Country' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-globe'"
+                [isRequired]="hasRequiredValidator(form, 'country')"
+                [isValid]="form.get('country')?.valid">
+                <p-dropdown
+                    placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                    formControlName="country"
+                    [options]="nationalityList"
+                    optionLabel="Name"
+                    optionValue="ID"
+                    [filter]="true"
+                    filterBy="Name"
+                    [showClear]="true"
+                    [appendTo]="'body'"
+                    [virtualScroll]="true"
+                    [virtualScrollItemSize]="10"
+                    (onChange)="checkAddressFormValidity()">
+                </p-dropdown>
+            </app-input-field>
+            <app-input-field class="mb-3 col-sm-3 col-xs-12"
+                [label]="'City' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-building'"
+                [isRequired]="hasRequiredValidator(form, 'city')"
+                [isValid]="form.get('city')?.valid">
+                <p-dropdown
+                    placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                    formControlName="city"
+                    [options]="filteredCities"
+                    optionLabel="Name"
+                    optionValue="ID"
+                    [filter]="true"
+                    [loading]="cityLoading"
+                    filterBy="Name"
+                    [showClear]="true"
+                    [appendTo]="'body'"
+                    [virtualScroll]="true"
+                    [virtualScrollItemSize]="10"
+                    (onChange)="checkLineAddressFormValidity()">
+                </p-dropdown>
+            </app-input-field>
+            <!-- <div class="form-group col-md-3">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>{{'City'|translateToArabic:languageFactor}}</mat-label>
+                <mat-select matNativeControl formControlName="city" (keydown)="onKeyDown($event)" (ngModelChange)="checkLineAddressFormValidity()">
+                  <div class="custom-dropdown-input">
+                    <mat-form-field appearance="outline" class="example-full-width">
+                    <input matInput #newCityOptionInput
+                    (input)="filterCities(newCityOptionInput.value,$event)"
+                    placeholder="{{'Search Or Add'|translateToArabic:languageFactor}}" >
+                    <button mat-icon-button (click)="addNewCityOption(newCityOptionInput.value,country.value)"class="add-entity-btn">
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+                  <mat-option *ngFor="let city of filteredCities" [value]="city.ID"> {{city.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="f['city'].errors && f['city'].errors['required']">
+                  <strong>{{'Required'|translateToArabic:languageFactor}}</strong>
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+            <app-input-field class="mb-3 col-sm-4 col-xs-12"
+                [label]="'Street Line' | translateToArabic: languageFactor"
+                [languageFactor]="languageFactor"
+                [icon]="'pi pi-map-marker'"
+                [isRequired]="hasRequiredValidator(form, 'Streetline')"
+                [isValid]="form.get('Streetline')?.valid">
+                <input type="text" pInputText formControlName="Streetline" (input)="checkLineAddressFormValidity()"/>
+            </app-input-field>
+            <div class="mt-2 col-sm-1 text-right">
+            <button  mat-icon-button (click)="addAddress()" type="button" [disabled]="addAddressButtonDisabled">
+              <mat-icon>add</mat-icon>
+            </button>
+            </div>
+          </div>
+          <div class="table-container" *ngIf="addressList.length > 0">
+            <table class="table text-center  table-striped">
+              <thead>
+                <tr>
+                  <!-- in english -->
+                  <th>#</th> <!-- Add this row for row numbers -->
+                  <th>{{'Country'|translateToArabic:languageFactor}}</th>
+                  <th>{{'City'|translateToArabic:languageFactor}}</th>
+                  <th>{{'Street Line'|translateToArabic:languageFactor}}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let address of addressList; let i = index">
+                  <!-- in english -->
+                  <td>{{ i + 1|translateToArabic:languageFactor }}</td> <!-- Row numbers start from 1 -->
+                  <td>{{ address.CountryName }}</td>
+                  <td>{{ address.CityName }}</td>
+                  <td>{{ address.Streetline }}</td>
+                  <td class="text-right">
+                    <button mat-icon-button (click)="deleteAddress(i)">
+                      <mat-icon class="text-danger">delete</mat-icon>
+                    </button>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-expansion-panel>
+      </div>
+    </form>
+      <!--End Address-->
+      <!--Start Banking Info-->
+      <form [formGroup]="entityBankAccountsForm" *ngIf="IsSameCompanyID">
+          <div *ngIf="dataType !== 'warehouse'" class="address">
+            <mat-expansion-panel hideToggle class="drop-down-container">
+              <mat-expansion-panel-header (click)="toggleDropdown(bankingInfo)">
+                <mat-panel-title class="w-100">
+                  <div class="d-flex align-items-center justify-content-between w-100">
+                    <div class="d-flex align-items-center">
+                      <i class="pi pi-dollar me-2" style="font-size: 1.2rem"></i>
+                      <span #bankingInfo>{{'Banking Info'|translateToArabic:languageFactor}}</span>
+                    </div>
+                    <mat-icon [ngClass]="{'arrow-down': !bankInfoIsDropdownOpen, 'arrow-up': bankInfoIsDropdownOpen}">
+                      keyboard_arrow_down
+                    </mat-icon>
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <br>
+              <div class="row align-items-center">
+                <app-input-field class="mb-3 col-sm-4 col-xs-12"
+                    [label]="'Bank' | translateToArabic: languageFactor"
+                    [languageFactor]="languageFactor"
+                    [icon]="'pi pi-building'"
+                    [isRequired]="hasRequiredValidator(entityBankAccountsForm, 'Bank')"
+                    [isValid]="entityBankAccountsForm.get('Bank')?.valid">
+                    <p-dropdown
+                        placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                        formControlName="Bank"
+                        [options]="banksList"
+                        optionLabel="name"
+                        [filter]="true"
+                        filterBy="name"
+                        [showClear]="true"
+                        [appendTo]="'body'"
+                        [virtualScroll]="true"
+                        [virtualScrollItemSize]="10"
+                        (onChange)="filterBranchesListByBankID(entityBankAccountsForm?.value?.Bank?.ID)">
+                    </p-dropdown>
+                </app-input-field>
+                <app-input-field class="mb-3 col-sm-4 col-xs-12"
+                    [label]="'Branch' | translateToArabic: languageFactor"
+                    [languageFactor]="languageFactor"
+                    [icon]="'pi pi-sitemap'"
+                    [isRequired]="hasRequiredValidator(entityBankAccountsForm, 'BankBranch')"
+                    [isValid]="entityBankAccountsForm.get('BankBranch')?.valid">
+                    <p-dropdown
+                        placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                        formControlName="BankBranch"
+                        [options]="filteredBankBranchsList"
+                        optionLabel="Name"
+                        [filter]="true"
+                        filterBy="Name"
+                        [showClear]="true"
+                        [appendTo]="'body'"
+                        [virtualScroll]="true"
+                        [virtualScrollItemSize]="10">
+                    </p-dropdown>
+                </app-input-field>
+                <app-input-field class="mb-3 col-sm-4 col-xs-12"
+                    [label]="'Account Number' | translateToArabic: languageFactor"
+                    [languageFactor]="languageFactor"
+                    [icon]="'pi pi-hashtag'"
+                    [isRequired]="hasRequiredValidator(entityBankAccountsForm, 'BankAccountNumber')"
+                    [isValid]="entityBankAccountsForm.get('BankAccountNumber')?.valid">
+                    <p-inputNumber
+                      class="main-amount"
+                      inputId="minmaxfraction" mode="decimal"
+                      [minFractionDigits]="0"
+                      [maxFractionDigits]="0"
+                      [useGrouping]="false"
+                      formControlName="BankAccountNumber">
+                    </p-inputNumber>
+                </app-input-field>
+                <app-input-field class="mb-3 col-sm-4 col-xs-12"
+                    [label]="'IBAN' | translateToArabic: languageFactor"
+                    [languageFactor]="languageFactor"
+                    [icon]="'pi pi-credit-card'"
+                    [isRequired]="hasRequiredValidator(entityBankAccountsForm, 'IBAN')"
+                    [isValid]="entityBankAccountsForm.get('IBAN')?.valid">
+                    <input type="text" pInputText formControlName="IBAN"/>
+                </app-input-field>
+                <app-input-field class="mb-3 col-sm-4 col-xs-12"
+                    [label]="'Swift Code' | translateToArabic: languageFactor"
+                    [languageFactor]="languageFactor"
+                    [icon]="'pi pi-globe'"
+                    [isRequired]="hasRequiredValidator(entityBankAccountsForm, 'SwiftCode')"
+                    [isValid]="entityBankAccountsForm.get('SwiftCode')?.valid">
+                    <input type="text" pInputText formControlName="SwiftCode"/>
+                </app-input-field>
+                <div class="mt-2 col-sm-1 text-right">
+                    <button
+                        mat-icon-button (click)="addAccount()"
+                        [disabled]="addAccountButtonDisabled"
+                        type="button">
+                      <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+              </div>
+              <div class="table-container">
+                <table class="table text-center table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                      <!-- in english -->
+                      <th>#</th> <!-- Add this row for row numbers -->
+                      <th>{{'Bank'|translateToArabic:languageFactor}}</th>
+                      <th>{{'Branch'|translateToArabic:languageFactor}}</th>
+                      <th>{{'Account Number'|translateToArabic:languageFactor}}</th>
+                      <th>{{'IBAN'|translateToArabic:languageFactor}}</th>
+                      <th>{{'Swift Code'|translateToArabic:languageFactor}}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let entityBankAccount of entityBankAccountsList; let i = index">
+                      <!-- in english -->
+                      <td>{{ i + 1|translateToArabic:languageFactor }}</td> <!-- Row numbers start from 1 -->
+                      <td>{{ entityBankAccount.BankName }}</td>
+                      <td>{{ entityBankAccount.BranchName }}</td>
+                      <td>{{ entityBankAccount.BankAccountNumber }}</td>
+                      <td>{{ entityBankAccount.IBAN }}</td>
+                      <td>{{ entityBankAccount.SwiftCode }}</td>
+                      <td >
+                        <div class="flex align-items-center justify-content-center gap-2">
+                            <button pButton pRipple type="button" [matTooltip]="'Attachments'|translateToArabic:languageFactor"
+                                icon="pi pi-paperclip"
+                                class="p-button-rounded p-button-text p-button-primary"
+                                (click)="addentityAccountAttatchment(i)"
+                                >
+                            </button>
+                            <button pButton pRipple type="button" [matTooltip]="'Delete'|translateToArabic:languageFactor"
+                                icon="pi pi-trash" (click)="deleteAccount(i)"
+                                class="p-button-rounded p-button-text p-button-danger">
+                            </button>
+                        </div>
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </mat-expansion-panel>
+          </div>
+      </form>
+      <!--End Banking Info-->
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit" (click)="submit()">{{'Save'|translateToArabic:languageFactor}}</button>
+    <button mat-raised-button color="warn" (click)="onCancel()">{{'Cancel'|translateToArabic:languageFactor}}</button>
+  </mat-card-actions>
+</mat-card>
+<app-loading-spinner class="loader" *ngIf="loading"></app-loading-spinner>

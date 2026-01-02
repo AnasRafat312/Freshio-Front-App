@@ -1,0 +1,87 @@
+<div class="layout-topbar" [ngClass]="{'rtl': languageFactor === 'ar','in-arabic':languageFactor === 'ar'}" >
+    <button *ngIf="!isDetails"
+        [ngStyle]="languageFactor === 'ar' ? {'margin-right': '0','margin-left': '2rem'} : {'margin-left': '0','margin-right': '2rem'}"
+        #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+    <a class="layout-topbar-logo" routerLink="/pages/home" (click)="changSidbarList()">
+        <span text-bold text-light>{{'E-Transactions-System'|translateToArabic:languageFactor}}</span>
+    </a>
+
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
+        (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+
+    <div #topbarmenu class="layout-topbar-menu"
+        [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}"
+        [ngStyle]="languageFactor === 'ar' ? {'margin': '0 auto 0 20px'} : {'margin': '0 20px 0 auto'}">
+    </div>
+
+    <div class="dropdown">
+        <button [matMenuTriggerFor]="menu" class="dropdown-button">
+            <ng-container *ngIf="userImagePath !== null; else noImage">
+                <img src="{{userImagePath}}" class="rounded-image" alt="{{userName}}">
+            </ng-container>
+            <ng-template #noImage>
+                <div class="profile-icon-placeholder">
+                    <i class="pi pi-user"></i>
+                </div>
+            </ng-template>
+            <span class="user-name d-block">{{userName}}</span>
+            <i class="pi pi-angle-down dropdown-arrow"></i>
+        </button>
+        <mat-menu #menu="matMenu" class="user-dropdown-menu">
+            <button mat-menu-item (click)="openProfile()">
+                <div class="menu-item-content">
+                    <i class="pi pi-user menu-item-icon"></i>
+                    <span class="menu-item-label">{{'User Profile'|translateToArabic:languageFactor}}</span>
+                </div>
+            </button>
+            <mat-divider></mat-divider>
+
+            <button mat-menu-item [matMenuTriggerFor]="companyMenu">
+                <div class="menu-item-content">
+                    <i class="pi pi-building menu-item-icon"></i>
+                    <span class="menu-item-label">{{'Switch Company'|translateToArabic:languageFactor}}</span>
+                    <!-- <i class="pi pi-angle-right sub-menu-arrow"></i> -->
+                </div>
+            </button>
+            <button mat-menu-item (click)="goToSupportsList()">
+                <div class="menu-item-content">
+                    <i class="pi pi-briefcase menu-item-icon"></i>
+                    <span class="menu-item-label">{{'Supports'|translateToArabic:languageFactor}}</span>
+                </div>
+            </button>
+            <button mat-menu-item (click)="openForm()">
+                <div class="menu-item-content">
+                    <i class="pi pi-key menu-item-icon"></i>
+                    <span class="menu-item-label">{{'Change Password'|translateToArabic:languageFactor}}</span>
+                </div>
+            </button>
+            <button mat-menu-item (click)="toggleLanguage()">
+                <div class="menu-item-content">
+                    <img *ngIf="languageFactor === 'en'" loading="lazy" src="../../assets/images/arabic-icon.png" alt="Arabic Language" class="language-flag">
+                    <span class="menu-item-label" *ngIf="languageFactor === 'en'">العربية</span>
+                    <img *ngIf="languageFactor === 'ar'" loading="lazy" src="../../assets/images/english-icon.png" alt="English Language" class="language-flag">
+                    <span class="menu-item-label" *ngIf="languageFactor === 'ar'">English</span>
+                </div>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item class="logout-item-wrapper" (click)="logout()">
+                <div class="menu-item-content">
+                    <i class="pi pi-sign-out menu-item-icon"></i>
+                    <span class="menu-item-label">{{'Sign Out'|translateToArabic:languageFactor}}</span>
+                </div>
+            </button>
+        </mat-menu>
+
+        <mat-menu #companyMenu="matMenu" class="user-dropdown-menu">
+            <div (click)="$event.stopPropagation()">
+                <app-switch-company></app-switch-company>
+            </div>
+        </mat-menu>
+    </div>
+</div>

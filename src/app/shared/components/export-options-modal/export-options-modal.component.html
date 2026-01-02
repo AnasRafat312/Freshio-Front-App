@@ -1,0 +1,67 @@
+<div class="export-modal">
+  <h3 class="modal-title">
+    {{ languageFactor === 'en' ? 'Export Options' : 'خيارات التصدير' }}
+  </h3>
+  
+  <div class="export-section">
+    <h4 class="section-title">
+      {{ languageFactor === 'en' ? 'Select Format' : 'اختر الصيغة' }}
+    </h4>
+    <div class="format-options">
+      <div 
+        class="option-card" 
+        [class.selected]="selectedFormat === 'pdf'"
+        (click)="selectFormat('pdf')">
+        <i class="pi pi-file-pdf"></i>
+        <span>{{ languageFactor === 'en' ? 'Export as PDF' : 'تصدير كـ PDF' }}</span>
+      </div>
+      <div 
+        class="option-card" 
+        [class.selected]="selectedFormat === 'excel'"
+        (click)="selectFormat('excel')">
+        <i class="pi pi-file-excel"></i>
+        <span>{{ languageFactor === 'en' ? 'Export as Excel' : 'تصدير كـ Excel' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="export-section" *ngIf="selectedFormat">
+    <h4 class="section-title">
+      {{ languageFactor === 'en' ? 'Select Language' : 'اختر اللغة' }}
+    </h4>
+    <div class="language-options">
+      <div 
+        class="option-card" 
+        [class.selected]="selectedLanguage === 'ar'"
+        (click)="selectLanguage('ar')">
+        <i class="pi pi-globe"></i>
+        <span>{{ languageFactor === 'en' ? 'Arabic' : 'عربي' }}</span>
+      </div>
+      <div 
+        class="option-card" 
+        [class.selected]="selectedLanguage === 'en'"
+        (click)="selectLanguage('en')">
+        <i class="pi pi-globe"></i>
+        <span>{{ languageFactor === 'en' ? 'English' : 'إنجليزي' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-actions">
+    <button 
+      pButton 
+      type="button" 
+      [label]="languageFactor === 'en' ? 'Cancel' : 'إلغاء'" 
+      class="p-button-text" 
+      (click)="onCancel()">
+    </button>
+    <button 
+      pButton 
+      type="button" 
+      [label]="languageFactor === 'en' ? 'Export' : 'تصدير'" 
+      class="p-button-success" 
+      [disabled]="!selectedFormat || !selectedLanguage"
+      (click)="export()">
+    </button>
+  </div>
+</div>

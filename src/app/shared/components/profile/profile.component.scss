@@ -1,0 +1,280 @@
+.profile-card {
+  width: 100%;
+  margin: 2px auto;
+  padding: 2px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8f8;
+  font-family: "Roboto","Segoe UI",Tahoma,Helvetica,"Open Sans",arial,serif;
+}
+
+.info-sections {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.profile-section {
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+.info-item .data {
+
+  font-weight: bold;
+  /* Other styles */
+}
+
+
+.image-section {
+  position: relative;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    box-shadow: 0px 0px 6px 1px black;
+    padding: 10px;
+}
+
+.change-image-button {
+  display: block;
+  margin-top: 2px;
+  text-align: center;
+  color: blue;
+  cursor: pointer;
+}
+
+.company-name {
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.info-section {
+  flex: 1;
+  margin-bottom: 5px;
+}
+
+.info-item {
+  margin-bottom: 8px;
+  font-size: 16px;
+  line-height: 1.6;
+
+}
+
+mat-card.info-section {
+  width: calc(50% - 10px);
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+mat-card.info-section mat-card-header {
+  background-color: burlywood;
+  border-radius: 5px;
+  padding: 8px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-bottom: 5px;
+
+}
+.container {
+    display: flex;
+    padding: 0;
+    height: 100%;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 200px;
+    background-color: #7b75d7; /* Purple color */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .profile-image-container {
+    margin-bottom: 20px;
+    height: 80px;
+    position: relative;
+  }
+
+  .profile-image {
+    margin-bottom: 20px;
+    height: 80px;
+    width: 80px;
+    background: #FFF;
+    border-radius: 50%;
+    border: 5px double #000;
+  }
+
+  .edit-icon {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .save-button {
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .save-button:hover {
+    background-color: #f0f0f0;
+  }
+
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+
+  .wizard-tabs {
+    display: flex;
+    margin-bottom: 20px;
+  }
+
+  .tab-button {
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .tab-button.active {
+    background-color: #7b75d7; /* Purple color */
+    color: #ffffff;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  /* Read-only Info Styles */
+  .tab-content p {
+    margin: 10px 0;
+  }
+::ng-deep .profile-popup .p-dialog-content {
+    padding: 0 !important;
+}
+.pin-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.profile-header {
+/*     display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 2rem;
+    //border-bottom: 1px solid #dee2e6;
+    margin-bottom: 1rem; */
+    width: 70px;
+    height: 70px;
+    .profile-avatar-wrapper {
+      position: relative;
+      cursor: pointer;
+      height: 100%;
+      width: 100%;
+      ::ng-deep .p-avatar {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      .profile-avatar {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: 3px solid #ffffff;
+      }
+
+      .avatar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+
+        .pi {
+          font-size: 1.5rem;
+        }
+
+        span {
+          font-size: 0.75rem;
+          margin-top: 0.25rem;
+        }
+      }
+
+      &:hover .avatar-overlay {
+        opacity: 1;
+      }
+    }
+
+    .profile-info {
+        text-align: center;
+        margin-top: 10px;
+
+      .profile-name {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #FFF;
+        margin: 0;
+      }
+
+      .profile-role {
+        font-size: 1rem;
+        color: #6c757d;
+        margin: 0.25rem 0 0;
+      }
+    }
+  }

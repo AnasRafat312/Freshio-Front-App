@@ -1,0 +1,135 @@
+
+<div class="support-container">
+  <div class="header-section">
+      <h1 class="title" style="color: azure;">{{'Support Request'|translateToArabic:languageFactor}}</h1>
+      <span class="close-btn" (click)="onCancel()"><i class="fa-sharp fa-solid fa-xmark"></i></span>
+  </div>
+  
+  <div class="card-body">
+      <form [formGroup]="form" class="support-form row">
+          <div class="col-md-6 col-sm-12 form-group">
+              <label class="form-label">{{'Inquiry Type'|translateToArabic:languageFactor}} <span class="required">*</span></label>
+              <p-dropdown
+                  placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                  #Reference
+                  formControlName="InquiryType"
+                  [options]="inquiryList"
+                  optionLabel="Name"
+                  optionValue="Name"
+                  [filter]="true"
+                  filterBy="Name"
+                  [showClear]="true"
+                  [appendTo]="'body'"
+                  styleClass="w-100"
+              >
+              </p-dropdown>
+          </div>
+          
+          <div class="col-md-6 col-sm-12 form-group">
+              <label class="form-label">{{'Module Name'|translateToArabic:languageFactor}} <span class="required">*</span></label>
+              <p-dropdown
+                  placeholder="{{'Select'|translateToArabic:languageFactor}}"
+                  formControlName="Module"
+                  [options]="ModuleIDs"
+                  optionLabel="label"
+                  optionValue="value"
+                  [filter]="true"
+                  filterBy="label"
+                  [showClear]="true"
+                  [appendTo]="'body'"
+                  styleClass="w-100"
+              >
+              </p-dropdown>
+          </div>
+          
+          <div class="col-12 form-group">
+              <label class="form-label">{{'Subject'|translateToArabic:languageFactor}} <span class="required">*</span></label>
+              <textarea formControlName="Subject" rows="2" pInputTextarea class="w-100" placeholder="Enter a brief subject"></textarea>
+          </div>
+          
+          <div class="col-12 form-group">
+              <label class="form-label">{{'Message'|translateToArabic:languageFactor}} <span class="required">*</span></label>
+              <textarea formControlName="Message" rows="4" pInputTextarea class="w-100" placeholder="Please describe your issue or suggestion in detail"></textarea>
+          </div>
+          
+          <div class="col-12 form-group file-upload-section">
+              <label class="form-label">{{'Attachment'|translateToArabic:languageFactor}}</label>
+              <div class="file-upload-wrapper" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+                  <label for="up" class="w-100">
+                      <div class="upload-container">
+                          <div class="upload-content">
+                              <img class="upload-icon" src="../../../../../../assets/images/upload.svg" alt="Upload" width="30" height="30">
+                              <input #files type="file" id="up" class="upload-input" name="files" formControlName="File" (change)="onFileSelected($event)">
+                              <div class="upload-text">
+                                  <div *ngIf="languageFactor == 'en'">Drop file here or <span class="text-accent">select from your computer</span></div>
+                                  <div *ngIf="languageFactor == 'ar'"><span class="text-accent">أختر من جهازك</span> أدرج ملف هنا أو </div>
+                              </div>
+                          </div>
+                          <div class="file-icon-wrapper">
+                              <img class="file-icon" src="../../../../../../assets/images/files.svg" alt="Files" width="40" height="40">
+                          </div>
+                      </div>
+                  </label>
+              </div>
+              <div class="selected-file" *ngIf="selectedFile">
+                  <i class="fa fa-paperclip me-2"></i>
+                  <span class="file-name">{{selectedFile?.name}}</span>
+              </div>
+          </div>
+          
+          <div class="col-12 form-group previous-requests">
+              <a class="link-previous" (click)="goToSupportsList()">
+                  <i class="fa fa-history me-2"></i>
+                  {{'View Previous Support Requests'|translateToArabic:languageFactor}}
+              </a>
+          </div>
+      </form>
+  </div>
+  
+  <div class="footer-actions">
+      <button type="button" (click)="onCancel()" class="btn-cancel">
+          <i class="fa fa-times me-2"></i>
+          {{'Cancel'|translateToArabic:languageFactor}}
+      </button>
+      <button type="button" (click)="submit()" [disabled]="form.invalid" pButton pRipple 
+          class="btn-submit" [label]="languageFactor === 'ar' ? 'إرسال' :'Send'">
+          <i class="fa fa-paper-plane me-2"></i>
+      </button>
+  </div>
+</div>
+<!-- <mat-card>
+  <mat-card-header [ngClass]="{'rtl': languageFactor === 'ar'}" class="justify-content-center" id="basicData">
+      <mat-card-title *ngIf="!data?.rowData" class="section-header">{{'Add BOQ Header'|translateToArabic:languageFactor}}</mat-card-title>
+      <mat-card-title *ngIf="data?.rowData" class="section-header">{{'Edit BOQ'|translateToArabic:languageFactor}}</mat-card-title>
+  </mat-card-header>
+  <div class="container">
+  </div>
+      <div [ngClass]="{'rtl': languageFactor === 'ar'}" class="d-flex gap-2 mb-4">
+          <input #files mat-raised-input type="file" class="form-control" accept=".pdf, .jpg, .jpeg, .png, .gif" id="Attachment" name="files" (change)="onFileSelected($event)">
+          </div> -->
+
+<!--           <table *ngIf="selectedFileInUpdate != null && selectedFileInUpdate.length > 0" class="table">
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>File Size</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let file of selectedFileInUpdate" >
+              <td>{{ file?.fileDocument?.name }}</td>
+              <td>{{ formatFileSize(file?.fileDocument?.fileSize) }}</td>
+              <td><button   type="button" class="btn btn-danger" (click)="removeFile(file)">
+                <i class="fa fa-trash"></i>
+              </button></td>
+            </tr>
+          </tbody>
+        </table> -->
+<!--     <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" (click)="submit()"
+          [disabled]="form.invalid">{{'Send'|translateToArabic:languageFactor}}</button>
+      <button mat-raised-button color="warn"
+          (click)="onCancel()">{{'Cancel'|translateToArabic:languageFactor}}</button>
+  </mat-card-actions>
+</mat-card> -->

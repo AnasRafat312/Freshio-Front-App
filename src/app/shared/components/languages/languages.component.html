@@ -1,0 +1,31 @@
+<mat-menu #languageMenu="matMenu" xPosition="before" class="language-menu">
+  <button mat-menu-item (click)="setLanguage('ar')">
+    <span class="item-menu">
+      <div class="img-container">
+        <img loading="lazy" src="../../../../assets/images/arabic-icon.png" alt="Arabic Language">
+      </div>
+      <span class="ml-2">Arabic</span>
+    </span>
+  </button>
+  <button mat-menu-item (click)="setLanguage('en')">
+    <span class="item-menu">
+      <div class="img-container">
+        <img loading="lazy" src="../../../../assets/images/english-icon.png" alt="English Language">
+      </div>
+      <span class="ml-2">English</span>
+    </span>
+  </button>
+</mat-menu>
+
+<button mat-button [matMenuTriggerFor]="languageMenu" class="language-selector" aria-label="Select Language">
+  <div class="button-content">
+    <div class="img-container">
+      <img *ngIf="languageFactor == 'en'" loading="lazy" src="../../../../assets/images/english-icon.png" alt="English">
+      <img *ngIf="languageFactor == 'ar'" loading="lazy" src="../../../../assets/images/arabic-icon.png" alt="Arabic">
+    </div>
+    <span class="language-type text-light">
+      {{ languageFactor == 'en' ? 'EN' : 'AR' }}
+    </span>
+    <mat-icon class="text-light">keyboard_arrow_down</mat-icon>
+  </div>
+</button>

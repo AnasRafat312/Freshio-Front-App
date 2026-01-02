@@ -1,0 +1,19 @@
+@import './_variables';
+@import "./_mixins";
+@import "./_preloading";
+@import "./_main";
+@import "./_topbar";
+@import "./_menu";
+@import "./_config";
+@import "./_content";
+@import "./_footer";
+@import "./_responsive";
+@import "./_utils";
+@import "./_typography";
+@import "./arabic-language";
+@import "./_dialoges";
+
+mat-card button {
+    overflow-y: auto;
+    max-height: 100vh;
+}

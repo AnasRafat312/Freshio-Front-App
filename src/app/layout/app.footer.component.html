@@ -1,0 +1,30 @@
+<div class="layout-footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <img src="../../assets/images/new-logo.png" alt="Logo" class="footer-logo" />
+            <div class="brand-text">
+                <span class="powered-by">{{ languageFactor == 'en' ? 'Powered by' : 'مدعوم من' }}</span>
+                <span class="company-name">Assemble</span>
+            </div>
+        </div>
+        
+        <div class="footer-copyright">
+            <span>© {{ currentYear }} {{ languageFactor == 'en' ? 'All rights reserved' : 'جميع الحقوق محفوظة' }}</span>
+        </div>
+        
+        <div class="footer-actions">
+            <button (click)="openInfo()" 
+                    [matTooltip]="languageFactor == 'en' ? 'Documentation' : 'التوثيق'" 
+                    pButton pRipple 
+                    icon="pi pi-info-circle" 
+                    class="p-button-rounded p-button-text footer-btn info-btn">
+            </button>
+            <button (click)="openHelpForm()" 
+                    [matTooltip]="languageFactor == 'en' ? 'Help & Support' : 'المساعدة والدعم'" 
+                    pButton pRipple 
+                    icon="pi pi-question-circle" 
+                    class="p-button-rounded p-button-text footer-btn help-btn">
+            </button>
+        </div>
+    </div>
+</div>

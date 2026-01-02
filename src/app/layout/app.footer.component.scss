@@ -1,0 +1,166 @@
+.help {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.question-btn {
+    width: 2rem;
+    height: 2rem !important;
+}
+// .help-icons{
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     gap: 40px;
+// }
+.rtl {
+    direction: rtl;
+}
+.ltr {
+    direction: ltr;
+}
+
+// Variables
+$primary-color: #4b766e;
+$secondary-color: #4d7686;
+$accent-color: #81b4ee;
+$light-bg: #f8f9fa;
+$dark-text: #333;
+$light-text: #fff;
+$border-radius: 8px;
+$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+
+// Footer Container
+.layout-footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0;
+  background: #f9fcfb;
+  //position: relative;
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 2rem;
+  gap: 24px;
+  ///background: linear-gradient(to right, rgba(75, 118, 110, 0.05), rgba(77, 118, 134, 0.1));
+
+  [dir="rtl"] & {
+    flex-direction: row-reverse;
+  }
+}
+
+// Brand Section
+.footer-brand {
+  display: flex;
+  align-items: center;
+
+  .footer-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: $box-shadow;
+    margin-right: 0.75rem;
+
+    [dir="rtl"] & {
+      margin-right: 0;
+      margin-left: 0.75rem;
+    }
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+
+    .powered-by {
+      font-size: 0.75rem;
+      color: rgba($dark-text, 0.6);
+      line-height: 1;
+    }
+
+    .company-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $secondary-color;
+      line-height: 1.2;
+    }
+  }
+}
+
+// Copyright Section
+.footer-copyright {
+  font-size: 0.8rem;
+  color: rgba($dark-text, 0.7);
+  font-weight: 500;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+// Action Buttons
+.footer-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 15px;
+  .footer-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    transition: $transition;
+    color: $secondary-color;
+
+    &:hover {
+      background-color: rgba($accent-color, 0.1);
+      transform: translateY(-2px);
+    }
+
+    &.info-btn:hover {
+      color: darken($secondary-color, 10%);
+    }
+
+    &.help-btn:hover {
+      color: darken($primary-color, 10%);
+    }
+  }
+}
+
+// RTL Support
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+// Responsive Adjustments
+@media (max-width: 576px) {
+  .footer-container {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-brand {
+    .brand-text {
+      .powered-by {
+        font-size: 0.7rem;
+      }
+
+      .company-name {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .footer-actions {
+    .footer-btn {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+  }
+}
+

@@ -1,0 +1,347 @@
+<mat-card>
+        <mat-card-content class="example-container" [ngClass]="{'rtl': languageFactor === 'ar'}">
+
+            <!-- Main Entity Information -->
+            <app-detail-card
+                [title]="'Main Entity Information'|translateToArabic:languageFactor"
+                [icon]="'pi pi-building'">
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Code'|translateToArabic:languageFactor"
+                    [value]="Code"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-hashtag'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Legal Name'|translateToArabic:languageFactor"
+                    [value]="LegalName"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-id-card'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'English Name'|translateToArabic:languageFactor"
+                    [value]="EnglishName"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-user'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Arabic Name'|translateToArabic:languageFactor"
+                    [value]="ArabicName"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-user'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Nationality'|translateToArabic:languageFactor"
+                    [value]="Nationality"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-globe'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Entity Type'|translateToArabic:languageFactor"
+                    [value]="EntityTypeName"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-tag'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Entity Type'|translateToArabic:languageFactor"
+                    [value]="'Company'"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-tag'"></app-detail-item>
+            </app-detail-card>
+            <!-- Company Data -->
+            <ng-container *ngIf="(dataType === 'company') || isCompanyData">
+                <app-detail-card
+                [title]="'Company Data'|translateToArabic:languageFactor"
+                [icon]="'pi pi-building'"
+                >
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Start Date'|translateToArabic:languageFactor"
+                    [value]="StartDate"
+                    [valueType]="'date'"
+                    [icon]="'pi pi-calendar'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Tax Reg No'|translateToArabic:languageFactor"
+                    [value]="taxRegNo"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-file'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Commercial No'|translateToArabic:languageFactor"
+                    [value]="commercialNo"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-briefcase'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Tax Card Start Date'|translateToArabic:languageFactor"
+                    [value]="taxCardStartDate"
+                    [valueType]="'date'"
+                    [icon]="'pi pi-calendar'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Tax Card End Date'|translateToArabic:languageFactor"
+                    [value]="taxCardEndDate"
+                    [valueType]="'date'"
+                    [icon]="'pi pi-calendar'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Lootcom Date'|translateToArabic:languageFactor"
+                    [value]="lootcomDate"
+                    [valueType]="'date'"
+                    [icon]="'pi pi-calendar'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Company Activity'|translateToArabic:languageFactor"
+                    [value]="CompanyActivity"
+                    [valueType]="'text'"
+            [icon]="'pi pi-chart-line'"></app-detail-item>
+                </app-detail-card>
+            </ng-container>
+            <!-- Personal Data -->
+            <ng-container *ngIf="dataType !== 'company' && isPersonData" >
+                <app-detail-card
+                [title]="'Personal Data'|translateToArabic:languageFactor"
+                [icon]="'pi pi-user'"
+                >
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'National ID'|translateToArabic:languageFactor"
+                    [value]="nationalId"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-id-card'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Passport ID'|translateToArabic:languageFactor"
+                    [value]="passportNo"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-book'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Birth Date'|translateToArabic:languageFactor"
+                    [value]="birthDate"
+                    [valueType]="'date'"
+                    [icon]="'pi pi-calendar'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Morital Status'|translateToArabic:languageFactor"
+                    [value]="moritalStatus"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-heart'"></app-detail-item>
+                <app-detail-item
+                    customClass="col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                    [label]="'Gender'|translateToArabic:languageFactor"
+                    [value]="gender"
+                    [valueType]="'text'"
+                    [icon]="'pi pi-user'"></app-detail-item>
+                </app-detail-card>
+            </ng-container>
+            <!-- Web Data -->
+            <ng-container *ngIf="dataType !== 'warehouse' && isWebData">
+                <app-detail-card
+                [fullWidth]="true"
+                [title]="'Web Data'|translateToArabic:languageFactor"
+                >
+                <table class="table table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th *ngIf="languageFactor === 'en'">#</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Type'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'en'">{{'URL '|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'URL '|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'Type'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let email of emails; let i = index">
+                            <td *ngIf="languageFactor === 'en'">{{i+1|translateToArabic:languageFactor}}</td>
+                            <td *ngIf="languageFactor === 'en'">{{email.Addresstype|webDataEnumsToString}}</td>
+                            <td *ngIf="languageFactor === 'en'">{{email.WebAddress}}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{email.WebAddress}}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{email.Addresstype|webDataEnumsToString}}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{i+1|translateToArabic:languageFactor}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </app-detail-card>
+            </ng-container>
+            <!-- Phone Numbers -->
+            <ng-container *ngIf="dataType !== 'warehouse' && isPhones">
+                <app-detail-card
+                [fullWidth]="true"
+                [title]="'Phone Numbers'|translateToArabic:languageFactor"
+                >
+                <table class="table table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th *ngIf="languageFactor === 'en'">#</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Phone Number'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'Phone Number'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let phone of phones; let i = index">
+                            <td *ngIf="languageFactor === 'en'">{{i+1|translateToArabic:languageFactor}}</td>
+                            <td *ngIf="languageFactor === 'en'">{{phone.Telephone|translateToArabic:languageFactor}}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{phone.Telephone|translateToArabic:languageFactor}}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{i+1|translateToArabic:languageFactor}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </app-detail-card>
+            </ng-container>
+            <!-- Company Contacts -->
+            <ng-container *ngIf="dataType == 'company' && isCompanyContacts">
+                <app-detail-card
+                [fullWidth]="true"
+                [title]="'Company Contacts'|translateToArabic:languageFactor"
+                >
+                <table class="table table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th *ngIf="languageFactor === 'ar'">{{'Person Contact'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'Role Classification'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'Role In Company'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">#</th>
+                            <th *ngIf="languageFactor === 'en'">#</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Role In Company'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Role Classification'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Person Contact'|translateToArabic:languageFactor}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let contact of constactsList; let i = index">
+                            <td *ngIf="languageFactor === 'ar'">{{ contact.personContactInTable }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ contact.roleClassInTable }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ contact.RoleInCompany }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ i + 1|translateToArabic:languageFactor }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ i + 1|translateToArabic:languageFactor }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ contact.RoleInCompany }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ contact.roleClassInTable }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ contact.personContactInTable }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </app-detail-card>
+            </ng-container>
+            <!-- Address -->
+            <ng-container *ngIf="dataType !== 'warehouse' && isAddress">
+                <app-detail-card
+                [fullWidth]="true"
+                [title]="'Address'|translateToArabic:languageFactor"
+                >
+                <table class="table text-center table-striped">
+                    <thead>
+                        <tr>
+                            <th *ngIf="languageFactor === 'ar'">{{'Street Line'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'City'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'Country'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">#</th>
+                            <th *ngIf="languageFactor === 'en'">#</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Country'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'en'">{{'City'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Street Line'|translateToArabic:languageFactor}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let address of addressList; let i = index">
+                            <td *ngIf="languageFactor === 'ar'">{{ address.Streetline }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ address.CityName }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ address.CountryName }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ i + 1|translateToArabic:languageFactor }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ i + 1|translateToArabic:languageFactor }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ address.CountryName }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ address.CityName }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ address.Streetline }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </app-detail-card>
+            </ng-container>
+            <!-- Banking Info -->
+            <ng-container *ngIf="dataType !== 'warehouse' && isBankingInfo">
+                <app-detail-card
+                [fullWidth]="true"
+                [title]="'Banking Info'|translateToArabic:languageFactor"
+                >
+                <table class="table text-center table-striped">
+                    <thead>
+                        <tr>
+                            <th *ngIf="languageFactor === 'en'">#</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Bank'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Branch'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Account Number'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'en'">{{'IBAN'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'en'">{{'Swift Code'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'Swift Code'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'IBAN'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'Account Number'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'Branch'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">{{'Bank'|translateToArabic:languageFactor}}</th>
+                            <th *ngIf="languageFactor === 'ar'">#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bankAccount of entityBankAccountsList; let i = index">
+                            <td *ngIf="languageFactor === 'en'">{{ i + 1|translateToArabic:languageFactor }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ bankAccount.BankName }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ bankAccount.BranchName }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ bankAccount.BankAccountNumber }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ bankAccount.IBAN }}</td>
+                            <td *ngIf="languageFactor === 'en'">{{ bankAccount.SwiftCode }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ bankAccount.SwiftCode }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ bankAccount.IBAN }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ bankAccount.BankAccountNumber }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ bankAccount.BranchName }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ bankAccount.BankName }}</td>
+                            <td *ngIf="languageFactor === 'ar'">{{ i + 1|translateToArabic:languageFactor }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </app-detail-card>
+            </ng-container>
+            <!-- Attachments -->
+            <ng-container *ngIf="dataType !== 'warehouse' && attatchments.length > 0 && Attachments">
+                <app-detail-card
+                [fullWidth]="true"
+                [title]="'Attachments'|translateToArabic:languageFactor"
+                >
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{'File Name'|translateToArabic:languageFactor}}</th>
+                            <th>{{'File Size'|translateToArabic:languageFactor}}</th>
+                            <th>{{'Action'|translateToArabic:languageFactor}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let file of attatchments">
+                            <td>
+                                <span *ngIf="file?.AttatchmentTypeName == 'Company-Commercial-No'" class="text-success">({{file?.AttatchmentTypeName}})</span>
+                                <span *ngIf="file?.AttatchmentTypeName == 'Company-Tax-Reg-No'" class="text-primary">({{file?.AttatchmentTypeName}})</span>
+                                <span *ngIf="file?.AttatchmentTypeName == 'Person-National-ID'" class="text-success">({{file?.AttatchmentTypeName}})</span>
+                                {{ file?.fileDocument?.name }}
+                            </td>
+                            <td>{{ formatFileSize(file?.fileDocument?.fileSize) }}</td>
+                            <td>
+                                <a [href]="urlBase+file.fileDocument?.url" download="{{ file.fileDocument?.name }}" target="_blank">
+                                    <button type="button" class="btn btn-primary">
+                                        <i class="fa-solid fa-file-arrow-down"></i>
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </app-detail-card>
+            </ng-container>
+
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-raised-button color="warn" (click)="onCancel()">{{'Cancel'|translateToArabic:languageFactor}}</button>
+        </mat-card-actions>
+</mat-card>
+

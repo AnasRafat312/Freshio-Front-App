@@ -1,0 +1,9 @@
+<div class="add-field">
+  <div class="add-input-group">
+    <div class="flex gap-2">
+        <i [class]=" icon +' add-input-icon'"></i>
+        <span class="add-floating-label">{{label| translateToArabic:languageFactor}}<span *ngIf="isRequired" [class.text-danger]="!isValid">*</span></span>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

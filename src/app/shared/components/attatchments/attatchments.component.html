@@ -1,0 +1,64 @@
+<div *ngIf="!isDetails && ((!isMulti&&selectedFileInUpdate.length < 1)||isMulti)" class="d-flex align-items-center justify-content-center w-100" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+  <label for="up" class="w-100">
+    <div class="upload-container">
+      <div class="upload-label">
+        <img class="upload-img" src="../../../../../../assets/images/upload.svg" alt="" width="30" height="30">
+        <input #files type="file" id="up" class="upload-input" name="files" (change)="onFileSelected($event)" [multiple]="isMulti">
+        <div *ngIf="languageFactor == 'en'"> Drop file here or <span class="text-primary">select from your computer</span></div>
+        <div *ngIf="languageFactor == 'ar'"> أدرج ملف هنا أو <span class="text-primary">أختر من جهازك</span></div>
+      </div>
+      <img class="files-img" src="../../../../../../assets/images/files.svg" alt="" width="50" height="50">
+    </div>
+  </label>
+</div>
+<div class="table-responsive" >
+  <table class="table table-striped table-hover" *ngIf="selectedFileInUpdate != null && selectedFileInUpdate.length > 0" class="table">
+      <thead class="table-dark">
+        <tr>
+          <th></th>
+          <th>{{'File Name'|translateToArabic:languageFactor}}</th>
+          <th>{{'File Size'|translateToArabic:languageFactor}}</th>
+          <th [attr.colspan]="isDetails ? 1 : 2">{{'Action'|translateToArabic:languageFactor}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let file of selectedFileInUpdate" >
+          <td>
+              <ng-container *ngIf="isImage(file.fileDocument?.type)">
+                  <!-- Show the actual image for image types -->
+                  <img
+                    class="img"
+                    [src]="file.fileDocument?.dataUrl"
+                    alt="{{ file.fileDocument?.name }}"
+                    width="50"
+                    height="50">
+                </ng-container>
+
+                <ng-container *ngIf="!isImage(file.fileDocument?.type)">
+                  <!-- Show an icon or placeholder for non-image file types -->
+                   <i [class]="getIcon(file.fileDocument?.name)" class="file-icon"></i>
+                </ng-container>
+          </td>
+          <td>{{ file?.fileDocument?.name }}</td>
+          <td>{{ formatFileSize(file?.fileDocument?.fileSize) }}</td>
+          <td style="width: 55px;" *ngIf="!isDetails">
+              <button  [disabled]="file?.fileDocument?.CreatedBy && file?.fileDocument?.CreatedBy != CreatedBy" type="button" class="btn btn-danger" (click)="removeFile(file)">
+                  <i class="fa fa-trash"></i>
+              </button>
+          </td>
+          <td style="width: 55px;">
+              <a *ngIf="file?.fileDocument?.ID" [href]="urlBase+file.fileDocument?.url" download="{{ file.fileDocument?.name }}" target="_blank">
+                  <button type="button" class="btn btn-primary">
+                      <i class="fa-solid fa-file-arrow-down"></i>
+                  </button>
+              </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+<div *ngIf="isPopUp" class="flex justify-content-start gap-2 mt-4 popup-actions-section">
+  <p-button label="{{'Cancel'|translateToArabic:languageFactor}}" severity="danger" (click)="onCancel()" />
+  <p-button  label="{{'Save'|translateToArabic:languageFactor}}" (click)="submit()" />
+</div>
+<app-loading-spinner class="loader" *ngIf="loading"></app-loading-spinner>

@@ -1,0 +1,189 @@
+<div class="body">
+    <div class="language-container">
+        <app-languages></app-languages>
+    </div>
+    <div class="container row justify-content-between align-items-center">
+
+            <!-- <div>Register</div> -->
+            <div class="col-md-6 first-half">
+                <div class="image-container">
+                    <img src="../../../../assets/images/new-logo.jpg" alt="">
+                    <div class="version">Beta Version</div>
+                </div>
+                <h1 *ngIf="languageFactor == 'en'">An ERP System to Run Your Entire Business</h1>
+                <h1 style="direction: rtl;" *ngIf="languageFactor == 'ar'">نظام تخطيط موارد المؤسسات (ERP) لإدارة أعمالك بالكامل</h1>
+                <p *ngIf="languageFactor == 'en'">Discover the Perfect Fit for Your Business With Assemble Boasts All the Essential Features You Need, Easily Customizable to Suit Your Unique Requirements!.</p>
+                <p style="direction: rtl;" *ngIf="languageFactor == 'ar'">اكتشف الحلول المثالية لاحتياجات عملك. <br>
+                    Assemble
+                    يضم جميع الميزات الأساسية التي تحتاجها، ,وكذلك يمكنك تعديله بسهولة ليناسب متطلبات عملك الفريدة.</p>
+            </div>
+            <div  class="col-md-6 registration-section  second-half">
+                <button type="button" (click)="backToLogin()" class="btn btn-outline-light back-btn d-flex align-items-center gap-1">
+                    <mat-icon>arrow_back</mat-icon> {{'Sign In'|translateToArabic:languageFactor}}
+                </button>
+                <form [formGroup]="RegisterForm">
+                    <div class="login-header-container">
+                        <h2 class="login-header">{{'Registration'|translateToArabic:languageFactor}}</h2>
+                    </div>
+                    <div class="form-row form-container row justify-content-center">
+                        <div class="form-group col-sm-6 col-xs-12">
+                            <label for="UserName"
+                                [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}">{{'User Name'|translateToArabic:languageFactor}}</label>
+                            <input type="text" class="form-control" formControlName="UserName" id="UserName"
+                                [placeholder]="languageFactor === 'ar' ? 'أسم المستخدم' :'User Name' "
+                                [class.is-invalid]="RegisterForm.get('UserName').touched && RegisterForm.get('UserName').invalid">
+                            <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}"
+                                *ngIf="RegisterForm.get('UserName').touched && RegisterForm.get('UserName').invalid"
+                                class="error-input">
+                                <div *ngIf="RegisterForm.get('UserName').hasError('required')">{{'User Name is required'|translateToArabic:languageFactor}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-xs-12">
+                            <label for="registerEmail"
+                                [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}">{{'Email'|translateToArabic:languageFactor}}</label>
+                            <input type="email" class="form-control" formControlName="Email" id="registerEmail"
+                                [placeholder]="languageFactor === 'ar' ? 'البريد' :'Email address' "
+                                [class.is-invalid]="RegisterForm.get('Email').touched && RegisterForm.get('Email').invalid">
+                            <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}"
+                                *ngIf="RegisterForm.get('Email').touched && RegisterForm.get('Email').invalid" class="error-input">
+                                <div *ngIf="RegisterForm.get('Email').hasError('required')">{{'Email is required'|translateToArabic:languageFactor}}</div>
+                                <div *ngIf="RegisterForm.get('Email').hasError('email')">{{'Please, enter valid email address'|translateToArabic:languageFactor}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-xs-12">
+                            <label for="registerPassword"
+                                [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}">{{'Password'|translateToArabic:languageFactor}}</label>
+                                <p-password formControlName="Password" [placeholder]="languageFactor === 'ar' ? 'كلمة المرور' :'Password'" [feedback]="false" [toggleMask]="true" id="registerPassword"></p-password>
+                            <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}"
+                                *ngIf="RegisterForm.get('Password').touched &&RegisterForm.get('Password').invalid"
+                                class="error-input">
+                                <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}"
+                                    *ngIf="RegisterForm.get('Password').hasError('required')">{{'Passwored is required'|translateToArabic:languageFactor}}</div>
+                                <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}"
+                                    *ngIf="RegisterForm.get('Password').hasError('minLength')">{{'Password Must Have 6 Characters At Least'|translateToArabic:languageFactor}}</div>
+                                <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}"
+                                    *ngIf="RegisterForm.get('Password').hasError('maxLength')">{{'Password Must be leas than 16 Characters'|translateToArabic:languageFactor}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-xs-12">
+                            <label for="RegisterConfirmPassword"
+                                [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}">
+                                {{'Confirm Password'|translateToArabic:languageFactor}}
+                            </label>
+                            <p-password formControlName="ConfirmPassword"
+                            [placeholder]="languageFactor === 'ar' ? 'تأكيد كلمة المرور' :'Confirm Password'"
+                            [feedback]="false"
+                            [toggleMask]="true"
+                            id="RegisterConfirmPassword"
+                            [class.ng-invalid.ng-dirty]="RegisterForm.get('Password').touched && RegisterForm.hasError('passwordsNotMatch')"
+                            ></p-password>
+
+                            <!-- <input formControlName="ConfirmPassword" type="password" class="form-control"
+                                id="RegisterConfirmPassword"
+                                [placeholder]="languageFactor === 'ar' ? 'تأكيد كلمة المرور' :'Confirm Password'"
+                                [class.is-invalid]="RegisterForm.get('Password').touched && RegisterForm.get('ConfirmPassword').invalid"> -->
+                            <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}"
+                                *ngIf="RegisterForm.get('ConfirmPassword').touched && (RegisterForm.get('ConfirmPassword').invalid || RegisterForm.hasError('passwordsNotMatch'))"
+                                class="error-input">
+                                <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}"
+                                    *ngIf="RegisterForm.hasError('passwordsNotMatch')">{{'Password Not Match'|translateToArabic:languageFactor}}</div>
+                                <!-- <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}" *ngIf="RegisterForm.get('ConfirmPassword').hasError('required')">{{'Password is required'|translateToArabic:languageFactor}}</div> -->
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-xs-12">
+                            <label for="CompanyName"
+                                [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}">{{'Company Name'|translateToArabic:languageFactor}}</label>
+                            <input type="text" class="form-control" formControlName="CompanyName" id="CompanyName"
+                                [placeholder]="languageFactor === 'ar' ? 'أسم الشركة' :'Company Name' "
+                                [class.is-invalid]="RegisterForm.get('CompanyName').touched && RegisterForm.get('CompanyName').invalid">
+                            <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}"
+                                *ngIf="RegisterForm.get('CompanyName').touched && RegisterForm.get('CompanyName').invalid"
+                                class="error-input">
+                                <div *ngIf="RegisterForm.get('CompanyName').hasError('required')">{{'Company Name is required'|translateToArabic:languageFactor}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-xs-12">
+                            <label for="Phone"
+                                [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}">{{ 'Phone Number' | translateToArabic:languageFactor }}</label>
+                            <input type="number" class="form-control" formControlName="Phone" id="Phone"
+                                [placeholder]="languageFactor === 'ar' ? 'رقم الهاتف' : 'Phone Number'"
+                                [class.is-invalid]="RegisterForm.get('Phone').touched && (RegisterForm.hasError('smallNumber')||RegisterForm.hasError('bigNumber'))">
+                            <div [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}"
+                                class="error-input"
+                                *ngIf="RegisterForm.get('Phone').touched && (RegisterForm.hasError('smallNumber')||RegisterForm.hasError('bigNumber'))">
+                                <div *ngIf="RegisterForm.hasError('smallNumber')">{{ 'Phone Number Must Have 11 Digits At Least' |
+                                    translateToArabic:languageFactor }}</div>
+                                <div *ngIf="RegisterForm.hasError('bigNumber')">{{ 'Phone Number Must be less than 16 Digits' |
+                                    translateToArabic:languageFactor }}</div>
+                            </div>
+                        </div>
+                        <div class="form-group industry-section col-sm-6 col-xs-12">
+                            <label
+                                [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}">{{'Industry'|translateToArabic:languageFactor}}</label>
+                            <p-dropdown class="industry-dropdown" [style]="{'minWidth':'100%'}" [options]="industriesList"
+                                formControlName="IndustryID"
+                                optionValue="ID"
+                                [filter]="true"
+                                filterBy="Name"
+                                [showClear]="true"
+                                [appendTo]="'body'"
+                                [virtualScroll]="true"
+                                [virtualScrollItemSize]="10"
+                                [placeholder]="languageFactor === 'ar' ? 'أختر صناعة' :'Select an Industry' " optionLabel="Name"
+                                [showClear]="true">
+                            </p-dropdown>
+                            <div *ngIf="RegisterForm.get('IndustryID').touched && RegisterForm.get('IndustryID').invalid && RegisterForm.get('IndustryID').value === null"
+                                class="error-input">
+                                <div *ngIf="RegisterForm.get('IndustryID').hasError('required')">
+                                    {{'Required'|translateToArabic:languageFactor}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group country-section col-sm-6 col-xs-12">
+                            <label
+                                [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}">{{'Country'|translateToArabic:languageFactor}}</label>
+                            <p-dropdown class="country-dropdown" [style]="{'minWidth':'100%'}" [options]="countriesList"
+                                formControlName="CountryID"
+                                optionValue="ID"
+                                [filter]="true"
+                                filterBy="Name"
+                                [showClear]="true"
+                                [appendTo]="'body'"
+                                [virtualScroll]="true"
+                                [virtualScrollItemSize]="10"
+                                [placeholder]="languageFactor === 'ar' ? 'أختر بلد' :'Select Country' " optionLabel="Name"
+                                [showClear]="true">
+                            </p-dropdown>
+                            <div *ngIf="RegisterForm.get('CountryID').touched && RegisterForm.get('CountryID').invalid && RegisterForm.get('CountryID').value === null"
+                                class="error-input">
+                                <div *ngIf="RegisterForm.get('CountryID').hasError('required')">
+                                    {{'Required'|translateToArabic:languageFactor}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12">
+                            <label for="Address"
+                                [ngStyle]="languageFactor === 'ar' ? {'text-align': 'right'} : {'text-align': 'left'}">{{'Address Line'|translateToArabic:languageFactor}}</label>
+                            <input type="text" class="form-control" formControlName="Address" id="Address"
+                                [placeholder]="languageFactor === 'ar' ? 'العنوان' :'Address Line'">
+                        </div>
+                        <button type="button" (click)="RegistrationSubmit()" [disabled]="RegisterForm.invalid" pButton pRipple
+                            [label]="languageFactor === 'ar' ? 'سجل' :'Register'" class="w-full p-3 text-xl"></button>
+                    </div>
+                </form>
+            </div>
+    </div>
+</div>
+<!-- PopUp after Registeration complete -->
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message>
+        <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+            <div class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8">
+                <i class="fa-regular fa-face-smile-beam text-5xl"></i>
+            </div>
+            <span class="font-bold text-2xl block mb-2 mt-4">{{ message.header }}</span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center mt-4">
+                <button pButton label="Ok" (click)="cd.accept()" class="w-8rem"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>

@@ -1,0 +1,12 @@
+<div class="details-header">
+    <div class="header-content">
+        <i [class]="icon + ' header-icon'"></i>
+        <div class="header-text">
+            <h2 class="header-title" *ngIf="title">{{title}}</h2>
+            <p class="header-subtitle" *ngIf="subtitle">{{subtitle}}</p>
+            <ng-content></ng-content>
+        </div>
+            <p-button *ngIf="showBackButton" [icon]="languageFactor === 'ar' ? 'pi pi-arrow-right' : 'pi pi-arrow-left'" severity="danger" (click)="handleBack()" />
+
+    </div>
+</div>

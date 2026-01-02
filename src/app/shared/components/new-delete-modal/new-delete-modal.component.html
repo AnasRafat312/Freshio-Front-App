@@ -1,0 +1,10 @@
+<div class="modal-content">
+    <img src="../../../../assets/images/delete-icon.png" loading="lazy" alt="delete-icon">
+    <strong class="m-auto w-100 text-center d-inline-block">
+        {{message}}
+    </strong>
+</div>
+<div class="btns-section">
+    <button pButton pRipple class="p-button-danger btnn" (click)="onCancel()" >{{'No'|translateToArabic:languageFactor}}</button>
+    <button pButton pRipple class="btnn" (click)="delete()" type="submit" >{{'Yes'|translateToArabic:languageFactor}}</button>
+</div>

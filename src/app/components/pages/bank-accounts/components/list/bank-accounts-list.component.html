@@ -1,0 +1,25 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title-wrapper">
+      <div class="page-icon icon-bank">
+        <i class="pi pi-building"></i>
+      </div>
+      <h2 class="page-title">Bank Accounts</h2>
+    </div>
+    <button *ngIf="Add" pButton type="button" label="Add" icon="pi pi-plus" class="p-button-success" (click)="addEdit()"></button>
+  </div>
+
+  <!-- Body -->
+  <div class="page-body">
+    <app-basic-table 
+      [mainList]="mainList" 
+      [filteredList]="filteredList" 
+      [SelectShownColumns]="true"
+      [model]="model" 
+      [rowReorder]="true" 
+      [hasFooter]="false" 
+      [ActionsList]="actionsList">
+    </app-basic-table>
+  </div>
+</div>

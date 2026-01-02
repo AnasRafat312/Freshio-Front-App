@@ -1,0 +1,6 @@
+<h1 *ngIf="data?.header" mat-dialog-title><i class="fas fa-fa-arrow-right-arrow-left">&nbsp;</i> Replace Account</h1>
+<div *ngIf="data?.message"  class="text-center" mat-dialog-content> {{data?.message}}</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary"  (click)="submit()">{{'Yes'|translateToArabic:languageFactor}}</button>
+  <button mat-raised-button color="accent" mat-dialog-close (click)="onCancel()">{{'NO'|translateToArabic:languageFactor}}</button>
+</div>

@@ -1,0 +1,52 @@
+<div *ngIf="showTree" class="card p-5 tree-container p-relative">
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree-node
+      *matTreeNodeDef="let node"
+      matTreeNodeToggle
+      matTreeNodePadding
+      [(ngModel)]="node.isChecked"
+      [(ngModel)]="node.isLeaf"
+    >
+      <mat-checkbox
+        class="checklist-leaf-node"
+        [checked]="checklistSelection.isSelected(node)"
+        (change)="todoItemSelectionToggle(node)"
+      >
+        {{node.label}}
+      </mat-checkbox>
+    </mat-tree-node>
+
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+      <button
+        [ngStyle]=" node.isLeaf ? {'visibility': 'hidden'} : null"
+        mat-icon-button
+        matTreeNodeToggle
+        [attr.aria-label]="'toggle ' + node.filename"
+      >
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+        </mat-icon>
+      </button>
+      <mat-checkbox
+        [checked]="descendantsAllSelected(node)"
+        [indeterminate]="descendantsPartiallySelected(node)"
+        (change)="todoItemSelectionToggle(node)"
+        [(ngModel)]="node.isChecked"
+      >
+        {{node.label}}
+      </mat-checkbox>
+    </mat-tree-node>
+  </mat-tree>
+
+  <div class="buttons-container">
+    <button [matTooltip]="'Clear All'" type="button" class="btn btn-danger" (click)="clearAllCheckboxes()">
+      <mat-icon class="icon">delete_sweep</mat-icon>
+    </button>
+    <button [matTooltip]="'Reset'" type="button" class="btn btn-info" (click)="reset()">
+      <mat-icon class="icon">replay</mat-icon>
+    </button>
+    <button [matTooltip]="'Save'" type="button" class="btn btn-success" (click)="saveAllData()">
+      <mat-icon class="icon">add_circle_outline</mat-icon>
+    </button>
+  </div>
+</div>

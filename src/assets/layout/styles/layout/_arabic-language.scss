@@ -1,0 +1,17 @@
+// language section
+[lang="ar"] {
+    .section-container, mat-expansion-panel, .p-datatable, .p-toolbar,.p-treetable{
+        direction: rtl;
+    }
+    .collapse-icon {
+        right: auto;
+        left: 10px;
+    }
+    .p-button .p-button-icon-left {
+        margin-left: 0.5rem;
+        margin-right: 0;
+    }
+    .popup-actions-section {
+        justify-content: flex-end !important;
+    }
+}

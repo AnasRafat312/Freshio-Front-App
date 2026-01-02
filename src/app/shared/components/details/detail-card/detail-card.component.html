@@ -1,0 +1,20 @@
+<div class="details-card" [class.collapsed]="isCollapsed">
+    <div class="card-header" *ngIf="title" (click)="toggleCollapse()" [class.clickable]="collapsible">
+        <div class="header-content">
+            <i [class]="icon"></i>
+            <span>{{title}}</span>
+        </div>
+        <i *ngIf="collapsible" 
+           class="toggle-icon pi" 
+           [class.pi-chevron-down]="!isCollapsed" 
+           [class.pi-chevron-up]="isCollapsed">
+        </i>
+    </div>
+    <div class="card-body-wrapper" [class.collapsed]="isCollapsed">
+        <div class="card-body">
+            <div [ngClass]="getRowClass()">
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>
+</div>

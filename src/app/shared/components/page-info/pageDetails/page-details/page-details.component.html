@@ -1,0 +1,169 @@
+<div class="container">
+  <div class="row" *ngIf="languageFactor=='en'">
+          <div class="d-flex flex-column align-items-center justify-content-between col-md-3 col-sm-12 menu-section">       
+
+         <div class="mt-5" style="width: 100%;">
+                   <!-- <div *ngFor="let tree of ListedTree"> -->
+                    <!-- transformedData -->
+                      <p-tree class="w-full md:w-30rem custom-tree" 
+                      selectionMode="single" 
+                      [(selection)]="selectedFile"
+                      (onNodeSelect)="onNodeSelect($event)"                      
+                      [value]="ListedTree" [filter]="true">
+                      <ng-template let-node pTemplate="default" >
+                        <span>{{ node.label }}</span>
+                    </ng-template>
+                  </p-tree>
+                   <!-- </div>                       -->
+      </div>
+     
+     </div>
+     
+
+      
+<div class="col-md-9 col-sm-12 details-section">
+      <div class="panel-content align-items-center justify-content-center h1 mt-4 mx-3">
+          <div class="card text-center">
+              <div class="card-header cards-background">
+                  Title
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">{{pageGuide?.title}}</h4>
+              </div>
+            </div>
+     
+            <div class="card text-center">
+              <div class="card-header cards-background">
+                  Description
+              </div>
+              <div class="card-body">
+                <h4 class="card-title" (click)="processLinks($event)" [innerHTML]="pageGuide?.description"></h4>
+              </div>
+             </div>  
+          <div class="card text-center" *ngIf="SelectedChildPage?.length>0">
+              <div class="card-header cards-background">
+                  Details (Steps)
+              </div>
+              <div class="card-body" *ngFor="let item of SelectedChildPage">                  
+                  <div *ngIf="item.contentType===1" >
+                      {{GetStepsNew(item.stepEn)}} 
+                      <h4 *ngFor="let s of stepString" class="card-title">
+                          <div (click)="processLinks($event)" [innerHTML]="s"></div>
+                      </h4>
+                  </div>
+                  <div>
+                      
+                  </div>
+                      <a href="javascript:void(0);"><img *ngIf="item.contentType===2" lazyloading (click)="openImage(item.stepEn)" class="card-img-bottom image-borderRd" [src]="'../../assets/images/'+ item.stepEn"></a> 
+                      <p-dialog 
+                      header="" 
+                      [modal]="true"
+                      [(visible)]="visible" 
+                      [style]="{ width: '100rem' }" 
+                      [breakpoints]="{ '1299px': '175vw', '675px': '190vw' }">
+                          <p class="mb-5">
+                              <img *ngIf="item.contentType===2" class="card-img-bottom image-borderRd" lazyloading [src]="'../../assets/images/'+ stepImage">
+                          </p>
+
+                  </p-dialog>                 
+              </div>
+            </div>   
+      </div>
+</div>
+  </div>
+  <!--In Arabic-->
+  <div class="row container-ar" *ngIf="languageFactor=='ar'"> 
+      <div class="col-md-8 col-sm-12 details-section">
+          <div class="panel-content align-items-center justify-content-center h1 mt-4 mx-3">
+              <div class="card text-center">
+                  <div class="card-header cards-background">
+                      العنوان
+                  </div>
+                  <div class="card-body">
+                  <h4 class="card-title">{{pageGuide?.titleAR}}</h4>
+                  </div>
+              </div>
+      
+              <div class="card text-center">
+                  <div class="card-header cards-background">
+                  الوصف
+                  </div>
+                  <div class="card-body">
+                      <h4 class="card-title" (click)="processLinks($event)" [appGenerateHTML]="pageGuide?.descriptionAR" [innerHTML]="pageGuide?.descriptionAR"></h4>
+
+
+                  </div>
+              </div> 
+              <div class="card text-center" *ngIf="SelectedChildPage?.length>0">
+                  <div class="card-header cards-background">
+                      التفاصيل (الخطوات)
+                  </div>
+
+                  <div class="card-body" *ngFor="let item of SelectedChildPage" style="direction: rtl;">                  
+                      <div *ngIf="item.contentType===1" >
+                          {{GetStepsNewAR(item.stepAR)}} 
+                          <h4 *ngFor="let s of stepString" class="card-title">
+                              <div (click)="processLinks($event)" [innerHTML]="s"></div>
+                          </h4>
+                      </div>
+                      <div>
+                      </div>
+                          <a href="javascript:void(0);"><img *ngIf="item.contentType===2" lazyloading (click)="openImage(item.stepAR)" class="card-img-bottom image-borderRd" [src]="'../../assets/images/'+ item.stepAR"></a> 
+                          <p-dialog 
+                          header="" 
+                          [modal]="true"
+                          [(visible)]="visible" 
+                          [style]="{ width: '100rem' }" 
+                          [breakpoints]="{ '1299px': '175vw', '675px': '190vw' }">
+                              <p class="mb-5">
+                                  <img *ngIf="item.contentType===2" class="card-img-bottom image-borderRd" lazyloading [src]="'../../assets/images/'+ stepImage">
+                              </p>
+                      </p-dialog>                 
+                  </div>
+              </div>   
+          </div>
+      </div>
+      <div class="d-flex flex-column align-items-center justify-content-between col-md-4 col-sm-12 menu-section">       
+
+                      <div class="mt-5" style="width: 100%; direction: rtl;">
+                     
+                      <!-- <p-tree class="w-full md:w-30rem custom-tree" 
+                      selectionMode="single" 
+                      [(selection)]="selectedFile"
+                      (onNodeSelect)="onNodeSelectAR($event)"
+                      [value]="transformedDatAR">
+                      <ng-template let-node pTemplate="default">
+                          <span>{{ node.label }}</span>
+                      </ng-template>
+                  </p-tree> -->
+                  <p-tree class="w-full md:w-30rem custom-tree" 
+                  selectionMode="single" 
+                  [(selection)]="selectedFile"
+                  (onNodeSelect)="onNodeSelectAR($event)"                      
+                  [value]="ListedTree" [filter]="true">
+                  <ng-template let-node pTemplate="default" >
+                    <span>{{ node.label }}</span>
+                </ng-template>
+              </p-tree>
+                                                     
+      </div>
+      
+      <!-- <div class="mt-auto">
+          <div class="d-flex align-items-center justify-content-center w-100 image" >
+              <div class="image-container">
+                  <img src="../../assets/images/info(1).gif" id="imageLogo">
+              </div>
+          </div>
+      </div>  -->
+      <!-- <div class="mt-auto">
+        <div class="d-flex align-items-end justify-content-center image" >
+          <div class="image-container">
+            <img src="../../assets/images/info(1).gif" id="imageLogo">
+          </div>
+        </div>
+    </div>       -->
+      </div>
+      
+  </div>
+
+</div>

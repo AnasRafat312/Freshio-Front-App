@@ -1,0 +1,29 @@
+{
+    "BASIC_DATA_API_ENDPOINT": "https://assemble-erp.com:44385/api/",
+    "ACTIVITY_API_ENDPOINT": "https://assemble-erp.com:44323/api/",
+    "GETWAY_API_ENDPOINT": "https://assemble-erp.com:44382/api/",
+    "CRM_API_ENDPOINT": "https://assemble-erp.com:8020/api/",
+    "FINANCE_API_ENDPOINT": "https://assemble-erp.com:44321/api/",
+    "MAIN_GetwAY_API_ENDPOINT": "https://assemble-erp.com:44381/api/",
+    "PAYROLL_HR_ENDPOINT": "https://assemble-erp.com:44324/api/",
+    "WAREHOUSE_API_ENDPOINT": "https://assemble-erp.com:44320/api/",
+    "TICKETS_API_ENDPOINT": "https://assemble-erp.com:8010/api/",
+    "PIPELINE_API_ENDPOINT": "https://assemble-erp.com:8011/api/",
+    "SRM_API_ENDPOINT": "https://assemble-erp.com:44326/api/",
+
+    "NEW_HR_WEB_ENDPOINT": "http://localhost:44300//",
+    "WAREHOUSE_WEB_ENDPOINT": "https://assemble-erp.com:44301//",
+    "NEWFINANCE_WEB_ENDPOINT": "http://localhost:44302//",
+    "PROJECTMANAGEMENT_WEB_ENDPOINT": "http://localhost:44303//",
+    "SRM_WEB_ENDPOINT": "https://assemble-erp.com:44304//",
+    "FINANCE_WEB_ENDPOINT": "https://assemble-erp.com:8099/",
+    "HR_WEB_ENDPOINT": "https://assemble-erp.com:8098/",
+    "ACTIVITY_WEB_ENDPOINT": "https://assemble-erp.com:8096/",
+    "PIPELINE_WEB_ENDPOINT": "https://assemble-erp.com:8093/",
+
+    "USER_PROFILE_IMAGE_SOURCE": "https://assemble-erp.com:44382/Uploads/ProfilePictures/",
+    "COMPANY_PROFILE_IMAGE_SOURCE": "https://assemble-erp.com:44382/Uploads/CompanyProfileImage/",
+    "ENTITY_IMAGE_SOURCE": "https://assemble-erp.com:44385/Uploads/EntityPicture/",
+    "RESOURCE_IMAGE_SOURCE": "https://assemble-erp.com:44385/Uploads/ResourcePicture/",
+    "ATTACHMENT_FILES_SOURCE": "https://assemble-erp.com:44385/"
+}

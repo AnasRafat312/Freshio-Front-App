@@ -1,0 +1,51 @@
+.xl-dialog-width {
+    width: 90%; /* Default width */
+}
+.lg-dialog-width {
+    width: 75%; /* Default width */
+}
+.md-dialog-width {
+    width: 50%; /* Default width */
+}
+.sm-dialog-width {
+    width: 30%; /* Default width */
+}
+.xs-dialog-width {
+    width: 20%; /* Default width */
+}
+
+@media (max-width: 1200px) {
+    .sm-dialog-width,.xs-dialog-width,.md-dialog-width {
+        width: 50%; /* Width for screens smaller than 1200px */
+    }
+    .xl-dialog-width {
+        width: 90%; /* Width for screens smaller than 1200px */
+    }
+}
+
+@media (max-width: 992px) {
+    .sm-dialog-width,.xs-dialog-width,.md-dialog-width,.lg-dialog-width {
+        width: 60%; /* Width for screens smaller than 992px */
+    }
+    .xl-dialog-width {
+        width: 95%; /* Width for screens smaller than 1200px */
+    }
+}
+
+@media (max-width: 768px) {
+    .sm-dialog-width,.xs-dialog-width,.md-dialog-width,.lg-dialog-width {
+        width: 70%; /* Width for screens smaller than 768px */
+    }
+    .xl-dialog-width {
+        width: 95%; /* Width for screens smaller than 1200px */
+    }
+}
+
+@media (max-width: 576px) {
+    .sm-dialog-width,.xs-dialog-width,.md-dialog-width,.lg-dialog-width {
+        width: 80%; /* Width for screens smaller than 576px */
+    }
+    .xl-dialog-width {
+        width: 97%; /* Width for screens smaller than 1200px */
+    }
+}

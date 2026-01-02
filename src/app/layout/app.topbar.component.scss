@@ -1,0 +1,138 @@
+.rounded-image {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+}
+
+.in-arabic
+{
+    background: linear-gradient(225deg, #6a11cb 0%, #2575fc 100%);
+}
+
+.dropdown-button {
+    padding: 4px 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 25px;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+.user-name {
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.dropdown-arrow {
+    color: #fff;
+    font-size: 1rem;
+}
+
+.profile-icon-placeholder {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+
+    .pi-user {
+        font-size: 1rem;
+    }
+}
+
+::ng-deep .user-dropdown-menu {
+    .mat-mdc-menu-content {
+        padding: 8px 0 !important;
+    }
+
+    .mat-divider {
+        margin: 8px 0;
+    }
+
+    .mat-mdc-menu-item {
+        padding: 0 16px;
+        height: 48px;
+
+        .menu-item-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+
+            .menu-item-icon {
+                font-size: 16px;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #f1f3f5;
+                color: #495057;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s ease-in-out;
+            }
+
+            .menu-item-label {
+                font-size: 14px;
+                font-weight: 500;
+                color: #343a40;
+            }
+
+            .language-flag {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .sub-menu-arrow {
+                margin-left: auto;
+            }
+        }
+
+        &.logout-item-wrapper .menu-item-content {
+            .menu-item-icon {
+                background-color: #fff0f0;
+                color: #d9534f;
+            }
+            .menu-item-label {
+                color: #d9534f;
+            }
+        }
+
+        &:hover:not(.mat-mdc-menu-item-disabled) {
+            background-color: #f8f9fa;
+
+            .menu-item-content .menu-item-icon {
+                transform: scale(1.1);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            &.logout-item-wrapper {
+                background-color: #d9534f;
+                
+                .menu-item-content {
+                    .menu-item-icon {
+                        background-color: #fff;
+                        color: #d9534f;
+                    }
+                    .menu-item-label {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}

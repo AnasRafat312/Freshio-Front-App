@@ -1,0 +1,273 @@
+$logo-color: #47419b;
+$logo-color-darker: #3a358a;
+$logo-color-lighter: #544db2;
+
+// Main container for the entire login view
+.login-container {
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #47419bad;
+    background-size: cover;
+    padding: 2rem;
+    position: relative;
+    //background: url('../../../../assets/images/login-image.jpg') no-repeat center center;
+
+    // Language selector positioned at the top right
+    .language-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      //background-color: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 5px;
+      z-index: 10;
+    }
+
+    // Main box for login content
+    .login-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      max-width: 1000px;
+      height: 600px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      overflow: hidden;
+
+      // Left panel for branding
+      .left-panel {
+        display: flex
+;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    color: #fff;
+    text-align: center;
+    background: #19147170;
+
+        .branding {
+          img {
+            width: 150px;
+            margin-bottom: 20px;
+            background: #FFF;
+            border-radius: 25px;
+            box-shadow: 0px 0px 10px 4px $logo-color;
+          }
+          h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e8f0fe;
+          }
+          p {
+            font-size: 1.1rem;
+            max-width: 300px;
+          }
+          .version {
+            margin-top: 20px;
+            font-style: italic;
+            color: #ddd;
+          }
+        }
+      }
+
+      // Right panel for forms
+      .right-panel {
+        padding: 40px;
+    display: flex
+;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    background: #fbfbff;
+
+        .back-btn {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          background: none;
+          border: none;
+          //color: #fff;
+          cursor: pointer;
+          z-index: 10;
+          .mat-icon {
+            font-size: 24px;
+          }
+        }
+
+        .form-wrapper {
+          width: 100%;
+          max-width: 400px;
+          margin: 0 auto;
+          color: #fff;
+
+          .form-title {
+            font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #FFF;
+    background: #3a358a;
+    border-radius: 10px;
+    padding: 10px 0px;
+          }
+
+          .input-group {
+            margin-bottom: 20px;
+            position: relative;
+
+            label {
+              display: block;
+              margin-bottom: 8px;
+              font-weight: 500;
+            }
+
+            .form-control, .p-password, .p-dropdown {
+              width: 100%;
+              background: rgba(255, 255, 255, 0.2);
+              border: 1px solid rgba(255, 255, 255, 0.3);
+              border-radius: 8px;
+              color: #fff;
+              padding: 12px;
+              font-size: 1rem;
+              transition: background 0.3s;
+
+              &:focus-within, &:focus {
+                background: rgba(255, 255, 255, 0.3);
+                outline: none;
+              }
+            }
+
+            // PrimeNG overrides
+            :host ::ng-deep {
+              .p-password-input, .p-dropdown-label {
+                width: 100%;
+                padding: 0;
+              }
+              .p-placeholder {
+                  color: #ccc;
+              }
+              .p-dropdown .p-dropdown-trigger {
+                  color: #fff;
+              }
+            }
+
+            .error-input {
+              color: #ff8a80;
+              font-size: 0.875rem;
+              margin-top: 5px;
+              position: absolute;
+              bottom: -20px;
+            }
+          }
+
+          .registration-grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 20px;
+              .full-width {
+                  grid-column: 1 / -1;
+              }
+          }
+
+          .form-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            a {
+              color: #3a358a;
+              text-decoration: none;
+              cursor: pointer;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+
+          .p-button {
+            background: $logo-color;
+            border: 1px solid;
+            transition: all 0.3s ease;
+            &:enabled:hover {
+              background: $logo-color-lighter;
+            }
+          }
+        }
+      }
+    }
+
+    // Responsive adjustments
+    @media (max-width: 992px) {
+      .login-box {
+        grid-template-columns: 1fr;
+        height: auto;
+        max-width: 500px;
+        .left-panel {
+          display: none; // Hide on smaller screens for simplicity
+        }
+      }
+      .back-btn {
+        top: 30px !important;
+        color: #FFF;
+      }
+    }
+    @media (max-width: 576px) {
+      padding: 1rem;
+      .login-box {
+          .right-panel {
+              padding: 20px;
+          }
+      }
+    }
+  }
+
+  // PrimeNG Confirm Dialog styling
+  :host ::ng-deep {
+      .p-confirm-dialog {
+          .p-dialog-content {
+              background-color: #333;
+              color: #fff;
+          }
+          .p-dialog-header {
+              background-color: #444;
+          }
+      }
+  }
+::ng-deep {
+    .add-field {
+        margin-bottom: 2.3rem;
+    }
+    .add-field .add-input-group {
+        border: none;
+        background: transparent;
+        position: relative;
+        padding: 0.7rem 0;
+        box-shadow: none;
+        .error-input {
+            position: absolute;
+            bottom: -14px;
+            font-weight: bold;
+        }
+    }
+    .add-field .add-input-group .add-input-icon {
+        color: #3a358a;
+        margin-top: 0;
+    }
+    .add-field .add-input-group .add-floating-label {
+        color: #3a358a;
+    }
+    .add-field .add-input-group > .p-dropdown, .add-field .add-input-group > .p-calendar, .add-field .add-input-group > .p-inputtext {
+        background-color: #fbfbff !important;;
+    }
+}
+
+

@@ -1,0 +1,24 @@
+   <!--  <p-button (onClick)="op.toggle($event)" icon="pi pi-sync" severity="secondary"  [label]="selectedCompany?.Name" />
+    <p-overlayPanel #op> -->
+        <div class="flex flex-column gap-3 w-25rem">
+            <!-- Half -->
+            <div class="col-12">
+                <span class="fw-bold d-block" [ngClass]="{'text-left':languageFactor=='en','text-right':languageFactor=='ar'}">
+                    {{'Company'|translateToArabic:languageFactor}}
+                    <span [ngClass]="{ 'text-danger':!selectedCompany }">*</span>
+                </span>
+                <p-dropdown
+                [(ngModel)]="selectedCompany"
+                [options]="companiesList"
+                optionLabel="Name"
+                [filter]="true"
+                filterBy="Name"
+                [appendTo]="'body'"
+                [virtualScroll]="true"
+                [virtualScrollItemSize]="10"
+                (onChange)="onCompanySelect()"
+                >
+                </p-dropdown>
+            </div>
+        </div>
+    <!-- </p-overlayPanel> -->

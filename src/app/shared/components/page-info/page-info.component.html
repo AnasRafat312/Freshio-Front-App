@@ -1,0 +1,204 @@
+<div class="container page-info-container">
+    <div class="row" *ngIf="languageFactor=='en'">
+        <!-- Navigation Menu Section -->
+        <div class="d-flex flex-column align-items-center justify-content-between col-md-4 col-sm-12 menu-section">
+            <div class="navigation-header">
+                <h3 class="navigation-title">Documentation</h3>
+            </div>
+            
+            <div class="tree-container mt-3" style="width: 100%;">
+                <p-tree class="w-full md:w-30rem custom-tree" 
+                    selectionMode="single" 
+                    [(selection)]="selectedFile"
+                    (onNodeSelect)="onNodeSelect($event)"
+                    [value]="transformedData">
+                    <ng-template let-node pTemplate="default">
+                        <span class="tree-node-label">{{ node.label }}</span>
+                    </ng-template>
+                </p-tree>
+            </div>
+       
+            <div class="mt-auto mb-4">
+                <div class="d-flex align-items-end justify-content-center">
+                    <img src="../../assets/images/info(1).gif" class="info-logo" id="imageLogo">
+                </div>
+            </div>      
+        </div>
+       
+        <!-- Content Section -->
+        <div class="col-md-8 col-sm-12 details-section">
+            <div class="panel-content align-items-center justify-content-center mt-4 mx-3">
+                <!-- Title Card -->
+                <div class="content-card mb-4">
+                    <div class="card-header cards-background">
+                        <i class="fa fa-bookmark header-icon"></i>
+                        <span class="header-title">Title</span>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="content-title">{{pageGuide?.title}}</h4>
+                    </div>
+                </div>
+       
+                <!-- Description Card -->
+                <div class="content-card mb-4">
+                    <div class="card-header cards-background">
+                        <i class="fa fa-info-circle header-icon"></i>
+                        <span class="header-title">Description</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="content-description" (click)="processLinks($event)" [appGenerateHTML]="pageGuide?.description" [innerHTML]="pageGuide?.description"></div>
+                    </div>
+                </div>
+                
+                <!-- Steps Card -->
+                <div class="content-card mb-4" *ngIf="SelectedChildPage?.length>0">
+                    <div class="card-header cards-background">
+                        <i class="fa fa-list-ol header-icon"></i>
+                        <span class="header-title">Details (Steps)</span>
+                    </div>
+                    
+                    <!-- Step Items -->
+                    <div class="card-body step-container" *ngFor="let item of SelectedChildPage; let i = index">
+                        <!-- Text Steps -->
+                        <div *ngIf="item.contentType===1" class="step-content">
+                            {{GetStepsNew(item.stepEn)}} 
+                            <div *ngFor="let s of stepString" class="step-text">
+                                <div (click)="processLinks($event)" [innerHTML]="s"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Image Steps -->
+                        <div *ngIf="item.contentType===2" class="step-image-container">
+                            <a href="javascript:void(0);" class="image-link">
+                                <img *ngIf="item.contentType===2" 
+                                     lazyloading 
+                                     (click)="openImage(item.stepEn)" 
+                                     class="step-image image-borderRd" 
+                                     [src]="'../../assets/images/'+ item.stepEn"
+                                     alt="Step illustration">
+                            </a>
+                        </div>
+                        
+                        <!-- Image Dialog -->
+                        <p-dialog 
+                            header="" 
+                            [modal]="true"
+                            [(visible)]="visible" 
+                            [style]="{ width: '100rem' }" 
+                            [breakpoints]="{ '1299px': '175vw', '675px': '190vw' }">
+                            <div class="dialog-content">
+                                <img *ngIf="item.contentType===2" 
+                                     class="dialog-image image-borderRd" 
+                                     lazyloading 
+                                     [src]="'../../assets/images/'+ stepImage"
+                                     alt="Enlarged step illustration">
+                            </div>
+                        </p-dialog>
+                    </div>
+                </div>   
+            </div>
+        </div>
+    </div>
+    <!--In Arabic-->
+    <div class="row container-ar" *ngIf="languageFactor=='ar'"> 
+        <!-- Navigation Menu Section (Right side for Arabic) -->
+        <div class="d-flex flex-column align-items-center justify-content-between col-md-4 col-sm-12 menu-section">
+            <div class="navigation-header">
+                <h3 class="navigation-title">التوثيق</h3>
+            </div>
+            
+            <div class="tree-container mt-3" style="width: 100%; direction: rtl;">
+                <p-tree class="w-full md:w-30rem custom-tree" 
+                    selectionMode="single" 
+                    [(selection)]="selectedFile"
+                    (onNodeSelect)="onNodeSelectAR($event)"
+                    [value]="transformedDatAR">
+                    <ng-template let-node pTemplate="default">
+                        <span class="tree-node-label">{{ node.label }}</span>
+                    </ng-template>
+                </p-tree>
+            </div>
+            
+            <div class="mt-auto mb-4">
+                <div class="d-flex align-items-end justify-content-center">
+                    <img src="../../assets/images/info(1).gif" class="info-logo" id="imageLogo">
+                </div>
+            </div>
+        </div>
+        <!-- Content Section (Left side for Arabic) -->
+        <div class="col-md-8 col-sm-12 details-section">
+            <div class="panel-content align-items-center justify-content-center mt-4 mx-3">
+                <!-- Title Card -->
+                <div class="content-card mb-4">
+                    <div class="card-header cards-background">
+                        <i class="fa fa-bookmark header-icon"></i>
+                        <span class="header-title">العنوان</span>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="content-title">{{pageGuide?.titleAR}}</h4>
+                    </div>
+                </div>
+        
+                <!-- Description Card -->
+                <div class="content-card mb-4">
+                    <div class="card-header cards-background">
+                        <i class="fa fa-info-circle header-icon"></i>
+                        <span class="header-title">الوصف</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="content-description" (click)="processLinks($event)" [appGenerateHTML]="pageGuide?.descriptionAR" [innerHTML]="pageGuide?.descriptionAR"></div>
+                    </div>
+                </div>
+                
+                <!-- Steps Card -->
+                <div class="content-card mb-4" *ngIf="SelectedChildPage?.length>0">
+                    <div class="card-header cards-background">
+                        <i class="fa fa-list-ol header-icon"></i>
+                        <span class="header-title">التفاصيل (الخطوات)</span>
+                    </div>
+                    
+                    <!-- Step Items -->
+                    <div class="card-body step-container" *ngFor="let item of SelectedChildPage; let i = index" style="direction: rtl;">
+                        <!-- Text Steps -->
+                        <div *ngIf="item.contentType===1" class="step-content">
+                            {{GetStepsNewAR(item.stepAR)}} 
+                            <div *ngFor="let s of stepString" class="step-text">
+                                <div (click)="processLinks($event)" [innerHTML]="s"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Image Steps -->
+                        <div *ngIf="item.contentType===2" class="step-image-container">
+                            <a href="javascript:void(0);" class="image-link">
+                                <img *ngIf="item.contentType===2" 
+                                     lazyloading 
+                                     (click)="openImage(item.stepAR)" 
+                                     class="step-image image-borderRd" 
+                                     [src]="'../../assets/images/'+ item.stepAR"
+                                     alt="توضيح الخطوة">
+                            </a>
+                        </div>
+                        
+                        <!-- Image Dialog -->
+                        <p-dialog 
+                            header="" 
+                            [modal]="true"
+                            [(visible)]="visible" 
+                            [style]="{ width: '100rem' }" 
+                            [breakpoints]="{ '1299px': '175vw', '675px': '190vw' }">
+                            <div class="dialog-content">
+                                <img *ngIf="item.contentType===2" 
+                                     class="dialog-image image-borderRd" 
+                                     lazyloading 
+                                     [src]="'../../assets/images/'+ stepImage"
+                                     alt="توضيح الخطوة مكبر">
+                            </div>
+                        </p-dialog>
+                    </div>
+                </div>   
+            </div>
+        </div>
+        
+        
+    </div>
+</div>

@@ -1,0 +1,88 @@
+/* .overlay {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    transition: opacity 0.3s;
+    opacity: 0;
+    pointer-events: none;
+  } */
+.overlay {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255 255 255 / 79%);
+    z-index: -1;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  .overlay.active {
+    opacity: 1; /* Make the overlay visible */
+    pointer-events: auto; /* Enable interactions with the spinner */
+  }
+  .lodear-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+      .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+          .img-container {
+            width: 150px;
+            height: 150px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+          }
+      }
+  }
+  .lds-hourglass {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-hourglass:after {
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    margin: 8px;
+    box-sizing: border-box;
+    border: 32px solid blueviolet;
+    border-color: blueviolet transparent blueviolet transparent;
+    animation: lds-hourglass 1.2s infinite;
+  }
+  @keyframes lds-hourglass {
+    0% {
+      transform: rotate(0);
+      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    50% {
+      transform: rotate(900deg);
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    100% {
+      transform: rotate(1800deg);
+    }
+  }
+  .loadingio-spinner-ellipsis-zw4lbay3fdm {
+    padding-left: 15px;
+    margin-top: -55px;
+  }

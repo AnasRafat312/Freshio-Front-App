@@ -1,0 +1,33 @@
+<div class="menu-container">
+
+   <!-- Sidebar Header with Toggle Button -->
+   <div class="sidebar-header">
+    <div class="sidebar-title">
+        <!-- <i class="fa-solid fa-car-side menu-icon"></i> -->
+        <img src="../../assets/images/new-logo.png" alt="Logo" class="footer-logo" />
+        <span>E-Transactions</span>
+    </div>
+</div>
+
+  <!-- Search Bar -->
+  <div class="menu-search-container" [ngClass]="{'menu-search-container-arabic': languageFactor === 'ar'}">
+    <div class="p-input-icon-left w-100">
+      <i class="pi pi-search"></i>
+      <input type="text" pInputText class="w-100" [placeholder]="languageFactor === 'ar' ? 'بحث...' : 'Search...'" 
+        [(ngModel)]="searchQuery" (input)="filterMenu()"/>
+    </div>
+  </div>
+
+  <!-- Menu Items -->
+  <ul class="layout-menu" [ngClass]="{'layout-menu-in-arabic': languageFactor === 'ar'}">
+    <ng-container *ngFor="let item of filteredModel; let i = index;">
+      <li *ngIf="!item.separator" app-menuitem [item]="item" [index]="i" [root]="true" class="menu-item"></li>
+      <li *ngIf="item.separator" class="menu-separator"></li>
+    </ng-container>
+  </ul>
+
+  <!-- No Results Message -->
+  <div *ngIf="filteredModel.length === 0 && searchQuery" class="no-results-message">
+    <p>{{ languageFactor === 'ar' ? 'لا توجد نتائج' : 'No results found' }}</p>
+  </div>
+</div>

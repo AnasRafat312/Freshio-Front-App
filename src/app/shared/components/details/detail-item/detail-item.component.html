@@ -1,0 +1,30 @@
+<div class="detail-item">
+    <div class="detail-icon">
+        <i [class]="icon"></i>
+    </div>
+    <div class="detail-content">
+        <label class="detail-label">{{label}}</label>
+        <div class="detail-value" [ngClass]="{'description-text': fullWidth}" #valueContainer>
+            <!-- Show projected content if available -->
+            <ng-content></ng-content>
+            
+            <!-- Show default value formatting if no projected content -->
+            <ng-container *ngIf="!hasProjectedContent">
+                <ng-container [ngSwitch]="valueType">
+                    <ng-container *ngSwitchCase="'date'">
+                        {{value | localizedDate}}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'amount'">
+                        <span *ngIf="currencySymbol" class="currency-symbol">{{currencySymbol}} </span>{{value | number: minFractionDigits + '.' + minFractionDigits + '-' + maxFractionDigits}}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'number'">
+                        {{value | number: '1.0-2'}}
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{value}}
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

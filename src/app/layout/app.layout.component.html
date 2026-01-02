@@ -1,0 +1,28 @@
+<div *ngIf="languageFactor === 'ar'" class="layout-wrapper-in-arabic" [ngClass]="containerClass">
+    <app-topbar></app-topbar>
+    <div *ngIf="!isDetails" class="layout-sidebar-in-arabic">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="layout-main-container-in-arabic">
+        <div class="layout-main-in-arabic">
+            <router-outlet></router-outlet>
+        </div>
+        <app-footer></app-footer>
+    </div>
+    <app-config></app-config>
+    <div class="layout-mask"></div>
+</div>
+<div *ngIf="languageFactor === 'en'" class="layout-wrapper" [ngClass]="containerClass">
+    <app-topbar></app-topbar>
+    <div *ngIf="!isDetails" class="layout-sidebar">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="layout-main-container">
+        <div class="layout-main">
+            <router-outlet></router-outlet>
+        </div>
+        <app-footer></app-footer>
+    </div>
+    <app-config></app-config>
+    <div class="layout-mask"></div>
+</div>

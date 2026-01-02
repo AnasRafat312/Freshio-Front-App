@@ -1,0 +1,163 @@
+.item-head {
+    font-weight: bold;
+    //font-size: larger;
+}
+.section-header {
+    padding: 10px 60px !important;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+}
+.table-container {
+    max-height: 300px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+mat-card {
+    max-height: 90vh;
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+mat-card-content {
+    height: 100%;
+}
+.item {
+    font-size: 14px;
+}
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  .example-container mat-form-field + mat-form-field {
+    margin-left: 8px;
+  }
+  
+  .example-right-align {
+    text-align: right;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  input.example-right-align {
+    -moz-appearance: textfield;
+  }
+  
+  .example-section {
+    margin: 12px 0;
+  }
+  
+  .example-margin {
+    margin: 0 12px;
+  }
+  
+
+  
+  .example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  .example-container mat-form-field + mat-form-field {
+    margin-left: 8px;
+  }
+  
+  .example-right-align {
+    text-align: right;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  input.example-right-align {
+    -moz-appearance: textfield;
+  }
+  
+  .example-section {
+    margin: 12px 0;
+  }
+  
+  .example-margin {
+    margin: 0 12px;
+  }
+  
+  .mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+  }
+  .person {
+    padding: 0;
+  }
+  .table-container {
+    max-height: 300px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Add a border for better visual separation */
+  }
+  
+  /* Optional: Style the table header to make it stick */
+  .table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+  }
+  .add-button {
+    width: 90px;
+    height: 50px
+  }
+  .mat-mdc-card-header {
+    padding: 15px 0px 10px;
+  }
+  .arrow-down::before {
+    content: "keyboard_arrow_down";
+  }
+  
+  .arrow-up::before {
+    content: "keyboard_arrow_up";
+  }
+  .mat-expansion-panel-header {
+    font-size: 20px;
+    background-color: #e7e7e7;
+    text-align: center;
+  }
+  mat-expansion-panel{
+    margin: 20px 0;
+  }
+  td,th {
+    vertical-align: middle;
+  }
+  .rtl-select .mat-select-value, .rtl-select .mat-select-arrow-wrapper {
+    flex-direction: row-reverse;
+  }
+  
+  .rtl-select .mat-select-trigger {
+    padding: 0;
+    padding-left: 2px;
+  }
+  .custom-dropdown-input {
+    max-width: 100%;
+  }
+  .add-entity-btn {
+    position: absolute;
+      right: -15px;
+      top: 5px;
+  }
+  tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    text-align: center !important;
+}

@@ -1,0 +1,60 @@
+/* General */
+$scale:14px;                    /* main font size */
+$borderRadius:12px;             /* border radius of layout element e.g. card, sidebar */
+$transitionDuration:.2s;        /* transition duration of layout elements e.g. sidebar, overlay menus */
+
+/* Brand Colors - Based on Logo */
+$primary-orange: #F5A623;       /* Main orange/yellow from logo */
+$primary-blue: #006B8F;         /* Main blue/teal from logo */
+$primary-white: #FFFFFF;        /* White from logo */
+
+/* Color Variations */
+$orange-light: #FFB84D;         /* Lighter orange */
+$orange-dark: #E09615;          /* Darker orange */
+$blue-light: #0088B3;           /* Lighter blue */
+$blue-dark: #004D6B;            /* Darker blue */
+
+/* Semantic Colors */
+$primary-color: $primary-blue;
+$secondary-color: $primary-orange;
+$accent-color: $primary-orange;
+
+/* UI Colors */
+$background-color: #F8F9FA;
+$surface-color: #FFFFFF;
+$text-primary: #2C3E50;
+$text-secondary: #6C757D;
+$text-light: #FFFFFF;
+
+/* State Colors */
+$success-color: #28A745;
+$warning-color: $primary-orange;
+$danger-color: #DC3545;
+$info-color: $primary-blue;
+
+/* Sidebar Colors */
+$sidebar-bg: $primary-blue;
+$sidebar-bg-gradient: linear-gradient(180deg, $primary-blue 0%, $blue-dark 100%);
+$sidebar-text: $primary-white;
+$sidebar-hover: rgba(255, 255, 255, 0.1);
+$sidebar-active: rgba(245, 166, 35, 0.2);
+
+/* Topbar Colors */
+$topbar-bg: $primary-white;
+$topbar-bg-gradient: linear-gradient(135deg, $primary-blue 0%, $blue-light 100%);
+$topbar-text: $primary-blue;
+$topbar-text-on-gradient: $primary-white;
+$topbar-border: rgba(0, 107, 143, 0.1);
+
+/* Button Colors */
+$btn-primary-bg: $primary-blue;
+$btn-primary-text: $primary-white;
+$btn-secondary-bg: $primary-orange;
+$btn-secondary-text: $primary-white;
+
+/* Shadow */
+$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+$box-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+/* Legacy Support */
+$mainColor: $primary-blue;

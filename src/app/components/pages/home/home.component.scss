@@ -1,0 +1,102 @@
+// Brand Colors
+$primary-blue: #006B8F;
+$primary-orange: #F5A623;
+$blue-light: #0088B3;
+$blue-dark: #004D6B;
+$orange-light: #FFB84D;
+
+:host ::ng-deep .box {
+    padding: 15px;
+    border-radius: 25px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+:host ::ng-deep .box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 107, 143, 0.2);
+    border-radius: 25px;
+}
+
+:host ::ng-deep .card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    text-align: center;
+    transition: all 0.4s ease-in-out;
+    border: 2px solid transparent;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, $primary-blue 0%, $primary-orange 100%);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+}
+
+:host ::ng-deep .card:hover {
+    transform: translateY(-8px) scale(1.02);
+    background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+    border-color: $primary-orange;
+    box-shadow: 0 15px 35px rgba(245, 166, 35, 0.15);
+    
+    &::before {
+        transform: scaleX(1);
+    }
+}
+
+:host ::ng-deep .card .card-body {
+    padding: 10px;
+}
+
+:host ::ng-deep .card i {
+    font-size: 52px;
+    color: $primary-blue;
+    margin-bottom: 15px;
+    transition: all 0.5s ease-in-out;
+    filter: drop-shadow(0 4px 6px rgba(0, 107, 143, 0.2));
+}
+
+:host ::ng-deep .card:hover i {
+    color: $primary-orange;
+    transform: rotateY(360deg) scale(1.1);
+    filter: drop-shadow(0 6px 12px rgba(245, 166, 35, 0.3));
+}
+
+:host ::ng-deep .card .card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: $primary-blue;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+:host ::ng-deep .card:hover .card-title {
+    color: $primary-orange;
+}
+
+:host ::ng-deep .card .card-description {
+    font-size: 0.95rem;
+    color: #555;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    line-height: 1.6;
+}
+
+:host ::ng-deep .card:hover .card-description {
+    max-height: 100px;
+    opacity: 1;
+}

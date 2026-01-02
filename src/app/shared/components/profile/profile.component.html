@@ -1,0 +1,66 @@
+<div class="container" [ngClass]="{'rtl': languageFactor === 'ar'}">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="profile-header">
+            <div class="profile-avatar-wrapper">
+              <p-avatar
+                [image]="imagePath || 'assets/images/user_avatar.png'"
+                size="xlarge"
+                shape="circle"
+                styleClass="profile-avatar"
+              />
+              <div class="avatar-overlay" (click)="triggerImageInput.click()">
+                <i class="pi pi-camera"></i>
+                <span>{{'Change'|translateToArabic:languageFactor}}</span>
+              </div>
+              <input
+                #triggerImageInput
+                type="file"
+                (change)="onImageSelected($event)"
+                accept="image/*"
+                hidden
+              />
+            </div>
+            <div class="profile-info">
+              <h2 class="profile-name">{{ userData.UserName }}</h2>
+            </div>
+            <!-- <p-button
+              *ngIf="selectedFile"
+              icon="pi pi-check"
+              [label]="'Save Image' | translateToArabic:languageFactor"
+              styleClass="p-button-sm p-button-success"
+              (click)="saveChanges()"
+            ></p-button> -->
+        </div>
+      <!-- <button class="save-button" (click)="saveChanges()">{{'Change Image'|translateToArabic:languageFactor}}</button> -->
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Wizard Tabs -->
+      <div class="wizard-tabs">
+        <button class="tab-button" [ngClass]="{ 'active': isUserInfo }" (click)="isUserInfo = true">{{'User Information'|translateToArabic:languageFactor}}</button>
+        <button class="tab-button" [ngClass]="{ 'active': !isUserInfo }"  (click)="isUserInfo = false">{{'Employee Information'|translateToArabic:languageFactor}}</button>
+      </div>
+
+      <!-- User Info Section -->
+      <div  class="tab-content" [@fadeInOut] [ngClass]="{ 'active': isUserInfo }" *ngIf="isUserInfo">
+        <h2>{{'User Information'|translateToArabic:languageFactor}}</h2>
+        <p><strong>{{'Name'|translateToArabic:languageFactor}} </strong>: {{userData.UserName}}</p>
+        <p><strong>{{'Email'|translateToArabic:languageFactor}} </strong>: {{userData.Email}}</p>
+        <p><strong>{{'Phone'|translateToArabic:languageFactor}} </strong>: {{userData.Phone}}</p>
+        <p><strong>{{'Role'|translateToArabic:languageFactor}} </strong>: {{userData.RoleName}}</p>
+      </div>
+
+      <!-- Employee Info Section -->
+      <div  class="tab-content" [@fadeInOut] [ngClass]="{ 'active': !isUserInfo }" *ngIf="!isUserInfo">
+        <h2>{{'Employee Information'|translateToArabic:languageFactor}}</h2>
+        <p><strong>{{'Code'|translateToArabic:languageFactor}} </strong>: {{ userData.Code }}</p>
+        <p><strong>{{'Job Title'|translateToArabic:languageFactor}} </strong>: {{ userData.Position }}</p>
+        <p><strong>{{'Department'|translateToArabic:languageFactor}} </strong>: {{ userData.Department }}</p>
+        <p><strong>{{'Hire Date'|translateToArabic:languageFactor}} </strong>: {{ formatEmploymentDate(userData.EmpDate)}}</p>
+        <p><strong>{{'Branch'|translateToArabic:languageFactor}} </strong>: {{ userData.Branch }}</p>
+        <p><strong>{{'Email'|translateToArabic:languageFactor}} </strong>: {{ userData.PersonalEmail }}</p>
+      </div>
+    </div>
+  </div>

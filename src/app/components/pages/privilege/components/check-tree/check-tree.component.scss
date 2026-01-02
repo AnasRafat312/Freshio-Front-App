@@ -1,0 +1,152 @@
+.tree-container {
+  position: relative;
+  min-height: 400px;
+
+  .tree {
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-bottom: 80px;
+  }
+
+  .buttons-container {
+    position: sticky;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50px;
+    margin: 0 auto;
+    width: fit-content;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+
+    > button {
+      border-radius: 50%;
+      height: 50px;
+      width: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      border: none;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      .icon {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+:host-context([dir="rtl"]) {
+  .tree-container {
+    .buttons-container {
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
+.lds-facebook {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+
+  div {
+    display: inline-block;
+    position: absolute;
+    left: 8px;
+    width: 16px;
+    background: #117153;
+    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+
+    &:nth-child(1) {
+      left: 8px;
+      animation-delay: -0.24s;
+    }
+
+    &:nth-child(2) {
+      left: 32px;
+      animation-delay: -0.12s;
+    }
+
+    &:nth-child(3) {
+      left: 56px;
+      animation-delay: 0;
+    }
+  }
+}
+
+@keyframes lds-facebook {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%, 100% {
+    top: 24px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tree-container {
+    .buttons-container {
+      bottom: 40px;
+      padding: 8px;
+      gap: 8px;
+
+      > button {
+        height: 45px;
+        width: 45px;
+
+        .icon {
+          font-size: 24px;
+        }
+      }
+    }
+
+    .tree {
+      margin-bottom: 70px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .tree-container {
+    .buttons-container {
+      bottom: 35px;
+      padding: 5px;
+      gap: 5px;
+
+      > button {
+        height: 40px;
+        width: 40px;
+
+        .icon {
+          font-size: 24px;
+        }
+      }
+    }
+
+    .tree {
+      margin-bottom: 60px;
+    }
+  }
+}
+
+::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+::ng-deep .mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
+  background-color: rgb(123, 117, 215) !important;
+  border-color: rgb(123, 117, 215) !important;
+}
