@@ -12,6 +12,7 @@ import { Constant } from 'src/app/core/constants/constant';
 import { PrivilegeChecked } from '../../../privilege/interfaces/privilege';
 import { FilterType } from 'src/app/shared/core/enums/filter-type.enum';
 import { NewDeleteModalComponent } from 'src/app/shared/components/new-delete-modal/new-delete-modal.component';
+import { CreditCardsAddEditComponent } from '../add-edit/add-edit.component';
 
 @Component({
   selector: 'app-credit-cards-list',
@@ -64,41 +65,46 @@ export class CreditCardsList implements OnInit, OnDestroy {
     this.language.currentLanguage.subscribe((data) => {
       this.languageFactor = data;
       this.model = {
-        Name: {
+        CardHolderName: {
           filterType: FilterType.multi,
           filterList: [],
-          header: this.languageFactor === 'en' ? 'Name' : 'الأسم',
+          header: this.languageFactor === 'en' ? 'Card Holder Name' : 'اسم حامل البطاقة',
         },
-        PhoneNumber: {
+        CardNumber: {
           filterType: FilterType.multi,
           filterList: [],
-          header: this.languageFactor === 'en' ? 'Phone Number' : 'رقم التيليفون',
+          header: this.languageFactor === 'en' ? 'Card Number' : 'رقم البطاقة',
         },
         Limit: {
           filterType: FilterType.number,
           filterList: [],
           header: this.languageFactor === 'en' ? 'Limit' : 'الحد',
         },
-        InitialBalance: {
+        Balance: {
           filterType: FilterType.number,
           filterList: [],
-          header: this.languageFactor === 'en' ? 'Initial Balance' : 'الرصيد الأولي',
-        },
-        CurrentBalance: {
-          filterType: FilterType.number,
-          filterList: [],
-          header: this.languageFactor === 'en' ? 'Current Balance' : 'الرصيد الحالي',
+          header: this.languageFactor === 'en' ? 'Balance' : 'الرصيد',
         },
         Status: {
           filterType: FilterType.multi,
           filterList: [],
           header: this.languageFactor === 'en' ? 'Status' : 'الحالة',
         },
-        NationalID: {
+        /* ExpiryDate: {
+          filterType: FilterType.date,
+          filterList: [],
+          header: this.languageFactor === 'en' ? 'Expiry Date' : 'تاريخ الانتهاء',
+        }, */
+        /* NationalID: {
           filterType: FilterType.multi,
           filterList: [],
           header: this.languageFactor === 'en' ? 'National ID' : 'الرقم القومي',
-        },
+        }, */
+        /* Notes: {
+          filterType: FilterType.multi,
+          filterList: [],
+          header: this.languageFactor === 'en' ? 'Notes' : 'ملاحظات',
+        }, */
       };
     });
   }
@@ -145,7 +151,31 @@ export class CreditCardsList implements OnInit, OnDestroy {
   }
 
   addEdit(row?: any): void {
-
+    let header = '';
+    if (this.languageFactor == 'en') {
+      row ? header = 'Edit Credit Card' : header = 'Add Credit Card';
+    } else {
+      row ? header = 'تعديل البطاقة الائتمانية' : header = 'إضافة بطاقة ائتمانية';
+    }
+    
+    this.ref = this.dialogService.open(
+      CreditCardsAddEditComponent,
+      {
+        header: header,
+        contentStyle: { overflow: 'auto' },
+        data: row,
+        baseZIndex: 10000,
+        maximizable: true,
+        resizable: true,
+        styleClass: 'lg-dialog-width'
+      }
+    );
+    
+    this.ref.onClose.subscribe((product) => {
+      if (product) {
+        //this.getAllRows();
+      }
+    });
   }
 
   deleteRow(row: any): void {

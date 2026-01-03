@@ -1,0 +1,143 @@
+<div class="container">
+    <form [formGroup]="form">
+        <div class="row">
+            <!-- Card Holder Name -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Card Holder Name' : 'اسم حامل البطاقة'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'CardHolderName')"
+                [isValid]="form.get('CardHolderName')?.valid"
+                icon="pi pi-user">
+                <input 
+                    pInputText 
+                    formControlName="CardHolderName"
+                    [placeholder]="languageFactor === 'en' ? 'Enter card holder name' : 'أدخل اسم حامل البطاقة'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('CardHolderName')?.invalid && form.get('CardHolderName')?.touched}">
+            </app-input-field>
+
+            <!-- Card Number -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Card Number' : 'رقم البطاقة'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'CardNumber')"
+                [isValid]="form.get('CardNumber')?.valid"
+                icon="pi pi-credit-card">
+                <p-inputNumber
+                    mode="decimal"
+                    formControlName="CardNumber"
+                    [useGrouping]="false"
+                    [placeholder]="languageFactor === 'en' ? 'Enter 16 digit card number' : 'أدخل رقم البطاقة المكون من 16 رقم'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('CardNumber')?.invalid && form.get('CardNumber')?.touched}">
+                </p-inputNumber>
+            </app-input-field>
+
+            <!-- National ID -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'National ID' : 'الرقم القومي'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'NationalID')"
+                [isValid]="form.get('NationalID')?.valid"
+                icon="pi pi-id-card">
+                <p-inputNumber
+                    mode="decimal"
+                    formControlName="NationalID"
+                    [useGrouping]="false"
+                    [placeholder]="languageFactor === 'en' ? 'Enter 14 digit national ID' : 'أدخل الرقم القومي المكون من 14 رقم'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('NationalID')?.invalid && form.get('NationalID')?.touched}">
+                </p-inputNumber>
+            </app-input-field>
+
+            <!-- Limit -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Limit' : 'الحد'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Limit')"
+                [isValid]="form.get('Limit')?.valid"
+                icon="pi pi-money-bill">
+                <p-inputNumber
+                    mode="currency"
+                    currency="EGP"
+                    locale="en-EG"
+                    formControlName="Limit"
+                    [placeholder]="languageFactor === 'en' ? 'Enter limit' : 'أدخل الحد'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Limit')?.invalid && form.get('Limit')?.touched}">
+                </p-inputNumber>
+            </app-input-field>
+
+            <!-- Balance -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Balance' : 'الرصيد'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Balance')"
+                [isValid]="form.get('Balance')?.valid"
+                icon="pi pi-wallet">
+                <p-inputNumber
+                    mode="currency"
+                    currency="EGP"
+                    locale="en-EG"
+                    formControlName="Balance"
+                    [placeholder]="languageFactor === 'en' ? 'Enter balance' : 'أدخل الرصيد'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Balance')?.invalid && form.get('Balance')?.touched}">
+                </p-inputNumber>
+            </app-input-field>
+
+            <!-- Expiry Date -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Expiry Date' : 'تاريخ الانتهاء'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'ExpiryDate')"
+                [isValid]="form.get('ExpiryDate')?.valid"
+                icon="pi pi-calendar">
+                <p-calendar
+                    formControlName="ExpiryDate"
+                    [placeholder]="languageFactor === 'en' ? 'Select expiry date' : 'اختر تاريخ الانتهاء'"
+                    dateFormat="mm/yy"
+                    [view]="'month'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('ExpiryDate')?.invalid && form.get('ExpiryDate')?.touched}">
+                </p-calendar>
+            </app-input-field>
+
+            <!-- Status -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Status' : 'الحالة'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Status')"
+                [isValid]="form.get('Status')?.valid"
+                icon="pi pi-check-circle">
+                <p-dropdown
+                    formControlName="Status"
+                    [options]="statusOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [placeholder]="'Select status'|translateToArabic:languageFactor"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Status')?.invalid && form.get('Status')?.touched}">
+                </p-dropdown>
+            </app-input-field>
+
+            <!-- Notes -->
+            <app-input-field class="mb-3 col-12"
+                [label]="'Notes'|translateToArabic:languageFactor"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Notes')"
+                [isValid]="form.get('Notes')?.valid"
+                icon="pi pi-file-edit">
+                <textarea 
+                    pInputTextarea 
+                    formControlName="Notes"
+                    rows="3"
+                    [placeholder]="'Enter notes'|translateToArabic:languageFactor"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Notes')?.invalid && form.get('Notes')?.touched}">
+                </textarea>
+            </app-input-field>
+        </div>
+    </form>
+    
+    <div class="add-actions">
+        <button pButton (click)="submit()" class="add-btn add-save-btn" [disabled]="form.invalid">
+          <i class="pi pi-save"></i> {{languageFactor === 'en' ? 'Save' : 'حفظ'}}
+        </button>
+        <button pButton (click)="onCancel()" class="add-btn add-cancel-btn">
+          <i class="pi pi-times"></i> {{languageFactor === 'en' ? 'Cancel' : 'إلغاء'}}
+        </button>
+    </div>
+</div>

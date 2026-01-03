@@ -12,6 +12,7 @@ import { Constant } from 'src/app/core/constants/constant';
 import { PrivilegeChecked } from '../../../privilege/interfaces/privilege';
 import { FilterType } from 'src/app/shared/core/enums/filter-type.enum';
 import { NewDeleteModalComponent } from 'src/app/shared/components/new-delete-modal/new-delete-modal.component';
+import { PhonesAddEditComponent } from '../add-edit/add-edit.component';
 
 @Component({
   selector: 'app-phones-list',
@@ -120,7 +121,31 @@ export class PhonesList implements OnInit, OnDestroy {
   }
 
   addEdit(row?: any): void {
-
+    let header = '';
+    if (this.languageFactor == 'en') {
+      row ? header = 'Edit Phone' : header = 'Add Phone';
+    } else {
+      row ? header = 'تعديل الهاتف' : header = 'إضافة هاتف';
+    }
+    
+    this.ref = this.dialogService.open(
+      PhonesAddEditComponent,
+      {
+        header: header,
+        contentStyle: { overflow: 'auto' },
+        data: row,
+        baseZIndex: 10000,
+        maximizable: true,
+        resizable: true,
+        styleClass: 'lg-dialog-width'
+      }
+    );
+    
+    this.ref.onClose.subscribe((product) => {
+      if (product) {
+        //this.getAllRows();
+      }
+    });
   }
 
   deleteRow(row: any): void {

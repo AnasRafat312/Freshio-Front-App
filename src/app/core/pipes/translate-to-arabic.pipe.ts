@@ -449,7 +449,24 @@ export class TranslateToArabicPipe implements PipeTransform {
       'Select Language' : 'اختر اللغة',
       'Arabic' : 'عربي',
       'English' : 'إنجليزي',
-      'Export' : 'تصدير'
+      'Export' : 'تصدير',
+      // Additional translations for list pages
+      'Yellow Cards' : 'البطاقات الصفراء',
+      'Credit Cards' : 'بطاقات الائتمان',
+      'Bank Accounts' : 'الحسابات البنكية',
+      'Breakdown' : 'التفقيطة',
+      'Phones' : 'الهواتف',
+      'Wallets' : 'المحافظ',
+      'Traders' : 'التجار',
+      'Transaction Fees' : 'رسوم المعاملات',
+      'E-Transactions-System' : 'نظام المعاملات الإلكترونية',
+      'Sign Out' : 'تسجيل الخروج',
+      'Select' : 'اختر',
+      'Supports' : 'الدعم',
+      'Select status' : 'اختر الحالة',
+      'Select type' : 'اختر النوع',
+      'Notes' : 'ملاحظات',
+      'Enter notes' : 'أدخل ملاحظات'
     };
     const arabicNumber = String(englishText).replace(/[0-9]/g, (match) => {
       return translations[match];

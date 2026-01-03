@@ -42,25 +42,18 @@
             </button>
             <mat-divider></mat-divider>
 
-            <button mat-menu-item [matMenuTriggerFor]="companyMenu">
-                <div class="menu-item-content">
-                    <i class="pi pi-building menu-item-icon"></i>
-                    <span class="menu-item-label">{{'Switch Company'|translateToArabic:languageFactor}}</span>
-                    <!-- <i class="pi pi-angle-right sub-menu-arrow"></i> -->
-                </div>
-            </button>
-            <button mat-menu-item (click)="goToSupportsList()">
+            <!-- <button mat-menu-item (click)="goToSupportsList()">
                 <div class="menu-item-content">
                     <i class="pi pi-briefcase menu-item-icon"></i>
                     <span class="menu-item-label">{{'Supports'|translateToArabic:languageFactor}}</span>
                 </div>
-            </button>
-            <button mat-menu-item (click)="openForm()">
+            </button> -->
+            <!-- <button mat-menu-item (click)="openForm()">
                 <div class="menu-item-content">
                     <i class="pi pi-key menu-item-icon"></i>
                     <span class="menu-item-label">{{'Change Password'|translateToArabic:languageFactor}}</span>
                 </div>
-            </button>
+            </button> -->
             <button mat-menu-item (click)="toggleLanguage()">
                 <div class="menu-item-content">
                     <img *ngIf="languageFactor === 'en'" loading="lazy" src="../../assets/images/arabic-icon.png" alt="Arabic Language" class="language-flag">

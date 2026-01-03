@@ -1,0 +1,44 @@
+<div class="container">
+    <form [formGroup]="form">
+        <div class="row">
+            <!-- Name -->
+            <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Name' : 'الأسم'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Name')"
+                [isValid]="form.get('Name')?.valid"
+                icon="pi pi-user">
+                <input 
+                    pInputText 
+                    formControlName="Name"
+                    [placeholder]="languageFactor === 'en' ? 'Enter name' : 'أدخل الأسم'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Name')?.invalid && form.get('Name')?.touched}">
+            </app-input-field>
+
+            <!-- Phone Number -->
+            <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Phone Number' : 'رقم التليفون'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'PhoneNumber')"
+                [isValid]="form.get('PhoneNumber')?.valid"
+                icon="pi pi-phone">
+                <p-inputNumber
+                    mode="decimal"
+                    formControlName="PhoneNumber"
+                    [useGrouping]="false"
+                    [placeholder]="languageFactor === 'en' ? 'Enter 11 digit phone number' : 'أدخل رقم الهاتف المكون من 11 رقم'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('PhoneNumber')?.invalid && form.get('PhoneNumber')?.touched}">
+                </p-inputNumber>
+            </app-input-field>
+        </div>
+    </form>
+    
+    <div class="add-actions">
+        <button pButton (click)="submit()" class="add-btn add-save-btn" [disabled]="form.invalid">
+          <i class="pi pi-save"></i> {{languageFactor === 'en' ? 'Save' : 'حفظ'}}
+        </button>
+        <button pButton (click)="onCancel()" class="add-btn add-cancel-btn">
+          <i class="pi pi-times"></i> {{languageFactor === 'en' ? 'Cancel' : 'إلغاء'}}
+        </button>
+    </div>
+</div>

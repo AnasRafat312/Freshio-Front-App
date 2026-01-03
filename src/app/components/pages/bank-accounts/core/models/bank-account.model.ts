@@ -1,8 +1,10 @@
 import { BaseEntityModel } from 'src/app/core/common/basic.model';
 
 export interface BankAccountModel extends BaseEntityModel {
-  Name: string;
+  AccountHolderName: string;
   PhoneNumber: number;
-  CurrentBalance: number;
-  InitialBalance: number;
+  Balance: number;
+  BankName: string;
+  AccountNumber: number;
+  IBAN: number;
 }

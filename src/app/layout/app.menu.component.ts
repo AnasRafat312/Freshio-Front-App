@@ -191,11 +191,6 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ['/pages/phones'],
             },
             {
-                label: this.languagePipe.transform('Privileges', this.languageFactor),
-                icon: 'fa-solid fa-key fa-xl',
-                routerLink: ['/pages/privileges-management'],
-            },
-            {
                 label: this.languagePipe.transform('Breakdown', this.languageFactor),
                 icon: 'fa-solid fa-boxes-stacked fa-xl',
                 routerLink: ['/pages/breakdown'],

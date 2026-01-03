@@ -5,10 +5,7 @@
     object-fit: cover;
 }
 
-.in-arabic
-{
-    background: linear-gradient(225deg, #6a11cb 0%, #2575fc 100%);
-}
+// Removed gradient override for Arabic - topbar should use same colors as English
 
 .dropdown-button {
     padding: 4px 10px;

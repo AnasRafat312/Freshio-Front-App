@@ -1,0 +1,45 @@
+.container {
+  padding: 1rem;
+}
+
+.add-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.add-btn {
+  min-width: 120px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  
+  &.add-save-btn {
+    background: linear-gradient(135deg, #4b766e, #4d7686);
+    border: none;
+    
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(75, 118, 110, 0.3);
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  
+  &.add-cancel-btn {
+    background: #6c757d;
+    border: none;
+    
+    &:hover {
+      background: #5a6268;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    }
+  }
+}

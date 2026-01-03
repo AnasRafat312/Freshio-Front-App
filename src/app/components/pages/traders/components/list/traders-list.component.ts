@@ -12,6 +12,7 @@ import { Constant } from 'src/app/core/constants/constant';
 import { PrivilegeChecked } from '../../../privilege/interfaces/privilege';
 import { FilterType } from 'src/app/shared/core/enums/filter-type.enum';
 import { NewDeleteModalComponent } from 'src/app/shared/components/new-delete-modal/new-delete-modal.component';
+import { TradersAddEditComponent } from '../add-edit/add-edit.component';
 
 @Component({
   selector: 'app-traders-list',
@@ -125,7 +126,31 @@ export class TradersList implements OnInit, OnDestroy {
   }
 
   addEdit(row?: any): void {
-
+    let header = '';
+    if (this.languageFactor == 'en') {
+      row ? header = 'Edit Trader' : header = 'Add Trader';
+    } else {
+      row ? header = 'تعديل التاجر' : header = 'إضافة تاجر';
+    }
+    
+    this.ref = this.dialogService.open(
+      TradersAddEditComponent,
+      {
+        header: header,
+        contentStyle: { overflow: 'auto' },
+        data: row,
+        baseZIndex: 10000,
+        maximizable: true,
+        resizable: true,
+        styleClass: 'lg-dialog-width'
+      }
+    );
+    
+    this.ref.onClose.subscribe((product) => {
+      if (product) {
+        //this.getAllRows();
+      }
+    });
   }
 
   deleteRow(row: any): void {

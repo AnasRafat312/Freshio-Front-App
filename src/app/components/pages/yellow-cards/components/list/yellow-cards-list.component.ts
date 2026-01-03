@@ -12,6 +12,7 @@ import { Constant } from 'src/app/core/constants/constant';
 import { PrivilegeChecked } from '../../../privilege/interfaces/privilege';
 import { FilterType } from 'src/app/shared/core/enums/filter-type.enum';
 import { NewDeleteModalComponent } from 'src/app/shared/components/new-delete-modal/new-delete-modal.component';
+import { YellowCardsAddEditComponent } from '../add-edit/add-edit.component';
 
 @Component({
   selector: 'app-yellow-cards-list',
@@ -64,40 +65,50 @@ export class YellowCardsList implements OnInit, OnDestroy {
     this.language.currentLanguage.subscribe((data) => {
       this.languageFactor = data;
       this.model = {
-        Name: {
+        CardHolderName: {
           filterType: FilterType.multi,
           filterList: [],
-          header: this.languageFactor === 'en' ? 'Name' : 'الأسم',
+          header: this.languageFactor === 'en' ? 'Card Holder Name' : 'اسم حامل البطاقة',
         },
-        PhoneNumber: {
+        CardNumber: {
           filterType: FilterType.multi,
           filterList: [],
-          header: this.languageFactor === 'en' ? 'Phone Number' : 'رقم التيليفون',
+          header: this.languageFactor === 'en' ? 'Card Number' : 'رقم البطاقة',
         },
+        /* ExpiryDate: {
+          filterType: FilterType.date,
+          filterList: [],
+          header: this.languageFactor === 'en' ? 'Expiry Date' : 'تاريخ الانتهاء',
+        }, */
         MonthlyLimit: {
           filterType: FilterType.number,
           filterList: [],
           header: this.languageFactor === 'en' ? 'Monthly Limit' : 'الحد الشهري',
+        },
+        MonthlyUsed: {
+          filterType: FilterType.number,
+          filterList: [],
+          header: this.languageFactor === 'en' ? 'Monthly Used' : 'الإستخدام الشهري',
         },
         DailyLimit: {
           filterType: FilterType.number,
           filterList: [],
           header: this.languageFactor === 'en' ? 'Daily Limit' : 'الحد اليومي',
         },
+        DailyUsed: {
+          filterType: FilterType.number,
+          filterList: [],
+          header: this.languageFactor === 'en' ? 'Daily Used' : 'الإستخدام اليومي',
+        },
         Balance: {
           filterType: FilterType.number,
           filterList: [],
-          header: this.languageFactor === 'en' ? 'Balance' : 'الميزانية',
+          header: this.languageFactor === 'en' ? 'Balance' : 'الرصيد',
         },
         Status: {
           filterType: FilterType.multi,
           filterList: [],
           header: this.languageFactor === 'en' ? 'Status' : 'الحالة',
-        },
-        NationalID: {
-          filterType: FilterType.multi,
-          filterList: [],
-          header: this.languageFactor === 'en' ? 'National ID' : 'الرقم القومي',
         },
       };
     });
@@ -145,7 +156,31 @@ export class YellowCardsList implements OnInit, OnDestroy {
   }
 
   addEdit(row?: any): void {
-
+    let header = '';
+    if (this.languageFactor == 'en') {
+      row ? header = 'Edit Yellow Card' : header = 'Add Yellow Card';
+    } else {
+      row ? header = 'تعديل البطاقة الصفراء' : header = 'إضافة بطاقة صفراء';
+    }
+    
+    this.ref = this.dialogService.open(
+      YellowCardsAddEditComponent,
+      {
+        header: header,
+        contentStyle: { overflow: 'auto' },
+        data: row,
+        baseZIndex: 10000,
+        maximizable: true,
+        resizable: true,
+        styleClass: 'lg-dialog-width'
+      }
+    );
+    
+    this.ref.onClose.subscribe((product) => {
+      if (product) {
+        //this.getAllRows();
+      }
+    });
   }
 
   deleteRow(row: any): void {
