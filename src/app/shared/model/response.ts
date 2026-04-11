@@ -1,6 +1,7 @@
 export interface ResponseModel {
-    massageType: number,
-    message: string,
-    response: boolean,
-    objectID: number
+    //massageType: number,
+    Errors: string[],
+    Message: string,
+    Success: boolean,
+    Data: any
 }

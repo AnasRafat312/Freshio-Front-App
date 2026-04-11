@@ -1,0 +1,42 @@
+// ========================================
+// Table Styles
+// ========================================
+
+// Table Cell Alignment
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    text-align: center !important;
+    vertical-align: middle;
+}
+
+// Table Button Column
+.td-btn {
+    width: 55px;
+}
+
+[dir="rtl"] {
+    .td-btn {
+        text-align: right;
+    }
+}
+
+// Responsive Table Styles
+@media (max-width: 576px) {
+    .p-datatable {
+        font-size: 0.875rem;
+
+        .p-datatable-thead > tr > th {
+            padding: 0.5rem !important;
+            font-size: 0.75rem !important;
+        }
+
+        .p-datatable-tbody > tr > td {
+            padding: 0.5rem !important;
+            font-size: 0.875rem !important;
+        }
+    }
+}

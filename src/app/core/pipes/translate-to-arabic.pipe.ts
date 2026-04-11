@@ -449,7 +449,110 @@ export class TranslateToArabicPipe implements PipeTransform {
       'Select Language' : 'اختر اللغة',
       'Arabic' : 'عربي',
       'English' : 'إنجليزي',
-      'Export' : 'تصدير'
+      'Export' : 'تصدير',
+      // Additional translations for list pages
+      'Yellow Cards' : 'البطاقات الصفراء',
+      'Credit Cards' : 'بطاقات الائتمان',
+      'Bank Accounts' : 'الحسابات البنكية',
+      'Breakdown' : 'التفقيطة',
+      'Phones' : 'الهواتف',
+      'Wallets' : 'المحافظ',
+      'Traders' : 'التجار',
+      'Transaction Fees' : 'رسوم المعاملات',
+      'E-Transactions-System' : 'نظام المعاملات الإلكترونية',
+      'Sign Out' : 'تسجيل الخروج',
+      'Select' : 'اختر',
+      'Supports' : 'الدعم',
+      'Select status' : 'اختر الحالة',
+      'Select type' : 'اختر النوع',
+      'Notes' : 'ملاحظات',
+      'Enter notes' : 'أدخل ملاحظات',
+      'New Transaction': 'معاملة جديدة',
+      'No data available' : 'لا توجد بيانات متاحة',
+      'Pending': 'قيد الانتظار',
+      'Completed': 'مكتمل',
+      'Failed': 'فشل',
+      'Total Amount': 'المبلغ الإجمالي',
+      // Login page translations
+      'Email or Username is required' : 'البريد الإلكتروني أو اسم المستخدم مطلوب',
+      'Welcome to ET System' : 'مرحباً بك في نظام المعاملات الإلكترونية',
+      
+      // Account Type Enum translations
+      ' Wallet': 'محفظة',
+      ' Bank Account': 'حساب بنكي',
+      ' Yellow Card': 'بطاقة صفراء',
+      ' Credit Card': 'بطاقة ائتمان',
+      ' Trader': 'تاجر',
+      
+      // Transaction Type Enum translations
+      ' Deposit': 'إيداع',
+      ' Withdrawal': 'سحب',
+      ' Transfer': 'تحويل',
+      ' Payment': 'دفع',
+      ' Refund': 'استرداد',
+      ' Internal Transfer': 'تحويل داخلي',
+      
+      // Channel Type Enum translations
+      ' ATM': 'صراف آلي',
+      ' Instapay': 'إنستاباي',
+      ' Fawry': 'فوري',
+      ' Wallet Providor': 'برنامج محفظة',
+      ' POS': 'نقطة بيع',
+      ' Fawry Machine': 'مكينة فوري',
+      'Fawry Machines': 'مكينات فوري',
+      
+      // Adjustments-related translations
+      'Adjustments': 'التعديلات',
+      'Select Adjustments': 'اختر التعديلات',
+      'Select adjustments to apply': 'اختر التعديلات للتطبيق',
+      'Base Amount': 'المبلغ الأساسي',
+      'Total Increase': 'إجمالي الزيادة',
+      'Total Decrease': 'إجمالي النقصان',
+      'Net Amount': 'المبلغ الصافي',
+      'Fill in transaction details to see preview': 'املأ تفاصيل المعاملة لرؤية المعاينة',
+      'Applied Adjustments': 'التعديلات المطبقة',
+      'Transaction Details': 'تفاصيل المعاملة',
+      'Transaction Information': 'معلومات المعاملة',
+      'Transaction Number:': 'رقم المعاملة:',
+      'Transaction Date:': 'تاريخ المعاملة:',
+      'Transaction Type:': 'نوع المعاملة:',
+      'Channel:': 'القناة:',
+      'Reference Number:': 'الرقم المرجعي:',
+      'Account Information': 'معلومات الحساب',
+      'Account Type:': 'نوع الحساب:',
+      'Account Reference:': 'مرجع الحساب:',
+      'Recipient Information': 'معلومات المستلم',
+      'Recipient Account Type:': 'نوع حساب المستلم:',
+      'Recipient Reference:': 'مرجع المستلم:',
+      'Financial Details': 'التفاصيل المالية',
+      'Base Amount:': 'المبلغ الأساسي:',
+      'Total Increase:': 'إجمالي الزيادة:',
+      'Total Decrease:': 'إجمالي النقصان:',
+      'Net Amount:': 'المبلغ الصافي:',
+      'Back to List': 'العودة للقائمة',
+      'Transaction not found': 'المعاملة غير موجودة',
+      'Total Taxes': 'إجمالي الضرائب',
+      'Total Deductables': 'إجمالي الخصومات',
+      
+      // Adjustment Type translations
+      'Tax': 'ضريبة',
+      'Fee': 'رسوم',
+      'Cashback': 'استرداد نقدي',
+      'Commission': 'عمولة',
+      'Discount': 'خصم',
+      
+      // Adjustment Direction translations
+      'Increase': 'زيادة',
+      'Decrease': 'نقصان',
+      
+      // Adjustment Applies To translations
+      'Sender': 'المرسل',
+      'Receiver': 'المستقبل',
+      'System': 'النظام',
+      
+      // Calculation Type translations
+      'Fixed': 'ثابت',
+      'Percentage': 'نسبة مئوية',
     };
     const arabicNumber = String(englishText).replace(/[0-9]/g, (match) => {
       return translations[match];

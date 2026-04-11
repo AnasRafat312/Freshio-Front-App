@@ -1,0 +1,106 @@
+<div class="container">
+    <form [formGroup]="form">
+        <div class="row">
+            <!-- Account Holder Name -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Account Holder Name' : 'اسم صاحب الحساب'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'AccountHolderName')"
+                [isValid]="form.get('AccountHolderName')?.valid"
+                icon="pi pi-user">
+                <input 
+                    pInputText 
+                    formControlName="AccountHolderName"
+                    [placeholder]="languageFactor === 'en' ? 'Enter account holder name' : 'أدخل اسم صاحب الحساب'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('AccountHolderName')?.invalid && form.get('AccountHolderName')?.touched}">
+            </app-input-field>
+
+            <!-- Phone Number -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Phone Number' : 'رقم التليفون'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'PhoneNumber')"
+                [isValid]="form.get('PhoneNumber')?.valid"
+                icon="pi pi-phone">
+                <p-inputNumber
+                    mode="decimal"
+                    formControlName="PhoneNumber"
+                    [useGrouping]="false"
+                    [placeholder]="languageFactor === 'en' ? 'Enter 11 digit phone number' : 'أدخل رقم الهاتف المكون من 11 رقم'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('PhoneNumber')?.invalid && form.get('PhoneNumber')?.touched}">
+                </p-inputNumber>
+            </app-input-field>
+
+            <!-- Bank Name -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Bank Name' : 'اسم البنك'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'BankName')"
+                [isValid]="form.get('BankName')?.valid"
+                icon="pi pi-building">
+                <input 
+                    pInputText 
+                    formControlName="BankName"
+                    [placeholder]="languageFactor === 'en' ? 'Enter bank name' : 'أدخل اسم البنك'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('BankName')?.invalid && form.get('BankName')?.touched}">
+            </app-input-field>
+
+            <!-- Account Number -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Account Number' : 'رقم الحساب'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'AccountNumber')"
+                [isValid]="form.get('AccountNumber')?.valid"
+                icon="pi pi-hashtag">
+                <input 
+                    pInputText 
+                    formControlName="AccountNumber"
+                    [placeholder]="languageFactor === 'en' ? 'Enter account number' : 'أدخل رقم الحساب'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('AccountNumber')?.invalid && form.get('AccountNumber')?.touched}">
+            </app-input-field>
+
+            <!-- IBAN -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'IBAN' : 'الآيبان'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'IBAN')"
+                [isValid]="form.get('IBAN')?.valid"
+                icon="pi pi-credit-card">
+                <input 
+                    pInputText 
+                    formControlName="IBAN"
+                    [placeholder]="languageFactor === 'en' ? 'Enter IBAN (e.g., EG380019000500000000263180002)' : 'أدخل الآيبان'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('IBAN')?.invalid && form.get('IBAN')?.touched}">
+            </app-input-field>
+
+            <!-- Balance -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Balance' : 'الرصيد'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Balance')"
+                [isValid]="form.get('Balance')?.valid"
+                icon="pi pi-wallet">
+                <p-inputNumber
+                    mode="currency"
+                    currency="EGP"
+                    locale="en-EG"
+                    [min]="0"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="3"
+                    formControlName="Balance"
+                    [placeholder]="languageFactor === 'en' ? 'Enter balance' : 'أدخل الرصيد'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Balance')?.invalid && form.get('Balance')?.touched}">
+                </p-inputNumber>
+            </app-input-field>
+        </div>
+    </form>
+    
+    <div class="add-actions">
+        <button pButton (click)="submit()" class="add-btn add-save-btn" [disabled]="form.invalid">
+          <i class="pi pi-save"></i> {{languageFactor === 'en' ? 'Save' : 'حفظ'}}
+        </button>
+        <button pButton (click)="onCancel()" class="add-btn add-cancel-btn">
+          <i class="pi pi-times"></i> {{languageFactor === 'en' ? 'Cancel' : 'إلغاء'}}
+        </button>
+    </div>
+</div>

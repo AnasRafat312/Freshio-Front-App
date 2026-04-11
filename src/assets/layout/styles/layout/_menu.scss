@@ -11,6 +11,7 @@
     transition: transform .2s, left .2s;
     background: $sidebar-bg-gradient;
     padding: .5rem 1.5rem;
+    padding-bottom: 2.5rem;
     box-shadow: $box-shadow;
 }
 /*in arabic*/
@@ -99,6 +100,7 @@
     margin: 0;
     padding: 0;
     list-style-type: none;
+    overflow: auto;
 
     .layout-root-menuitem {
         >.layout-menuitem-root-text {
@@ -144,14 +146,16 @@
             outline: 0 none;
             color: $sidebar-text;
             cursor: pointer;
-            padding: .75rem 1rem;
+            padding: .5rem .75rem;
             border-radius: 10px;
             transition: all $transitionDuration ease;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 500;
+            font-size: 1.4rem;
 
             .layout-menuitem-icon {
                 margin-right: .5rem;
+                font-size: 1.4rem;
             }
 
             .layout-submenu-toggler {
@@ -229,11 +233,22 @@
             outline: 0 none;
             color: $sidebar-text;
             cursor: pointer;
-            padding: .75rem 1rem;
+            padding: .5rem .75rem;
             border-radius: 10px;
             transition: all $transitionDuration ease;
-            flex-direction: row-reverse;
-            gap: 10px;
+            font-size: 1.4rem;
+            // Keep normal flex direction but adjust icon/text margins
+            
+            .layout-menuitem-icon {
+                margin-right: 0;
+                margin-left: 0.5rem;
+                font-size: 1.4rem;
+            }
+            
+            .layout-submenu-toggler {
+                margin-left: 0;
+                margin-right: auto;
+            }
         }
     }
 }

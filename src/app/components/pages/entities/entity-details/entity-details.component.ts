@@ -51,7 +51,7 @@ export class EntityDetailsComponent implements OnInit{
   moritalStatus:any
   birthDate:any
   passportNo:any
-  nationalId:any
+  NationalId:any
   attatchments:any[] = []
   moritalList = []
   genderList = []
@@ -252,12 +252,12 @@ export class EntityDetailsComponent implements OnInit{
     this.gender = data.gender;
     this.birthDate = data.birthDate;
     this.passportNo = data.passportNo;
-    this.nationalId = data.nationalId;
+    this.NationalId = data.NationalId;
     if(this.lootcomDate || this.taxCardEndDate ||
       this.commercialNo || this.taxCardStartDate ||
       this.StartDate || this.taxRegNo ||
       this.gender || this.birthDate ||
-      this.passportNo || this.nationalId
+      this.passportNo || this.NationalId
       ) {
         this.isPersonData = true
       }else {
@@ -302,8 +302,8 @@ export class EntityDetailsComponent implements OnInit{
   }
   setAttatchmentsList(data:any) {
 
-    if(data?.personNationalIDAttatchments &&data?.personNationalIDAttatchments?.length > 0) {
-      data?.personNationalIDAttatchments.forEach(ele => {
+    if(data?.personNationalIdAttatchments &&data?.personNationalIdAttatchments?.length > 0) {
+      data?.personNationalIdAttatchments.forEach(ele => {
         ele.AttatchmentTypeName = 'Person-National-ID'
         this.attatchments.push(ele)
       })

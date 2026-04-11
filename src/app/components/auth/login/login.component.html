@@ -10,7 +10,7 @@
     <div class="left-panel">
       <div class="branding">
         <img src="../../../../assets/images/new-logo.png" loading="lazy" alt="Company Logo">
-        <h1>{{'Welcome to Assemble'|translateToArabic:languageFactor}}</h1>
+        <h1>{{'Welcome to Hesabato System'|translateToArabic:languageFactor}}</h1>
         <!-- <p>Your premier solution for automotive management. Sign in to continue.</p> -->
         <!-- <div class="version">Beta Version</div> -->
       </div>
@@ -19,25 +19,24 @@
     <!-- Right Panel: Forms -->
     <div class="right-panel">
       <!-- Back Button -->
-      <button type="button" (click)="backToLogin()" class="back-btn" *ngIf="showRegisteration || showCom">
+      <!-- <button type="button" (click)="backToLogin()" class="back-btn" *ngIf="showRegisteration || showCom">
         <mat-icon>arrow_back</mat-icon>
-      </button>
+      </button> -->
 
       <!-- Login Form -->
-      <div class="form-wrapper" *ngIf="showLogin">
+      <div class="form-wrapper" *ngIf="true">
         <h2 class="form-title">{{'Sign In'|translateToArabic:languageFactor}}</h2>
         <form [formGroup]="form" (ngSubmit)="submit()">
-            <!-- Email -->
+            <!-- Email or Username -->
             <app-input-field
-            [label]="'Email'"
+            [label]="languageFactor === 'ar' ? 'البريد الإلكتروني أو اسم المستخدم' : 'Email or Username'"
             [languageFactor]="languageFactor"
-            [isRequired]="hasRequiredValidator(form,'Email')"
-            [isValid]="form.get('Email')?.valid"
-            icon="pi pi-envelope">
-            <input type="email" pInputText formControlName="Email" id="inputEmail4" [placeholder]="languageFactor === 'ar' ? 'البريد' :'Email address'">
-            <div *ngIf="form.get('Email').touched && form.get('Email').invalid" class="error-input text-danger">
-              <div *ngIf="form.get('Email').hasError('required')">{{'Email is required'|translateToArabic:languageFactor}}</div>
-              <div *ngIf="form.get('Email').hasError('email')">{{'Please, enter valid email address'|translateToArabic:languageFactor}}</div>
+            [isRequired]="hasRequiredValidator(form,'Username')"
+            [isValid]="form.get('Username')?.valid"
+            icon="pi pi-user">
+            <input type="text" pInputText formControlName="Username" id="inputUsername" [placeholder]="languageFactor === 'ar' ? 'أدخل البريد الإلكتروني أو اسم المستخدم' : 'Enter email or username'">
+            <div *ngIf="form.get('Username').touched && form.get('Username').invalid" class="error-input text-danger">
+              <div *ngIf="form.get('Username').hasError('required')">{{'Email or Username is required'|translateToArabic:languageFactor}}</div>
             </div>
         </app-input-field>
             <!-- Password -->
@@ -53,15 +52,15 @@
             </div>
         </app-input-field>
           <button [disabled]="form.invalid" pButton pRipple [label]="languageFactor === 'ar' ? 'سجل الدخول' :'Sign In'" class="w-full p-3 text-xl"></button>
-          <div class="form-links">
+          <!-- <div class="form-links">
             <a (click)="registerationForm()">{{'Register'|translateToArabic:languageFactor}}</a>
             <a (click)="forgetPassword()">{{'Forget Password'|translateToArabic:languageFactor}}?</a>
-          </div>
+          </div> -->
         </form>
       </div>
 
       <!-- Company Selection Form -->
-      <div class="form-wrapper" *ngIf="showCom">
+      <div class="form-wrapper" *ngIf="false">
         <h2 class="form-title">{{'Select Company'|translateToArabic:languageFactor}}</h2>
         <form [formGroup]="formCompany" (ngSubmit)="chooseCom()">
             <!-- Company -->
@@ -89,7 +88,7 @@
       </div>
 
       <!-- Registration Form -->
-      <div class="form-wrapper" *ngIf="showRegisteration">
+      <div class="form-wrapper" *ngIf="false">
         <h2 class="form-title">{{'Registration'|translateToArabic:languageFactor}}</h2>
         <form [formGroup]="RegisterForm" (ngSubmit)="RegistrationSubmit()">
           <div class="registration-grid">

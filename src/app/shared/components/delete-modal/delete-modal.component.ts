@@ -27,40 +27,40 @@ export class DeleteModalComponent {
     if(this.data?.model) {
       this.deleteService.deleteFun(this.data?.url,undefined,this.data?.model).subscribe(
         (res: ResponseModel) => {
-            if(res && res?.response) {
-                this.messageService.add({ severity: 'success', summary: 'The Record deleted successfuly', detail: res?.message });
+            if(res && res?.Success) {
+                this.messageService.add({ severity: 'success', summary: 'The Record deleted successfuly', detail: res?.Message });
             }else {
                 this.messageService.add({
                     severity: 'warn',
                     summary: 'Warn',
-                    detail: res?.message,
+                    detail: res?.Message,
                 });
             }
           this.dialogRef.close(true);
 
         },
         (err: any) => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: err?.message });
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: err?.Message });
 
         }
        )
       }else {
       this.deleteService.deleteFun(this.data?.url,this.data?.id).subscribe(
         (res: ResponseModel) => {
-            if(res && res?.response) {
-                this.messageService.add({ severity: 'success', summary: 'The Record deleted successfuly', detail: res?.message });
+            if(res && res?.Success) {
+                this.messageService.add({ severity: 'success', summary: 'The Record deleted successfuly', detail: res?.Message });
             }else {
                 this.messageService.add({
                     severity: 'warn',
                     summary: 'Warn',
-                    detail: res?.message,
+                    detail: res?.Message,
                 });
             }
           this.dialogRef.close(true);
 
         },
         (err: any) => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: err?.message });
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: err?.Message });
 
         }
        )

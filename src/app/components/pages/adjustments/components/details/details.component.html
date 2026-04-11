@@ -1,0 +1,120 @@
+<div class="details-container">
+  <div class="details-card">
+    <div class="details-header">
+      <i class="pi pi-sliders-h header-icon"></i>
+      <h3>{{ languageFactor === 'en' ? 'Adjustment Details' : 'تفاصيل التعديل' }}</h3>
+    </div>
+
+    <div class="details-body">
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-hashtag"></i>
+          <span>{{ languageFactor === 'en' ? 'ID' : 'المعرف' }}</span>
+        </div>
+        <div class="detail-value">{{ adjustmentData?.Id }}</div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-tag"></i>
+          <span>{{ languageFactor === 'en' ? 'Name' : 'الاسم' }}</span>
+        </div>
+        <div class="detail-value">{{ adjustmentData?.Name }}</div>
+      </div>
+
+      <div class="detail-row" *ngIf="adjustmentData?.Description">
+        <div class="detail-label">
+          <i class="pi pi-align-left"></i>
+          <span>{{ languageFactor === 'en' ? 'Description' : 'الوصف' }}</span>
+        </div>
+        <div class="detail-value">{{ adjustmentData?.Description }}</div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-tag"></i>
+          <span>{{ languageFactor === 'en' ? 'Adjustment Type' : 'نوع التعديل' }}</span>
+        </div>
+        <div class="detail-value">
+          <span class="type-badge adjustment-type-badge">
+            {{ adjustmentTypeLabel }}
+          </span>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-arrows-v"></i>
+          <span>{{ languageFactor === 'en' ? 'Direction' : 'الاتجاه' }}</span>
+        </div>
+        <div class="detail-value">
+          <span class="type-badge" [ngClass]="{'increase-badge': adjustmentData?.Direction === 1, 'decrease-badge': adjustmentData?.Direction === 2}">
+            {{ directionLabel }}
+          </span>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-calculator"></i>
+          <span>{{ languageFactor === 'en' ? 'Calculation Type' : 'نوع الحساب' }}</span>
+        </div>
+        <div class="detail-value">
+          <span class="type-badge" [ngClass]="{'percentage-badge': adjustmentData?.CalculationType === 2, 'fixed-badge': adjustmentData?.CalculationType === 1}">
+            {{ calculationTypeLabel }}
+          </span>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-money-bill"></i>
+          <span>{{ languageFactor === 'en' ? 'Value' : 'القيمة' }}</span>
+        </div>
+        <div class="detail-value amount-value">
+          {{ adjustmentData?.Value | currency:'EGP':'symbol':'1.2-2' }}
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-users"></i>
+          <span>{{ languageFactor === 'en' ? 'Applies To' : 'ينطبق على' }}</span>
+        </div>
+        <div class="detail-value">
+          <span class="type-badge applies-to-badge">
+            {{ appliesToLabel }}
+          </span>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-check-circle"></i>
+          <span>{{ languageFactor === 'en' ? 'Status' : 'الحالة' }}</span>
+        </div>
+        <div class="detail-value">
+          <span class="type-badge" [ngClass]="{'active-badge': adjustmentData?.IsActive, 'inactive-badge': !adjustmentData?.IsActive}">
+            {{ adjustmentData?.IsActive ? (languageFactor === 'en' ? 'Active' : 'نشط') : (languageFactor === 'en' ? 'Inactive' : 'غير نشط') }}
+          </span>
+        </div>
+      </div>
+
+      <div class="detail-row" *ngIf="adjustmentData?.CreatedDateTime">
+        <div class="detail-label">
+          <i class="pi pi-calendar-plus"></i>
+          <span>{{ languageFactor === 'en' ? 'Created Date' : 'تاريخ الإنشاء' }}</span>
+        </div>
+        <div class="detail-value">{{ adjustmentData?.CreatedDateTime | date:'medium' }}</div>
+      </div>
+
+      <div class="detail-row" *ngIf="adjustmentData?.CreatedBy">
+        <div class="detail-label">
+          <i class="pi pi-user"></i>
+          <span>{{ languageFactor === 'en' ? 'Created By' : 'أنشئ بواسطة' }}</span>
+        </div>
+        <div class="detail-value">{{ adjustmentData?.CreatedBy }}</div>
+      </div>
+    </div>
+  </div>
+</div>

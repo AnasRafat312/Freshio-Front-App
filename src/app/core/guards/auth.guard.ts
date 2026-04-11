@@ -1,126 +1,85 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable, of, take, tap, map, catchError } from 'rxjs';
-import { PrivilegeChecked } from 'src/app/components/pages/privilege/interfaces/privilege';
-import { PrivilegeService } from 'src/app/components/pages/privilege/privilege.service';
-import { AppMenuComponent } from 'src/app/layout/app.menu.component';
-import { MenuService } from 'src/app/layout/app.menu.service';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { 
+  CanActivate, 
+  Router, 
+  ActivatedRouteSnapshot, 
+  RouterStateSnapshot,
+  UrlTree 
+} from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
 
+/**
+ * SECURE AUTHENTICATION GUARD
+ * 
+ * Responsibilities:
+ * 1. Protect routes from unauthorized access
+ * 2. Check for valid access token in memory
+ * 3. Attempt silent refresh if no token exists
+ * 4. Redirect to login if authentication fails
+ * 
+ * Security Features:
+ * - Uses in-memory token validation
+ * - Attempts silent refresh before denying access
+ * - Preserves intended destination URL for post-login redirect
+ * - No localStorage dependency
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
-  privilegecheckedList: any[] = [];
-  listPagesMenue:any[]=[]
   constructor(
-        private constant: Constant,
     private router: Router,
-    private privilegeService: PrivilegeService,
-    private layoutService: LayoutService,
-    private menuService:MenuService
-  ) {
+    private authService: AuthService
+  ) {}
 
-  }
-
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-
-
-    // Get the current full URL from state
-    const currentUrl = state.url;
-
-    // Check if the company ID exists in local storage
-    const isCompany = localStorage.getItem('companyId');
-    if (!isCompany) {
-      this.router.navigate(['/notfound']);
-      return of(false);
-    }
-/*     this.menuService.currentMenue$.subscribe(
-      menuData => {
-      if (menuData) {
-        this.listPagesMenue=menuData;
-        this.privilegeService.checkedPrivilegeList.subscribe(
-          data => {
-            this.privilegecheckedList = data;
-            const isActive = this.showActionBaseOnPrivilege(this.privilegecheckedList, currentUrl);
-            if (isActive) {
-              return (true);
-            } else {
-              this.router.navigate(['/notfound']);
-              return (false);
-            }
-          }
-        );
-      }
-      else{
-        this.router.navigate(['/notfound']);
-        return false
-      }
-    }); */
-    return of(true);
-  }
-  // Check privileges based on current URL path
-  showActionBaseOnPrivilege(pages: PrivilegeChecked[], currentUrl: string): boolean {
+  /**
+   * CAN ACTIVATE
+   * Determines if route can be activated based on authentication status
+   * 
+   * Flow:
+   * 1. Check if user has valid access token
+   * 2. If yes, allow access
+   * 3. If no, attempt silent refresh
+   * 4. If refresh succeeds, allow access
+   * 5. If refresh fails, redirect to login
+   * 
+   * @param route - Activated route snapshot
+   * @param state - Router state snapshot
+   * @returns Observable<boolean | UrlTree> - true if access allowed, UrlTree for redirect
+   */
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
-     this.menuService.currentMenue$.subscribe(data => {
-      if (data) {
-        this.listPagesMenue=data;
-      }
-    });
-
-    try {
-      // Extract route path after 'pages/'
-      const regex = /pages\/([^?#]+)/;
-      const match = currentUrl.match(regex);
-
-      if (!match) {
-        return false;
-      }
-
-      const routePath = match[1];
-
-      if (!pages || pages.length === 0) {
-        this.router.navigate(['/auth/login']);
-        return false;
-      }
-
-      // Check if the current route path matches any privileged page
-      // First check if the route path is in the routesList from MenuService
-
-
-      // Check if the route path matches any privilege
-      let hasValidPage = false;
-
-      // Check if the route path is directly in the list
-      if (this.listPagesMenue && this.listPagesMenue.length > 0) {
-        hasValidPage = this.listPagesMenue.some(route => {
-          const pageMatch = routePath === route ||
-                           routePath.startsWith(route + '/');
-          return pageMatch;
-        });
-      }
-
-      // If no match found, check against the page privileges directly
-      if (!hasValidPage && pages && pages.length > 0) {
-        hasValidPage = pages.some(page => {
-          const pageMatch = routePath === page.page ||
-                          routePath.startsWith(page.page + '/');
-          return pageMatch;
-        });
-      }
-
-      if (hasValidPage) {
-        return true;
-      } else {
-        this.router.navigate(['/notfound']);
-        return false;
-      }
-    } catch (error) {
-      this.router.navigate(['/auth/login']);
-      return false;
+    // Check if user is already authenticated (has access token in memory)
+    if (this.authService.isAuthenticated()) {
+      return true;
     }
-  }
 
+    // No access token - attempt silent refresh using refresh token cookie
+    return this.authService.silentRefresh().pipe(
+      map(success => {
+        if (success) {
+          // Silent refresh successful - allow access
+          return true;
+        } else {
+          // Silent refresh failed - redirect to login
+          // Preserve intended URL for post-login redirect
+          return this.router.createUrlTree(['/auth/login'], {
+            queryParams: { returnUrl: state.url }
+          });
+        }
+      }),
+      catchError(() => {
+        // Error during refresh - redirect to login
+        return [this.router.createUrlTree(['/auth/login'], {
+          queryParams: { returnUrl: state.url }
+        })];
+      })
+    );
+  }
 }

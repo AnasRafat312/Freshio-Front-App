@@ -1,0 +1,232 @@
+// ========================================
+// Form Styles
+// ========================================
+
+// Brand Colors
+$primary-blue: #006B8F;
+$primary-orange: #F5A623;
+
+// Custom Input Field Styles
+.add-field {
+    margin-bottom: 1.3rem;
+
+    .add-input-group {
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        background: #fff;
+        border-radius: 0.7rem;
+        box-shadow: 0 1px 4px rgba(80, 120, 220, 0.09);
+        padding: 0.7rem 1.2rem;
+        gap: 0.7rem;
+        border: 1px solid #e7eef5;
+
+        .add-input-icon {
+            color: #199385;
+            font-size: 1.3rem;
+            margin-top: 3px;
+        }
+
+        .add-floating-label {
+            font-size: 1.08rem;
+            font-weight: 500;
+            color: #38507a;
+            margin-right: 0.6rem;
+        }
+
+        .add-input {
+            outline: none;
+            background: transparent;
+            font-size: 1.09rem;
+            width: 100%;
+        }
+
+        & > * {
+            outline: none;
+            background: transparent;
+            font-size: 1.09rem;
+            width: 100%;
+        }
+    }
+}
+
+// Role Checkbox Styles
+.add-role-checkbox-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.add-role-checkbox-label {
+    font-size: 1.08rem;
+    font-weight: 500;
+    color: #38507a;
+    margin-left: 0.5rem;
+    margin-right: 1.5rem;
+}
+
+// Form Action Buttons
+.add-actions {
+    display: flex;
+    gap: 1.1rem;
+    justify-content: center;
+    margin-top: 1.4rem;
+
+    .add-btn {
+        border-radius: 2rem;
+        font-weight: 600;
+        font-size: 1.09rem;
+        padding: 0.6rem 2.2rem;
+        box-shadow: 0 2px 10px rgba(80, 120, 220, 0.09);
+        transition: transform 0.23s, box-shadow 0.14s, background 0.18s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: none;
+    }
+
+    .add-save-btn {
+        background: linear-gradient(90deg, #41a1b3 0%, #041924 100%) !important;
+        color: #fff !important;
+
+        &:hover,
+        &:focus {
+            background: linear-gradient(90deg, #4bbbce 0%, #072c3f 100%) !important;
+            transform: scale(1.07) translateY(-2px);
+            box-shadow: 0 4px 16px rgba(54, 209, 196, 0.14);
+        }
+
+        &:active {
+            transform: scale(0.97);
+        }
+    }
+
+    .add-cancel-btn {
+        background: linear-gradient(90deg, #f85032 0%, #e73827 100%) !important;
+        color: #fff !important;
+
+        &:hover,
+        &:focus {
+            background: linear-gradient(90deg, #fa7268 0%, #e73827 100%) !important;
+            transform: scale(1.07) translateY(-2px);
+            box-shadow: 0 4px 16px rgba(220, 80, 80, 0.13);
+        }
+
+        &:active {
+            transform: scale(0.97);
+        }
+    }
+}
+
+// Upload Container
+.upload-container {
+    width: 100%;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 80px;
+    border: 2px dashed rgba(228, 235, 242, 0.6);
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    margin-bottom: 10px;
+    cursor: pointer;
+
+    &:hover {
+        border-color: #75799d;
+    }
+
+    &.dragover {
+        border: 2px dashed #007bff;
+    }
+
+    .upload-label {
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
+        border-radius: 10px;
+        position: relative;
+        width: 50%;
+        padding: 5px 0px;
+
+        .upload-input {
+            visibility: hidden;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .upload-icon {
+            font-size: 30px;
+        }
+
+        .selectedFileName {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            color: #1cb009;
+        }
+    }
+}
+
+// Required Field Indicator
+.required-sign {
+    font-weight: bold;
+    color: rgb(220, 53, 69);
+}
+
+// Input Number Spin Button Hide
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+// Button Container
+.button-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: end;
+    gap: 6px;
+    align-items: center;
+}
+
+// Responsive Form Styles
+@media (max-width: 576px) {
+    .files-img {
+        width: 30px;
+    }
+
+    .upload-img {
+        width: 20px;
+    }
+
+    .upload-label {
+        font-size: 10px !important;
+    }
+
+    .upload-container {
+        height: 60px;
+
+        .upload-label {
+            font-size: 0.75rem !important;
+        }
+    }
+
+    .add-field {
+        margin-bottom: 0.75rem;
+
+        .add-floating-label {
+            font-size: 0.875rem !important;
+        }
+    }
+}

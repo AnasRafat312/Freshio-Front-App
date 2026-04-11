@@ -8,10 +8,10 @@ export class AuthGuard  {
   constructor(private router: Router) {}
 
   canActivate(): boolean {
-    const userId = localStorage.getItem('userId');
-    const companyId = localStorage.getItem('companyId');
+    // Check if token exists in local storage
+    const token = localStorage.getItem('token');
 
-    if (userId != null && userId != "" && userId != undefined &&companyId != null && companyId != undefined && companyId != "") {
+    if (token) {
       return true; // Allow access to the route
     } else {
       this.router.navigate(['/auth/login']);

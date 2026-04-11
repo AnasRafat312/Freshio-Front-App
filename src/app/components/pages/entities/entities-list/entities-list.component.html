@@ -597,7 +597,7 @@
                             <p-columnFilter
                             [ngClass]="{'hidden':IsGlobal}"
                                 type="boolean"
-                                field="IsNationalID"
+                                field="IsNationalId"
                                 display="menu"
                             />
                         </th>
@@ -717,9 +717,9 @@
                                 style="font-size: 1.5rem"
                                 [ngClass]="{
                                     'text-green-500 pi-check-circle':
-                                        entity?.IsNationalID,
+                                        entity?.IsNationalId,
                                     'text-red-500 pi-times-circle':
-                                        !entity?.IsNationalID
+                                        !entity?.IsNationalId
                                 }"
                             ></i>
                         </td>

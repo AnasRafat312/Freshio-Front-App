@@ -76,6 +76,7 @@ export class MainInterceptorInterceptor implements HttpInterceptor {
         'Accept-Language': this.languageService.getCurrentLanguage(),
         'Authorization': `Bearer ${token}`,
         'CompanyId': `${localStorage.getItem('companyId')}`,
+        'ngrok-skip-browser-warning': `true`,
         'AccountId': `${localStorage.getItem('accountId')}`,
         'uid':`${localStorage.getItem('userId')}`
       };

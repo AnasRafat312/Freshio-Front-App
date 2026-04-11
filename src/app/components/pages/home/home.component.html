@@ -1,6 +1,6 @@
 <div class="container-fluid">
-    <div class="row text-center">
-        <div *ngIf="Wallets" class="col-md-3 box">
+    <div class="row text-center justify-content-center">
+        <div *ngIf="Wallets" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
             <a class="card" routerLink="/pages/wallets">
                 <div class="card-body">
                     <i class="fa-solid fa-wallet"></i>
@@ -8,11 +8,24 @@
                     <h5 *ngIf="languageFactor === 'ar'" class="card-title">المحافظ</h5>
                     <span *ngIf="languageFactor === 'en'" class="card-description">Manage wallets and transactions.</span>
                     <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة المحافظ والمعاملات.</span>
+                    
+                    <div *ngIf="balanceSummary" class="card-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">{{languageFactor === 'en' ? 'Count' : 'العدد'}}:</span>
+                            <span class="stat-value">{{balanceSummary.ElectronicWalletsCount}}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">{{languageFactor === 'en' ? 'Balance' : 'الرصيد'}}:</span>
+                            <span class="stat-value" [ngClass]="getBalanceClass(balanceSummary.ElectronicWalletsBalance)">
+                                {{balanceSummary.ElectronicWalletsBalance | currency:'EGP':'symbol':'1.2-2'}}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </a>
         </div>
 
-        <div *ngIf="BankAccounts" class="col-md-3 box">
+        <div *ngIf="BankAccounts" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
             <a class="card" routerLink="/pages/bank-accounts">
                 <div class="card-body">
                     <i class="fa-solid fa-building-columns"></i>
@@ -20,11 +33,24 @@
                     <h5 *ngIf="languageFactor === 'ar'" class="card-title">الحسابات البنكية</h5>
                     <span *ngIf="languageFactor === 'en'" class="card-description">Manage bank accounts.</span>
                     <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة الحسابات البنكية.</span>
+                    
+                    <div *ngIf="balanceSummary" class="card-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">{{languageFactor === 'en' ? 'Count' : 'العدد'}}:</span>
+                            <span class="stat-value">{{balanceSummary.BankAccountsCount}}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">{{languageFactor === 'en' ? 'Balance' : 'الرصيد'}}:</span>
+                            <span class="stat-value" [ngClass]="getBalanceClass(balanceSummary.BankAccountsBalance)">
+                                {{balanceSummary.BankAccountsBalance | currency:'EGP':'symbol':'1.2-2'}}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </a>
         </div>
 
-        <div *ngIf="YellowCards" class="col-md-3 box">
+        <div *ngIf="YellowCards" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
             <a class="card" routerLink="/pages/yellow-cards">
                 <div class="card-body">
                     <i class="fa-solid fa-credit-card"></i>
@@ -32,11 +58,24 @@
                     <h5 *ngIf="languageFactor === 'ar'" class="card-title">البطاقات الصفراء</h5>
                     <span *ngIf="languageFactor === 'en'" class="card-description">Manage yellow cards.</span>
                     <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة البطاقات الصفراء.</span>
+                    
+                    <div *ngIf="balanceSummary" class="card-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">{{languageFactor === 'en' ? 'Count' : 'العدد'}}:</span>
+                            <span class="stat-value">{{balanceSummary.YellowCardsCount}}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">{{languageFactor === 'en' ? 'Balance' : 'الرصيد'}}:</span>
+                            <span class="stat-value" [ngClass]="getBalanceClass(balanceSummary.YellowCardsBalance)">
+                                {{balanceSummary.YellowCardsBalance | currency:'EGP':'symbol':'1.2-2'}}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </a>
         </div>
 
-        <div *ngIf="CreditCards" class="col-md-3 box">
+        <div *ngIf="CreditCards" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
             <a class="card" routerLink="/pages/credit-cards">
                 <div class="card-body">
                     <i class="fa-solid fa-credit-card"></i>
@@ -44,11 +83,47 @@
                     <h5 *ngIf="languageFactor === 'ar'" class="card-title">بطاقات الشراء</h5>
                     <span *ngIf="languageFactor === 'en'" class="card-description">Manage credit cards.</span>
                     <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة بطاقات الشراء.</span>
+                    
+                    <div *ngIf="balanceSummary" class="card-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">{{languageFactor === 'en' ? 'Count' : 'العدد'}}:</span>
+                            <span class="stat-value">{{balanceSummary.CreditCardsCount}}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">{{languageFactor === 'en' ? 'Balance' : 'الرصيد'}}:</span>
+                            <span class="stat-value" [ngClass]="getBalanceClass(balanceSummary.CreditCardsBalance)">
+                                {{balanceSummary.CreditCardsBalance | currency:'EGP':'symbol':'1.2-2'}}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </a>
         </div>
-
-        <div *ngIf="Traders" class="col-md-3 box">
+        <div *ngIf="Breakdown" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
+            <a class="card" routerLink="/pages/breakdown">
+                <div class="card-body">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <h5 *ngIf="languageFactor === 'en'" class="card-title">Breakdown</h5>
+                    <h5 *ngIf="languageFactor === 'ar'" class="card-title">الصناديق</h5>
+                    <span *ngIf="languageFactor === 'en'" class="card-description">Manage boxes in and out.</span>
+                    <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة الصناديق الواردة والصادرة.</span>
+                    
+                    <div *ngIf="balanceSummary" class="card-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">{{languageFactor === 'en' ? 'Count' : 'العدد'}}:</span>
+                            <span class="stat-value">{{balanceSummary.BoxsCount}}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">{{languageFactor === 'en' ? 'Balance' : 'الرصيد'}}:</span>
+                            <span class="stat-value" [ngClass]="getBalanceClass(balanceSummary.BoxsBalance)">
+                                {{balanceSummary.BoxsBalance | currency:'EGP':'symbol':'1.2-2'}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div *ngIf="Traders" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
             <a class="card" routerLink="/pages/traders">
                 <div class="card-body">
                     <i class="fa-solid fa-handshake"></i>
@@ -60,7 +135,7 @@
             </a>
         </div>
 
-        <div *ngIf="Phones" class="col-md-3 box">
+        <div *ngIf="Phones" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
             <a class="card" routerLink="/pages/phones">
                 <div class="card-body">
                     <i class="fa-solid fa-mobile-screen"></i>
@@ -72,7 +147,7 @@
             </a>
         </div>
 
-        <div *ngIf="Privileges" class="col-md-3 box">
+        <div *ngIf="Privileges" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
             <a class="card" routerLink="/pages/privileges-management">
                 <div class="card-body">
                     <i class="fa-solid fa-key"></i>
@@ -80,18 +155,6 @@
                     <h5 *ngIf="languageFactor === 'ar'" class="card-title">الصلاحيات</h5>
                     <span *ngIf="languageFactor === 'en'" class="card-description">Manage user privileges.</span>
                     <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة صلاحيات المستخدمين.</span>
-                </div>
-            </a>
-        </div>
-
-        <div *ngIf="Breakdown" class="col-md-3 box">
-            <a class="card" routerLink="/pages/breakdown">
-                <div class="card-body">
-                    <i class="fa-solid fa-boxes-stacked"></i>
-                    <h5 *ngIf="languageFactor === 'en'" class="card-title">Breakdown</h5>
-                    <h5 *ngIf="languageFactor === 'ar'" class="card-title">الصناديق</h5>
-                    <span *ngIf="languageFactor === 'en'" class="card-description">Manage boxes in and out.</span>
-                    <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة الصناديق الواردة والصادرة.</span>
                 </div>
             </a>
         </div>

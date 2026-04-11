@@ -15,6 +15,7 @@ export class Constant {
     public WAREHOUSE_API_ENDPOINT: string;
     public TICKETS_API_ENDPOINT: string;
     public SRM_API_ENDPOINT: string;
+    public API_ENDPOINT: string;
 
     public LOGOUT: string;
     public MAIN_HOME: string;
@@ -49,6 +50,7 @@ export class Constant {
                 this.PAYROLL_HR_ENDPOINT = api?.PAYROLL_HR_ENDPOINT;
                 this.WAREHOUSE_API_ENDPOINT = api?.WAREHOUSE_API_ENDPOINT;
                 this.SRM_API_ENDPOINT = api?.SRM_API_ENDPOINT;
+                this.API_ENDPOINT = api?.API_ENDPOINT;
 
                 this.LOGOUT = api?.LOGOUT;
                 this.MAIN_HOME = api?.MAIN_HOME;

@@ -2,11 +2,14 @@ import { BaseEntityModel } from 'src/app/core/common/basic.model';
 import { CreditCardStatusEnum } from '../enums/credit-card-status.enum';
 
 export interface CreditCardModel extends BaseEntityModel {
-  Name: string;
-  PhoneNumber: number;
+  CardHolderName: string;//
+  CardNumber: number;//
   Limit: number;
-  InitialBalance: number;
-  CurrentBalance: number;
+  Balance: number;//
   Status: CreditCardStatusEnum;
-  NationalID: number;
+  ExpiryDate: Date | string;//
+  Notes: string;//
+  NationalId: number;
+  Indebtedness?: number;
+  PaymentDueDayOfMonth?: number;
 }

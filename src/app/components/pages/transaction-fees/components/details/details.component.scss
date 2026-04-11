@@ -1,0 +1,107 @@
+.details-container {
+  padding: 1.5rem;
+}
+
+.details-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.details-header {
+  background: linear-gradient(135deg, #4b766e, #4d7686);
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .header-icon {
+    font-size: 2rem;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+}
+
+.details-body {
+  padding: 1.5rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(75, 118, 110, 0.05);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.detail-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.95rem;
+
+  i {
+    color: #4b766e;
+    font-size: 1.1rem;
+  }
+}
+
+.detail-value {
+  font-size: 1rem;
+  color: #212529;
+  font-weight: 500;
+
+  &.amount-value {
+    color: #4b766e;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+}
+
+.type-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-block;
+
+  &.percentage-badge {
+    background: linear-gradient(135deg, rgba(129, 180, 238, 0.2), rgba(129, 180, 238, 0.3));
+    color: #4d7686;
+    border: 1px solid rgba(129, 180, 238, 0.4);
+  }
+
+  &.fixed-badge {
+    background: linear-gradient(135deg, rgba(75, 118, 110, 0.2), rgba(75, 118, 110, 0.3));
+    color: #4b766e;
+    border: 1px solid rgba(75, 118, 110, 0.4);
+  }
+}
+
+// RTL Support
+[dir="rtl"] {
+  .detail-row {
+    flex-direction: row-reverse;
+  }
+
+  .detail-label {
+    flex-direction: row-reverse;
+  }
+}

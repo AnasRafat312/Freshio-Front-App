@@ -7,9 +7,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
-import { ConfirmationService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { AfterLoginComponent } from './components/after-login/after-login.component';
 import { RouterModule } from '@angular/router';
 const router = RouterModule.forChild([
@@ -24,11 +25,12 @@ const router = RouterModule.forChild([
         InputTextModule,
         FormsModule,
         PasswordModule,
+        ToastModule,
         SharedModule,
         ReactiveFormsModule,
         router,
     ],
     declarations: [LoginComponent, ForgetPasswordComponent, AfterLoginComponent],
-    providers:[ConfirmationService]
+    providers: [MessageService, ConfirmationService]
 })
 export class LoginModule { }

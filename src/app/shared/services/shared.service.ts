@@ -13,13 +13,15 @@ import * as XLSX from 'xlsx';
 import { MessageService } from 'primeng/api';
 import { RequiredDropDown } from '../model/RequiredDropDown';
 import { ReturnedDropDown } from '../model/ReturnedDropDown';
+import { FilterType } from '../core/enums/filter-type.enum';
+import { TranslateToArabicPipe } from 'src/app/core/pipes/translate-to-arabic.pipe';
 @Injectable({
     providedIn: 'root',
 })
 export class SharedService {
     isDetailsSubject = new BehaviorSubject(null);
     isDetails = this.isDetailsSubject.asObservable();
-
+    translatePipe = new TranslateToArabicPipe()
     constructor(
         private constant: Constant,
         private http: HttpClient,
@@ -73,7 +75,7 @@ export class SharedService {
             ) {
                 const value = enumName[key];
                 const formattedLabel = value.replace(/([A-Z])/g, ' $1'); // Add space before each capital character
-                list.push({ label: formattedLabel, value: Number(key) });
+                list.push({ label: formattedLabel, value: Number(key), labelAr: this.translatePipe.transform(formattedLabel, 'ar') });
                 counter++;
             }
         }
@@ -143,6 +145,7 @@ export class SharedService {
         listContainer?: any
     ) {
         let tempList = [];
+        //event = []
         Object.keys(listContainer).forEach((key) => {
             if (field == listContainer[key]?.field) {
                 listContainer[key].list = event;
@@ -289,14 +292,14 @@ export class SharedService {
             });
             return ele;
         });
-        /*
-  import('jspdf').then((jsPDF) => {
-      import('jspdf-autotable').then((x) => {
-          const doc = new jsPDF.default('p', 'px', 'a4');
-          (doc as any).autoTable(ExportColumns, rows);
-          doc.save(`${fileName}.pdf`);
-      });
-  });*/
+
+        import('jspdf').then((jsPDF) => {
+            import('jspdf-autotable').then((x) => {
+                const doc = new jsPDF.default('p', 'px', 'a4');
+                (doc as any).autoTable(ExportColumns, rows);
+                doc.save(`${fileName}.pdf`);
+            });
+        });
     }
     onRowReorder(event?, currentIndex?, otherIndex?) {
         let fromIndex = 0;
@@ -340,7 +343,7 @@ export class SharedService {
         // generate filter lists
         const filters: MultiSelectTableFilter[] = [];
         cols.forEach((col) => {
-            if (col.filterType == 2) {
+            if (col.filterType == FilterType.multi) {
                 const filter = {
                     key: col.field,
                     set: new Set<string>(),
@@ -353,9 +356,9 @@ export class SharedService {
             list.forEach((Row) => {
                 // Date Casting
                 cols.forEach((col) => {
-                    if (col.filterType == 4) {
+                    if (col.filterType == FilterType.date || col.filterType == FilterType['full-date'] || col.filterType == FilterType.time) {
                         if (Row[col.field]) {
-                            Row[col.field] = new Date(<Date>Row[col.field]);
+                            Row[col.field] = new Date(Row[col.field]);
                         }
                     }
                 });
@@ -384,6 +387,7 @@ export class SharedService {
                 filterList: [],
                 hidden: model[key].hidden,
                 header: model[key].header,
+                hideSorting: model[key]?.hideSorting || false,
             };
             if (i == 0) {
                 col.customExportHeader = model[key].header;
@@ -434,10 +438,10 @@ export class SharedService {
     }
     removeDuplicates(arr, prop) {
         return arr.filter((obj, index, self) =>
-          index === self.findIndex((el) => el[prop] === obj[prop])
+            index === self.findIndex((el) => el[prop] === obj[prop])
         );
-      }
-          getBankInfoAccountsByEntityID(id:number) :Observable<any[]>{
-      return  this.http.get<any[]>(this.constant.BASIC_DATA_API_ENDPOINT + 'EntityBankingInfo/GetEntityBankingInfoByEntity/' + id)
+    }
+    getBankInfoAccountsByEntityID(id: number): Observable<any[]> {
+        return this.http.get<any[]>(this.constant.BASIC_DATA_API_ENDPOINT + 'EntityBankingInfo/GetEntityBankingInfoByEntity/' + id)
     }
 }

@@ -13,14 +13,11 @@ import { LayoutService } from './service/app.layout.service';
 		<ng-container>
             <div *ngIf="root && item.visible !== false" class="layout-menuitem-root-text">{{item.label}}</div>
 			<a *ngIf="(!item.routerLink || item.items) && item.visible !== false" [attr.href]="item.url"
-			   [ngClass]="getItemClasses(item)" [attr.target]="item.target" tabindex="0" pRipple (mouseleave)="onMouseLeave($event)">
-				<div class="menu-item-content">
-                    <i [ngClass]="item.icon" class="layout-menuitem-icon" [@iconAnimation]="active ? 'active' : 'inactive'"></i>
-                    <span class="layout-menuitem-text">{{item.label}}</span>
-                    <span *ngIf="item.badge" class="menu-item-badge" [ngClass]="item.badgeClass || 'p-badge-info'">{{item.badge}}</span>
-                    <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items" [@rotateAnimation]="active ? 'rotated' : 'default'"></i>
-                </div>
-                <div class="menu-item-tooltip" *ngIf="showTooltip">{{item.label}}</div>
+			   [ngClass]="getItemClasses(item)" [attr.target]="item.target" tabindex="0" pRipple (click)="itemClick($event)" (mouseleave)="onMouseLeave($event)">
+				<i [ngClass]="item.icon" class="layout-menuitem-icon" [@iconAnimation]="active ? 'active' : 'inactive'"></i>
+				<span class="layout-menuitem-text">{{item.label}}</span>
+				<span *ngIf="item.badge" class="menu-item-badge" [ngClass]="item.badgeClass || 'p-badge-info'">{{item.badge}}</span>
+				<i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items" [@rotateAnimation]="active ? 'rotated' : 'default'"></i>
 			</a>
 			<a *ngIf="(item.routerLink && !item.items) && item.visible !== false"
 			   [ngClass]="getItemClasses(item)"
@@ -28,13 +25,10 @@ import { LayoutService } from './service/app.layout.service';
                [fragment]="item.fragment" [queryParamsHandling]="item.queryParamsHandling" [preserveFragment]="item.preserveFragment"
                [skipLocationChange]="item.skipLocationChange" [replaceUrl]="item.replaceUrl" [state]="item.state" [queryParams]="item.queryParams"
                [attr.target]="item.target" tabindex="0" pRipple (mouseleave)="onMouseLeave($event)">
-				<div class="menu-item-content">
-                    <i [ngClass]="item.icon" class="layout-menuitem-icon" [@iconAnimation]="active ? 'active' : 'inactive'"></i>
-                    <span class="layout-menuitem-text">{{item.label}}</span>
-                    <span *ngIf="item.badge" class="menu-item-badge" [ngClass]="item.badgeClass || 'p-badge-info'">{{item.badge}}</span>
-                    <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items" [@rotateAnimation]="active ? 'rotated' : 'default'"></i>
-                </div>
-                <div class="menu-item-tooltip" *ngIf="showTooltip">{{item.label}}</div>
+				<i [ngClass]="item.icon" class="layout-menuitem-icon" [@iconAnimation]="active ? 'active' : 'inactive'"></i>
+				<span class="layout-menuitem-text">{{item.label}}</span>
+				<span *ngIf="item.badge" class="menu-item-badge" [ngClass]="item.badgeClass || 'p-badge-info'">{{item.badge}}</span>
+				<i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items" [@rotateAnimation]="active ? 'rotated' : 'default'"></i>
 			</a>
 
 			<ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation">
@@ -161,56 +155,26 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         this.showTooltip = false;
     }
 
-    /**
-     * Create ripple effect on menu item click
-     */
-    // createRipple(event: MouseEvent) {
-    //     const button = event.currentTarget as HTMLElement;
-    //     const ripple = document.createElement('span');
-    //     const rect = button.getBoundingClientRect();
-    //     const size = Math.max(rect.width, rect.height);
+    itemClick(event: Event) {
+        // avoid processing disabled items
+        if (this.item.disabled) {
+            event.preventDefault();
+            return;
+        }
 
-    //     ripple.style.width = ripple.style.height = `${size}px`;
-    //     ripple.style.left = `${event.clientX - rect.left - size / 2}px`;
-    //     ripple.style.top = `${event.clientY - rect.top - size / 2}px`;
-    //     ripple.classList.add('ripple');
+        // execute command
+        if (this.item.command) {
+            this.item.command({ originalEvent: event, item: this.item });
+        }
 
-    //     button.appendChild(ripple);
-    //     setTimeout(() => ripple.remove(), 600);
-    // }
+        // toggle active state
+        if (this.item.items) {
+            this.active = !this.active;
+            event.preventDefault();
+        }
 
-    // itemClick(event: Event, item) {
-    //     console.log(item)
-    //     if(item.label == 'Home') {
-    //         this.layoutService.setSidebareItemsList('mainList');
-    //         localStorage.setItem('ListTypeName','mainList')
-    //     }
-    //     // avoid processing disabled items
-    //     if (this.item.disabled) {
-    //         event.preventDefault();
-    //         return;
-    //     }
-
-    //     // execute command
-    //     if (this.item.command) {
-    //         this.item.command({ originalEvent: event, item: this.item });
-    //     }
-
-    //     // toggle active state
-    //     if (this.item.items) {
-    //         this.active = !this.active;
-    //     }
-
-    //     // Create ripple effect
-    //     this.createRipple(event as MouseEvent);
-
-    //     // Add to recently visited if it has a routerLink
-    //     if (this.item.routerLink && this.layoutService['addToRecentlyVisited']) {
-    //         this.layoutService['addToRecentlyVisited'](this.item);
-    //     }
-
-    //     this.menuService.onMenuStateChange({ key: this.key });
-    // }
+        this.menuService.onMenuStateChange({ key: this.key });
+    }
 
     get submenuAnimation() {
         return this.root ? 'expanded' : (this.active ? 'expanded' : 'collapsed');

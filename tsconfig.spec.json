@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
     "extends": "./tsconfig.json",
@@ -16,22 +15,3 @@
         "src/**/*.d.ts"
     ]
 }
-=======
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
-{
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-        "outDir": "./out-tsc/spec",
-        "types": [
-            "jasmine"
-        ]
-    },
-    "files": [
-        "src/test.ts"
-    ],
-    "include": [
-        "src/**/*.spec.ts",
-        "src/**/*.d.ts"
-    ]
-}
->>>>>>> 2f72e7e (first commit)

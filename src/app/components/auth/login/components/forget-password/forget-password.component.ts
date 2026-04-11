@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UserEmailExistsValidator } from 'src/app/components/pages/users/user-email-exists.validator';
 import { ToastrService } from 'ngx-toastr';
 import { LoginService } from '../../login.service';
 import { Router } from '@angular/router';
@@ -13,7 +12,6 @@ import { Router } from '@angular/router';
 })
 export class ForgetPasswordComponent implements OnInit {
   form!: FormGroup;
-  private emailExistsValidator: UserEmailExistsValidator
 
   constructor(private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,

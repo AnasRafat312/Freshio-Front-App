@@ -1,0 +1,56 @@
+<div class="details-container">
+  <div class="details-card">
+    <div class="details-header">
+      <i class="pi pi-money-bill header-icon"></i>
+      <h3>{{ languageFactor === 'en' ? 'Transaction Fee Details' : 'تفاصيل رسوم المعاملة' }}</h3>
+    </div>
+
+    <div class="details-body">
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-hashtag"></i>
+          <span>{{ languageFactor === 'en' ? 'ID' : 'المعرف' }}</span>
+        </div>
+        <div class="detail-value">{{ feeData?.Id }}</div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-money-bill"></i>
+          <span>{{ languageFactor === 'en' ? 'Amount' : 'المبلغ' }}</span>
+        </div>
+        <div class="detail-value amount-value">
+          {{ feeData?.Value | currency:'EGP':'symbol':'1.2-2' }}
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <i class="pi pi-tag"></i>
+          <span>{{ languageFactor === 'en' ? 'Type' : 'النوع' }}</span>
+        </div>
+        <div class="detail-value">
+          <span class="type-badge" [ngClass]="{'percentage-badge': feeData?.FeeType === 1, 'fixed-badge': feeData?.FeeType === 2}">
+            {{ feeTypeLabel }}
+          </span>
+        </div>
+      </div>
+
+      <div class="detail-row" *ngIf="feeData?.CreatedDateTime">
+        <div class="detail-label">
+          <i class="pi pi-calendar-plus"></i>
+          <span>{{ languageFactor === 'en' ? 'Created Date' : 'تاريخ الإنشاء' }}</span>
+        </div>
+        <div class="detail-value">{{ feeData?.CreatedDateTime | date:'medium' }}</div>
+      </div>
+
+      <div class="detail-row" *ngIf="feeData?.CreatedBy">
+        <div class="detail-label">
+          <i class="pi pi-user"></i>
+          <span>{{ languageFactor === 'en' ? 'Created By' : 'أنشئ بواسطة' }}</span>
+        </div>
+        <div class="detail-value">{{ feeData?.CreatedBy }}</div>
+      </div>
+    </div>
+  </div>
+</div>

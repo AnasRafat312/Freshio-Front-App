@@ -8,6 +8,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { PageNaming } from 'src/app/shared/components/page-info/core/page-naming';
 import { CookieService } from 'ngx-cookie-service';
+import { BalanceSummaryModel } from './models/balance-summary.model';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,8 @@ export class HomeComponent extends GeneralConfig implements OnInit {
   Breakdown = false
   privilegeList = []
   languageFactor = 'ar'
+  balanceSummary: BalanceSummaryModel | null = null
+  loading = true
   constructor(
     private homeService: HomeService,
     languageService: LanguageService,
@@ -44,6 +47,7 @@ export class HomeComponent extends GeneralConfig implements OnInit {
     sharedService.setPageLocalName(PageNaming.HOME_PAGE)
   }
   ngOnInit(): void {
+    this.loadBalances();
     this.privilegeService.checkedPrivilegeList.subscribe(
       data => {
         this.Wallets = true
@@ -59,6 +63,31 @@ export class HomeComponent extends GeneralConfig implements OnInit {
           this.showPagesBaseOnPrivilege(ele)
         })
       })
+  }
+
+  loadBalances(): void {
+    this.loading = true;
+    this.homeService.getBalances().subscribe({
+      next: (response) => {
+        if (response?.Success) {
+          this.balanceSummary = response.Data;
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading balances:', error);
+        this.loading = false;
+      }
+    });
+  }
+
+  getBalanceClass(balance: number): string {
+    if (balance > 0) {
+      return 'balance-positive';
+    } else if (balance < 0) {
+      return 'balance-negative';
+    }
+    return '';
   }
   showPagesBaseOnPrivilege(page) {
     if (page.page == 'Wallets') {

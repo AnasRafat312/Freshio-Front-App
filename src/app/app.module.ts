@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-import { UsersService } from './components/pages/users/users.service';
 import { MainInterceptorInterceptor } from './core/interceptors/main-interceptor.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +22,7 @@ import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { ConfigService } from './shared/services/config.service';
 import localeEn from '@angular/common/locales/en';
+import { UsersService } from './components/pages/users/services/users.service';
 export function appInitializer(configService: ConfigService) {
     return () => configService.loadConfig();
   }
@@ -44,7 +44,7 @@ registerLocaleData(localeEn);
 
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
-        UsersService,
+        //UsersService,
         MessageService,
         DialogService,MessageService,ConfirmationService,
         {

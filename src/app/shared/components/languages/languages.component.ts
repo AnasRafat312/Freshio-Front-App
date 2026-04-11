@@ -13,7 +13,7 @@ export class LanguagesComponent {
   }
 
   setLanguage(language: string) {
-    sessionStorage.setItem('lang',language)
+    localStorage.setItem('lang',language)
     this.languageService.setLanguage(language);
     this.languageFactor = language
   }

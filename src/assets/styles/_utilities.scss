@@ -1,0 +1,87 @@
+// ========================================
+// Utility Classes & Global Styles
+// ========================================
+
+// Direction Utilities
+.rtl {
+    direction: rtl;
+}
+
+.ltr {
+    direction: ltr;
+}
+
+// Custom Scrollbar
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    margin-left: 3px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #acacac;
+    border-radius: 10px;
+}
+
+// Loader
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+// Search Fixed
+.search-fixed {
+    position: absolute;
+    top: 0px;
+    width: calc(100% - 17px);
+    background-color: #fff;
+    z-index: 11111111111111;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    padding-top: 8px;
+}
+
+// Collapse Icon
+.collapse-icon {
+    position: absolute;
+    right: 10px;
+}
+
+// Help Button Position
+[lang="en"] .help {
+    position: absolute;
+    right: auto !important;
+    left: 20px;
+}
+
+// Global Button Override
+button {
+    overflow: hidden !important;
+}
+
+// Material Form Field
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+}
+
+// Accessibility Focus Styles
+button:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+}

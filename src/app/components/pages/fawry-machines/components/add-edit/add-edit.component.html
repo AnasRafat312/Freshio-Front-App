@@ -1,0 +1,97 @@
+<div class="container">
+    <form [formGroup]="form">
+        <div class="row">
+            <!-- Serial Number -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Serial Number' : 'الرقم التسلسلي'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'SerialNumber')"
+                [isValid]="form.get('SerialNumber')?.valid"
+                icon="pi pi-hashtag">
+                <input 
+                    pInputText 
+                    formControlName="SerialNumber"
+                    [placeholder]="languageFactor === 'en' ? 'Enter serial number' : 'أدخل الرقم التسلسلي'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('SerialNumber')?.invalid && form.get('SerialNumber')?.touched}">
+            </app-input-field>
+
+            <!-- Phone Number -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Phone Number' : 'رقم التليفون'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'PhoneNumber')"
+                [isValid]="form.get('PhoneNumber')?.valid"
+                icon="pi pi-phone">
+                <input 
+                    pInputText 
+                    type="text"
+                    formControlName="PhoneNumber"
+                    maxlength="11"
+                    [placeholder]="languageFactor === 'en' ? 'Enter 11 digit phone number' : 'أدخل رقم الهاتف المكون من 11 رقم'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('PhoneNumber')?.invalid && form.get('PhoneNumber')?.touched}">
+            </app-input-field>
+
+            <!-- Balance -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Balance' : 'الرصيد'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Balance')"
+                [isValid]="form.get('Balance')?.valid"
+                icon="pi pi-wallet">
+                <p-inputNumber
+                    mode="currency"
+                    currency="EGP"
+                    locale="en-EG"
+                    [min]="0"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="3"
+                    formControlName="Balance"
+                    [placeholder]="languageFactor === 'en' ? 'Enter balance' : 'أدخل الرصيد'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Balance')?.invalid && form.get('Balance')?.touched}">
+                </p-inputNumber>
+            </app-input-field>
+
+            <!-- Status -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Status' : 'الحالة'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Status')"
+                [isValid]="form.get('Status')?.valid"
+                icon="pi pi-check-circle">
+                <p-dropdown
+                    formControlName="Status"
+                    [options]="statusOptions"
+                    [optionLabel]="languageFactor === 'en' ? 'label' : 'labelAr'"
+                    optionValue="value"
+                    [placeholder]="'Select status'|translateToArabic:languageFactor"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Status')?.invalid && form.get('Status')?.touched}">
+                </p-dropdown>
+            </app-input-field>
+
+            <!-- Notes -->
+            <app-input-field class="mb-3 col-12"
+                [label]="'Notes'|translateToArabic:languageFactor"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Notes')"
+                [isValid]="form.get('Notes')?.valid"
+                icon="pi pi-file-edit">
+                <textarea 
+                    pInputTextarea 
+                    formControlName="Notes"
+                    rows="3"
+                    [placeholder]="'Enter notes'|translateToArabic:languageFactor"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Notes')?.invalid && form.get('Notes')?.touched}">
+                </textarea>
+            </app-input-field>
+        </div>
+    </form>
+    
+    <div class="add-actions">
+        <button pButton (click)="submit()" class="add-btn add-save-btn" [disabled]="form.invalid">
+          <i class="pi pi-save"></i> {{languageFactor === 'en' ? 'Save' : 'حفظ'}}
+        </button>
+        <button pButton (click)="onCancel()" class="add-btn add-cancel-btn">
+          <i class="pi pi-times"></i> {{languageFactor === 'en' ? 'Cancel' : 'إلغاء'}}
+        </button>
+    </div>
+</div>

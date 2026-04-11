@@ -1,0 +1,115 @@
+<div class="user-details-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <p-skeleton height="200px"></p-skeleton>
+    <p-skeleton height="150px" class="mt-3"></p-skeleton>
+  </div>
+
+  <!-- Details Content -->
+  <div *ngIf="!loading && userDetails" class="details-content">
+    
+    <!-- Basic Information Card -->
+    <app-detail-card 
+      [title]="getLabel('User Information', 'معلومات المستخدم')"
+      icon="pi pi-user"
+      [columns]="0"
+      [collapsible]="true">
+      
+      <app-detail-item 
+        customClass="col-12 col-md-6 col-lg-4"
+        icon="pi pi-user"
+        [label]="getLabel('Username', 'اسم المستخدم')"
+        [value]="userDetails.Username">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-12 col-md-6 col-lg-4"
+        icon="pi pi-id-card"
+        [label]="getLabel('Full Name', 'الاسم الكامل')"
+        [value]="userDetails.FullName || getLabel('N/A', 'غير متوفر')">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-12 col-md-6 col-lg-4"
+        icon="pi pi-envelope"
+        [label]="getLabel('Email', 'البريد الإلكتروني')"
+        [value]="userDetails.Email">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-12 col-md-6 col-lg-4"
+        icon="pi pi-phone"
+        [label]="getLabel('Phone Number', 'رقم الهاتف')"
+        [value]="userDetails.PhoneNumber || getLabel('N/A', 'غير متوفر')">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-12 col-md-6 col-lg-4"
+        icon="pi pi-shield"
+        [label]="getLabel('Role', 'الدور')"
+        [value]="userDetails.RoleName">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-12 col-md-6 col-lg-4"
+        icon="pi pi-check-circle"
+        [label]="getLabel('Status', 'الحالة')"
+        [value]="userDetails.IsActive ? getLabel('Active', 'نشط') : getLabel('Inactive', 'غير نشط')"
+        [valueClass]="userDetails.IsActive ? 'text-success' : 'text-danger'">
+      </app-detail-item>
+
+      <div *ngIf="userDetails.ImagePath" class="col-12 col-md-6 col-lg-4 mb-3">
+        <div class="detail-item">
+          <div class="detail-icon">
+            <i class="pi pi-image"></i>
+          </div>
+          <div class="detail-content">
+            <label class="detail-label">{{getLabel('Profile Image', 'صورة الملف الشخصي')}}</label>
+            <div class="detail-value">
+              <img [src]="userDetails.ImagePath" alt="User Image" style="max-width: 100px; border-radius: 8px;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-detail-item 
+        customClass="col-12 col-md-6 col-lg-4"
+        icon="pi pi-calendar"
+        [label]="getLabel('Created At', 'تاريخ الإنشاء')"
+        [value]="userDetails.CreatedAt"
+        valueType="date">
+      </app-detail-item>
+
+      <app-detail-item 
+        *ngIf="userDetails.UpdatedAt"
+        customClass="col-12 col-md-6 col-lg-4"
+        icon="pi pi-calendar-plus"
+        [label]="getLabel('Updated At', 'تاريخ التحديث')"
+        [value]="userDetails.UpdatedAt"
+        valueType="date">
+      </app-detail-item>
+
+      <app-detail-item 
+        *ngIf="userDetails.LastLoginAt"
+        customClass="col-12 col-md-6 col-lg-4"
+        icon="pi pi-sign-in"
+        [label]="getLabel('Last Login', 'آخر تسجيل دخول')"
+        [value]="userDetails.LastLoginAt"
+        valueType="date">
+      </app-detail-item>
+    </app-detail-card>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && !userDetails && error" class="error-state">
+    <i class="pi pi-exclamation-triangle" style="font-size: 3rem; color: #f44336;"></i>
+    <p>{{ getLabel('Failed to load user details', 'فشل تحميل تفاصيل المستخدم') }}</p>
+    <button pButton 
+            type="button" 
+            [label]="getLabel('Retry', 'إعادة المحاولة')" 
+            icon="pi pi-refresh" 
+            class="p-button-outlined p-button-secondary mt-3"
+            (click)="retry()">
+    </button>
+  </div>
+</div>

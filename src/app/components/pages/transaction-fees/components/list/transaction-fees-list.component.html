@@ -1,0 +1,27 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title-wrapper">
+      <div class="page-icon icon-fees">
+        <i class="pi pi-money-bill"></i>
+      </div>
+      <h2 class="page-title">{{'Transaction Fees'|translateToArabic:languageFactor}}</h2>
+    </div>
+    <button *ngIf="Add" pButton type="button" 
+            [label]="'Add'|translateToArabic:languageFactor" 
+            icon="pi pi-plus" 
+            class="p-button-success" 
+            (click)="addEdit()">
+    </button>
+  </div>
+
+  <!-- Body -->
+  <div class="page-body">
+    <app-basic-table
+      [mainList]="mainList"
+      [filteredList]="filteredList"
+      [model]="model"
+      [ActionsList]="actionsList">
+    </app-basic-table>
+  </div>
+</div>

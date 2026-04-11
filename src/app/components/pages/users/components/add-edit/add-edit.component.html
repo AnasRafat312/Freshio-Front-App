@@ -1,0 +1,158 @@
+<div class="container">
+    <form [formGroup]="form">
+        <div class="row">
+            <!-- Username -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Username' : 'اسم المستخدم'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Username')"
+                [isValid]="form.get('Username')?.valid"
+                icon="pi pi-user">
+                <input 
+                    pInputText 
+                    formControlName="Username"
+                    [placeholder]="languageFactor === 'en' ? 'Enter username' : 'أدخل اسم المستخدم'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Username')?.invalid && form.get('Username')?.touched}">
+            </app-input-field>
+
+            <!-- Email -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Email' : 'البريد الإلكتروني'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Email')"
+                [isValid]="form.get('Email')?.valid"
+                icon="pi pi-envelope">
+                <input 
+                    pInputText 
+                    type="email"
+                    formControlName="Email"
+                    [placeholder]="languageFactor === 'en' ? 'Enter email' : 'أدخل البريد الإلكتروني'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Email')?.invalid && form.get('Email')?.touched}">
+            </app-input-field>
+
+            <!-- Full Name -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Full Name' : 'الاسم الكامل'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'FullName')"
+                [isValid]="form.get('FullName')?.valid"
+                icon="pi pi-id-card">
+                <input 
+                    pInputText 
+                    formControlName="FullName"
+                    [placeholder]="languageFactor === 'en' ? 'Enter full name' : 'أدخل الاسم الكامل'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('FullName')?.invalid && form.get('FullName')?.touched}">
+            </app-input-field>
+
+            <!-- Phone Number -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Phone Number' : 'رقم الهاتف'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'PhoneNumber')"
+                [isValid]="form.get('PhoneNumber')?.valid"
+                icon="pi pi-phone">
+                <input 
+                    pInputText 
+                    type="text"
+                    formControlName="PhoneNumber"
+                    maxlength="11"
+                    [placeholder]="languageFactor === 'en' ? 'Enter phone number' : 'أدخل رقم الهاتف'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('PhoneNumber')?.invalid && form.get('PhoneNumber')?.touched}">
+            </app-input-field>
+
+            <!-- Role -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Role' : 'الدور'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'RoleId')"
+                [isValid]="form.get('RoleId')?.valid"
+                icon="pi pi-shield">
+                <p-dropdown 
+                    formControlName="RoleId"
+                    [options]="roles"
+                    optionLabel="Name"
+                    optionValue="Id"
+                    [placeholder]="languageFactor === 'en' ? 'Select role' : 'اختر الدور'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('RoleId')?.invalid && form.get('RoleId')?.touched}"
+                    [style]="{'width':'100%'}">
+                </p-dropdown>
+            </app-input-field>
+
+            <!-- Is Active (only in edit mode) -->
+            <app-input-field *ngIf="isEditMode" class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Active' : 'نشط'"
+                [languageFactor]="languageFactor"
+                [isRequired]="false"
+                [isValid]="true"
+                icon="pi pi-check-circle">
+                <p-inputSwitch formControlName="IsActive"></p-inputSwitch>
+            </app-input-field>
+
+            <!-- Password (only in create mode) -->
+            <app-input-field *ngIf="!isEditMode" class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Password' : 'كلمة المرور'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Password')"
+                [isValid]="form.get('Password')?.valid"
+                icon="pi pi-lock">
+                <input 
+                    pInputText 
+                    type="password"
+                    formControlName="Password"
+                    [placeholder]="languageFactor === 'en' ? 'Enter password' : 'أدخل كلمة المرور'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Password')?.invalid && form.get('Password')?.touched}">
+            </app-input-field>
+
+            <!-- Password Confirmation (only in create mode) -->
+            <app-input-field *ngIf="!isEditMode" class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Confirm Password' : 'تأكيد كلمة المرور'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'PasswordConfirmation')"
+                [isValid]="form.get('PasswordConfirmation')?.valid"
+                icon="pi pi-lock">
+                <input 
+                    pInputText 
+                    type="password"
+                    formControlName="PasswordConfirmation"
+                    [placeholder]="languageFactor === 'en' ? 'Confirm password' : 'أكد كلمة المرور'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('PasswordConfirmation')?.invalid && form.get('PasswordConfirmation')?.touched}">
+            </app-input-field>
+
+            <!-- Image Upload -->
+            <div class="mb-3 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label class="form-label">
+                    <i class="pi pi-image me-2"></i>
+                    {{languageFactor === 'en' ? 'Profile Image' : 'صورة الملف الشخصي'}}
+                </label>
+                <div class="image-upload-container">
+                    <input 
+                        type="file" 
+                        accept="image/jpeg,image/jpg,image/png,image/gif"
+                        (change)="onFileSelected($event)"
+                        #fileInput
+                        style="display: none;">
+                    <button 
+                        pButton 
+                        type="button"
+                        [label]="languageFactor === 'en' ? 'Choose Image' : 'اختر صورة'"
+                        icon="pi pi-upload"
+                        class="p-button-outlined"
+                        (click)="fileInput.click()">
+                    </button>
+                    <div *ngIf="imagePreview" class="image-preview mt-3">
+                        <img [src]="imagePreview" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <div class="add-actions">
+        <button pButton (click)="submit()" class="add-btn add-save-btn" [disabled]="form.invalid">
+          <i class="pi pi-save"></i> {{languageFactor === 'en' ? 'Save' : 'حفظ'}}
+        </button>
+        <button pButton (click)="onCancel()" class="add-btn add-cancel-btn">
+          <i class="pi pi-times"></i> {{languageFactor === 'en' ? 'Cancel' : 'إلغاء'}}
+        </button>
+    </div>
+</div>

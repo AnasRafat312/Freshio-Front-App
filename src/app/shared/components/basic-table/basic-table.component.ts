@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { MenuItem } from 'primeng/api';
 import { LanguagesService } from '../../services/languages.service';
 import { SharedService } from '../../services/shared.service';
-import { Table } from 'primeng/table';
+import { Table, TableFilterEvent } from 'primeng/table';
 import { fadeInOut } from 'src/app/core/animnations/animations';
 import { NormalTableColumn } from '../../core/normalTableColumn.model';
 import { PragraphSlicePipe } from 'src/app/core/pipes/pragraph-slice.pipe';
@@ -45,6 +45,7 @@ export class BasicTableComponent implements OnInit, OnChanges {
     columnContainer: any = {};
     // exporting probs
     exportColumns!: any[];
+    @Input() exportFileName: string = 'Export';
 
     // NEW: Add support for custom templates
     @ContentChild('statusCell') statusCellTemplate: TemplateRef<any>;
@@ -57,17 +58,15 @@ export class BasicTableComponent implements OnInit, OnChanges {
     ) {}
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.getAllRows()
+        debugger
         this.cols = this.generateColumns(this.cols, this.model);
-        this.cols.forEach(col => {
-            col.hideSorting = this.model[col.field]?.hideSorting ?? true;
-        });
         this._selectedColumns = this.cols?.filter(col => !col?.hidden);
         this.exportColumns = this.cols.map((col) => ({
             title: col.header,
             dataKey: col.field,
             type: col.filterType,
         }));
+        this.getAllRows()
     }
 
     ngOnInit() {
@@ -152,7 +151,7 @@ export class BasicTableComponent implements OnInit, OnChanges {
         this.sharedService.exportToExcel(
             this._selectedColumns,
             this.filteredList,
-            'Excuse'
+            this.exportFileName
         );
     }
 
@@ -163,7 +162,6 @@ export class BasicTableComponent implements OnInit, OnChanges {
             'Excuse'
         );
     }
-
     onRowSelect(event) {
         this.selectedRowChange.emit(this.selectedRow);
     }

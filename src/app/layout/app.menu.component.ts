@@ -151,19 +151,30 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ['/pages/home'],
             },
             {
-                label: this.languagePipe.transform('Roles', this.languageFactor),
-                icon: 'fa-solid fa-user-shield fa-xl',
-                routerLink: ['/pages/roles'],
-            },
-            {
-                label: this.languagePipe.transform('Users', this.languageFactor),
-                icon: 'fa-solid fa-users fa-xl',
-                routerLink: ['/pages/users'],
+                label: this.languagePipe.transform('Transactions', this.languageFactor),
+                icon: 'fa-solid fa-exchange-alt fa-xl',
+                items: [
+                    {
+                        label: this.languagePipe.transform('Transactions', this.languageFactor),
+                        icon: 'fa-solid fa-money-bill-transfer fa-xl',
+                        routerLink: ['/pages/transactions'],
+                    },
+                    {
+                        label: this.languagePipe.transform('Adjustments', this.languageFactor),
+                        icon: 'fa-solid fa-sliders-h fa-xl',
+                        routerLink: ['/pages/adjustments'],
+                    }
+                ]
             },
             {
                 label: this.languagePipe.transform('Wallets', this.languageFactor),
                 icon: 'fa-solid fa-wallet fa-xl',
                 routerLink: ['/pages/wallets'],
+            },
+            {
+                label: this.languagePipe.transform('Fawry Machines', this.languageFactor),
+                icon: 'fa-solid fa-desktop fa-xl',
+                routerLink: ['/pages/fawry-machines'],
             },
             {
                 label: this.languagePipe.transform('Bank Accounts', this.languageFactor),
@@ -181,25 +192,30 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ['/pages/credit-cards'],
             },
             {
+                label: this.languagePipe.transform('Breakdown', this.languageFactor),
+                icon: 'fa-solid fa-boxes-stacked fa-xl',
+                routerLink: ['/pages/breakdown'],
+            },
+            {
                 label: this.languagePipe.transform('Traders', this.languageFactor),
                 icon: 'fa-solid fa-handshake fa-xl',
                 routerLink: ['/pages/traders'],
+            },
+            /* {
+                label: this.languagePipe.transform('Roles', this.languageFactor),
+                icon: 'fa-solid fa-user-shield fa-xl',
+                routerLink: ['/pages/roles'],
+            }, */
+            {
+                label: this.languagePipe.transform('Users', this.languageFactor),
+                icon: 'fa-solid fa-users fa-xl',
+                routerLink: ['/pages/users'],
             },
             {
                 label: this.languagePipe.transform('Phones', this.languageFactor),
                 icon: 'fa-solid fa-mobile-screen fa-xl',
                 routerLink: ['/pages/phones'],
-            },
-            {
-                label: this.languagePipe.transform('Privileges', this.languageFactor),
-                icon: 'fa-solid fa-key fa-xl',
-                routerLink: ['/pages/privileges-management'],
-            },
-            {
-                label: this.languagePipe.transform('Breakdown', this.languageFactor),
-                icon: 'fa-solid fa-boxes-stacked fa-xl',
-                routerLink: ['/pages/breakdown'],
-            },
+            }
         ];
 
 

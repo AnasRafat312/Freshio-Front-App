@@ -1,0 +1,138 @@
+<div class="details-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <p-progressSpinner></p-progressSpinner>
+    <p>{{ getLabel('Loading yellow card details...', 'جاري تحميل تفاصيل البطاقة الصفراء...') }}</p>
+  </div>
+
+  <!-- Content State -->
+  <div *ngIf="!loading && !error && yellowCardDetails" class="details-content">
+    <!-- Main Yellow Card Information Card -->
+    <app-detail-card 
+      [title]="getLabel('Yellow Card Information', 'معلومات البطاقة الصفراء')"
+      icon="pi pi-credit-card"
+      [columns]="0"
+      [collapsible]="true">
+      
+      <app-detail-item 
+        customClass="col-sm-12 col-md-6 col-lg-4"
+        icon="pi pi-credit-card"
+        [label]="getLabel('Card Number', 'رقم البطاقة')"
+        [value]="yellowCardDetails.CardNumber">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-sm-12 col-md-6 col-lg-4"
+        icon="pi pi-user"
+        [label]="getLabel('Card Holder Name', 'اسم حامل البطاقة')"
+        [value]="yellowCardDetails.CardHolderName">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-sm-12 col-md-6 col-lg-4"
+        icon="pi pi-id-card"
+        [label]="getLabel('National ID', 'الرقم القومي')"
+        [value]="yellowCardDetails.NationalId">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-sm-12 col-md-6 col-lg-4"
+        icon="pi pi-phone"
+        [label]="getLabel('Phone Number', 'رقم الهاتف')"
+        [value]="yellowCardDetails.PhoneNumber">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-sm-12 col-md-6 col-lg-4"
+        icon="pi pi-wallet"
+        [label]="getLabel('Balance', 'الرصيد')"
+        [value]="yellowCardDetails.Balance"
+        valueType="amount"
+        currencySymbol="$">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-sm-12 col-md-6 col-lg-4"
+        icon="pi pi-chart-line"
+        [label]="getLabel('Daily Limit', 'الحد اليومي')"
+        [value]="yellowCardDetails.DailyLimit"
+        valueType="amount"
+        currencySymbol="$">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-sm-12 col-md-6 col-lg-4"
+        icon="pi pi-chart-bar"
+        [label]="getLabel('Monthly Limit', 'الحد الشهري')"
+        [value]="yellowCardDetails.MonthlyLimit"
+        valueType="amount"
+        currencySymbol="$">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-sm-12 col-md-6 col-lg-4"
+        icon="pi pi-info-circle"
+        [label]="getLabel('Status', 'الحالة')"
+        [value]="yellowCardDetails.Status">
+      </app-detail-item>
+
+      <app-detail-item 
+        customClass="col-sm-12 col-md-6 col-lg-4"
+        icon="pi pi-calendar"
+        [label]="getLabel('Created At', 'تاريخ الإنشاء')"
+        [value]="yellowCardDetails.CreatedAt"
+        valueType="date">
+      </app-detail-item>
+    </app-detail-card>
+
+    <!-- Money Sent To Card -->
+    <app-detail-card 
+      *ngIf="moneySentToList.length > 0"
+      [title]="getLabel('Money Sent To', 'الأموال المرسلة إلى')"
+      icon="pi pi-arrow-up-right"
+      [columns]="0"
+      [collapsible]="true"
+      class="mt-3">
+      
+      <div class="col-12">
+        <app-basic-table 
+          [mainList]="moneySentToList" 
+          [filteredList]="moneySentToFiltered" 
+          [model]="moneySentToModel">
+        </app-basic-table>
+      </div>
+    </app-detail-card>
+
+    <!-- Money Received From Card -->
+    <app-detail-card 
+      *ngIf="moneyReceivedFromList.length > 0"
+      [title]="getLabel('Money Received From', 'الأموال المستلمة من')"
+      icon="pi pi-arrow-down-left"
+      [columns]="0"
+      [collapsible]="true"
+      class="mt-3">
+      
+      <div class="col-12">
+        <app-basic-table 
+          [mainList]="moneyReceivedFromList" 
+          [filteredList]="moneyReceivedFromFiltered" 
+          [model]="moneyReceivedFromModel">
+        </app-basic-table>
+      </div>
+    </app-detail-card>
+
+    <!-- Empty State for Transactions -->
+    <div *ngIf="moneySentToList.length === 0 && moneyReceivedFromList.length === 0"
+         class="empty-state mt-3">
+      <i class="pi pi-inbox" style="font-size: 3rem; color: #ccc;"></i>
+      <p>{{ getLabel('No transactions found', 'لا توجد معاملات') }}</p>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && !yellowCardDetails && error" class="error-state">
+    <i class="pi pi-exclamation-triangle" style="font-size: 3rem; color: #f44336;"></i>
+    <p>{{ getLabel('Failed to load yellow card details', 'فشل تحميل تفاصيل البطاقة الصفراء') }}</p>
+    <button pButton type="button" [label]="getLabel('Retry', 'إعادة المحاولة')" icon="pi pi-refresh" (click)="retry()"></button>
+  </div>
+</div>

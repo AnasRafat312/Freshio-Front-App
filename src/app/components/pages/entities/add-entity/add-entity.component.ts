@@ -118,15 +118,15 @@ export class addEntityComponent extends GeneralConfig {
     languageFactor = 'ar';
     hasEntity = false;
     disableSubmit = false;
-    nationalIdExist = false;
+    NationalIdExist = false;
     taxNoExist = false;
-    nationalIdInUpdate!: any;
+    NationalIdInUpdate!: any;
     taxRegNoInUpdate!: any;
     IsSameCompanyID: boolean = true;
     //attatchments
     selectedImageUrl: string;
     dialogRef: any;
-    PersonNationalIDAttatchments: any[] = [];
+    PersonNationalIdAttatchments: any[] = [];
     CompanyTaxRegNoAttatchments: any[] = [];
     CompanyCommercialNoAttatchments: any[] = [];
     DeletedFileList: any[] = [];
@@ -216,12 +216,12 @@ export class addEntityComponent extends GeneralConfig {
                                     }
                                 }
                                 if (attatchmentsData?.entityType == 'person') {
-                                    this.PersonNationalIDAttatchments =
+                                    this.PersonNationalIdAttatchments =
                                         attatchmentsData?.attatchmentsList;
                                 }
                             } else {
-                                this.PersonNationalIDAttatchments =
-                                    res?.personNationalIDAttatchments;
+                                this.PersonNationalIdAttatchments =
+                                    res?.personNationalIdAttatchments;
                                 this.CompanyTaxRegNoAttatchments =
                                     res?.companyTaxRegNoAttatchments;
                                 this.CompanyCommercialNoAttatchments =
@@ -253,7 +253,7 @@ export class addEntityComponent extends GeneralConfig {
                         this.form.controls['gender'].setValue(0);
                     }
                     this.taxRegNoInUpdate = this.entityListInUpdate?.taxRegNo;
-                    this.nationalIdInUpdate = this.entityListInUpdate?.nationalId;
+                    this.NationalIdInUpdate = this.entityListInUpdate?.NationalId;
                     if(res?.EntityAddressList){
                         this.entityListInUpdate['EntityAddressList'] = this.convertAdressJsonToList(res['EntityAddressList']);
                     }
@@ -372,7 +372,7 @@ export class addEntityComponent extends GeneralConfig {
                         this.addEmailField();
                         this.addPhoneField();
                         this.form
-                            .get('nationalId')
+                            .get('NationalId')
                             .setValidators([Validators.required]);
                     }
                     if (this.entityListInUpdate['EntityType'] == 2) {
@@ -403,7 +403,7 @@ export class addEntityComponent extends GeneralConfig {
                         }
                     }
                     if (attatchmentsData?.entityType == 'person') {
-                        this.PersonNationalIDAttatchments =
+                        this.PersonNationalIdAttatchments =
                             attatchmentsData?.attatchmentsList;
                     }
 
@@ -606,7 +606,7 @@ export class addEntityComponent extends GeneralConfig {
             lootcomDate: [''],
             birthDate: [''],
             moritalStatus: [''],
-            nationalId: ['', [this.isNumberValidation]],
+            NationalId: ['', [this.isNumberValidation]],
             passportNo: [''],
             gender: [''],
             RoleClassificationID: [''],
@@ -1143,7 +1143,7 @@ export class addEntityComponent extends GeneralConfig {
             formData.append('lootcomDate', this.formattedDateTime);
             formData.append('birthDate', this.formattedDateTime);
             formData.append('moritalStatus', '1');
-            formData.append('nationalId', null);
+            formData.append('NationalId', null);
             formData.append('passportNo', null);
             formData.append('gender', '0');
             formData.append('webDataType', '0');
@@ -1199,8 +1199,8 @@ export class addEntityComponent extends GeneralConfig {
                     }
                 }
                 this.dataType = 'company';
-                this.form.get('nationalId').clearValidators();
-                this.form.get('nationalId').updateValueAndValidity();
+                this.form.get('NationalId').clearValidators();
+                this.form.get('NationalId').updateValueAndValidity();
                 this.form.get('taxRegNo').setValidators([Validators.required]);
                 this.form.get('taxRegNo').updateValueAndValidity();
                 this.form.get('commercialNo').setValidators([Validators.required]);
@@ -1210,23 +1210,23 @@ export class addEntityComponent extends GeneralConfig {
                     NationalNumber:value
                 }
                 if(value) {
-                    if(value != this.nationalIdInUpdate) {
+                    if(value != this.NationalIdInUpdate) {
                         this.entityService.getNationalNoVlidity(model).subscribe(
                             (res:any) => {
 
                                 if(res.response) {
-                                    this.form.get('nationalId').setErrors({ nationalIdExist: true });
+                                    this.form.get('NationalId').setErrors({ NationalIdExist: true });
                                 }
                                 else {
-                                    this.form.get('nationalId').setErrors(null);
+                                    this.form.get('NationalId').setErrors(null);
                                 }
                             }
                         )
                     }
                 }
                 this.dataType = 'person';
-                this.form.get('nationalId').setValidators([Validators.required]);
-                this.form.get('nationalId').updateValueAndValidity();
+                this.form.get('NationalId').setValidators([Validators.required]);
+                this.form.get('NationalId').updateValueAndValidity();
                 this.form.get('taxRegNo').clearValidators();
                 this.form.get('taxRegNo').updateValueAndValidity();
                 this.form.get('commercialNo').clearValidators();
@@ -1237,16 +1237,16 @@ export class addEntityComponent extends GeneralConfig {
                 this.form.get('commercialNo').updateValueAndValidity();
                 this.form.get('taxRegNo').clearValidators();
                 this.form.get('taxRegNo').updateValueAndValidity();
-                this.form.get('nationalId').clearValidators();
-                this.form.get('nationalId').updateValueAndValidity();
+                this.form.get('NationalId').clearValidators();
+                this.form.get('NationalId').updateValueAndValidity();
             }
         }else {
             this.form.get('commercialNo').clearValidators();
                 this.form.get('commercialNo').updateValueAndValidity();
                 this.form.get('taxRegNo').clearValidators();
                 this.form.get('taxRegNo').updateValueAndValidity();
-                this.form.get('nationalId').clearValidators();
-                this.form.get('nationalId').updateValueAndValidity();
+                this.form.get('NationalId').clearValidators();
+                this.form.get('NationalId').updateValueAndValidity();
         }
     }
     addAttachments(entityType: string, attachmentType: string) {
@@ -1261,7 +1261,7 @@ export class addEntityComponent extends GeneralConfig {
             }
         }
         if (entityType == 'person') {
-            attatchments = this.PersonNationalIDAttatchments;
+            attatchments = this.PersonNationalIdAttatchments;
         }
         this.dialogRef = this.dialog.open(SendAttatchmentsInEntityComponent, {
             disableClose: true,
@@ -1330,7 +1330,7 @@ export class addEntityComponent extends GeneralConfig {
             'birthDate',
             this.convertDateFormation(this.form.value.birthDate)
         );
-        formData.append('nationalId', this.form.value.nationalId);
+        formData.append('NationalId', this.form.value.NationalId);
         formData.append('IndustryID', this.form.value.IndustryID || '');
         formData.append('passportNo', this.form.value.passportNo);
         formData.append('moritalStatus', this.form.value.moritalStatus);
@@ -1426,8 +1426,8 @@ export class addEntityComponent extends GeneralConfig {
             this.CompanyCommercialNoAttatchments?.filter(
                 (obj) => !obj.hasOwnProperty('fileDocument')
             );
-        this.PersonNationalIDAttatchments =
-            this.PersonNationalIDAttatchments?.filter(
+        this.PersonNationalIdAttatchments =
+            this.PersonNationalIdAttatchments?.filter(
                 (obj) => !obj.hasOwnProperty('fileDocument')
             );
         const attatchments = [];
@@ -1449,8 +1449,8 @@ export class addEntityComponent extends GeneralConfig {
                 attatchments.push(newFile);
             });
         }
-        if (this.PersonNationalIDAttatchments?.length > 0) {
-            this.PersonNationalIDAttatchments.forEach((file) => {
+        if (this.PersonNationalIdAttatchments?.length > 0) {
+            this.PersonNationalIdAttatchments.forEach((file) => {
                 const newFile = {
                     file:file,
                     AttachmentHostFieldID:3
@@ -1530,7 +1530,7 @@ ngOnDestroy(): void {
     this.filteredCities = [];
     this.EntityAddressListOnSubmit = [];
     this.EntityContactsListOnSubmit = [];
-    this.PersonNationalIDAttatchments = [];
+    this.PersonNationalIdAttatchments = [];
     this.CompanyTaxRegNoAttatchments = [];
     this.CompanyCommercialNoAttatchments = [];
     this.DeletedFileList = [];

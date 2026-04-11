@@ -1,0 +1,84 @@
+<div class="box-item-form-container">
+  <form [formGroup]="form">
+    <!-- Box Name (Read-only) -->
+    <div class="box-name-display">
+      <label>
+        <i class="pi pi-box"></i>
+        {{ languageFactor === 'en' ? 'Box' : 'الصندوق' }}
+      </label>
+      <div class="box-name-value">{{ boxName }}</div>
+    </div>
+
+    <div class="form-fields">
+      <!-- Amount -->
+      <app-input-field class="mb-3"
+        [label]="languageFactor === 'en' ? 'Amount' : 'المبلغ'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form, 'Amount')"
+        [isValid]="form.get('Amount')?.valid"
+        icon="pi pi-wallet">
+        <p-inputNumber
+          formControlName="Amount"
+          mode="currency"
+          currency="EGP"
+          locale="en-EG"
+          [placeholder]="languageFactor === 'en' ? 'Enter amount' : 'أدخل المبلغ'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('Amount')?.invalid && form.get('Amount')?.touched}"
+          styleClass="w-100">
+        </p-inputNumber>
+      </app-input-field>
+
+      <!-- Date -->
+      <app-input-field class="mb-3"
+        [label]="languageFactor === 'en' ? 'Date' : 'التاريخ'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form, 'Date')"
+        [isValid]="form.get('Date')?.valid"
+        icon="pi pi-calendar">
+        <p-calendar
+          formControlName="Date"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          [placeholder]="languageFactor === 'en' ? 'Select date' : 'اختر التاريخ'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('Date')?.invalid && form.get('Date')?.touched}"
+          styleClass="w-100">
+        </p-calendar>
+      </app-input-field>
+
+      <!-- Description -->
+      <app-input-field class="mb-3"
+        [label]="languageFactor === 'en' ? 'Description' : 'الوصف'"
+        [languageFactor]="languageFactor"
+        [isRequired]="false"
+        [isValid]="true"
+        icon="pi pi-align-left">
+        <textarea 
+          pInputTextarea
+          formControlName="Description"
+          [placeholder]="languageFactor === 'en' ? 'Enter description (optional)' : 'أدخل الوصف (اختياري)'"
+          rows="3"
+          class="w-100">
+        </textarea>
+      </app-input-field>
+    </div>
+  </form>
+
+  <!-- Action Buttons -->
+  <div class="form-actions">
+    <button 
+      pButton 
+      (click)="submit()" 
+      class="p-button-success" 
+      [disabled]="form.invalid"
+      [label]="languageFactor === 'en' ? 'Save' : 'حفظ'"
+      icon="pi pi-check">
+    </button>
+    <button 
+      pButton 
+      (click)="onCancel()" 
+      class="p-button-secondary"
+      [label]="languageFactor === 'en' ? 'Cancel' : 'إلغاء'"
+      icon="pi pi-times">
+    </button>
+  </div>
+</div>

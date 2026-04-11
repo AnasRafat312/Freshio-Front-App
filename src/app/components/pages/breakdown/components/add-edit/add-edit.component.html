@@ -1,0 +1,167 @@
+<div class="container">
+  <form [formGroup]="form">
+    <!-- Header Section: Box Details -->
+    <div class="box-header-section">
+      <h3 class="section-title">
+        <i class="pi pi-box"></i>
+        {{ languageFactor === 'en' ? 'Box Information' : 'معلومات الصندوق' }}
+      </h3>
+      
+      <div class="row">
+        <!-- Box Name -->
+        <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+          [label]="languageFactor === 'en' ? 'Box Name' : 'اسم الصندوق'"
+          [languageFactor]="languageFactor"
+          [isRequired]="hasRequiredValidator(form, 'Name')"
+          [isValid]="form.get('Name')?.valid"
+          icon="pi pi-tag">
+          <input 
+            pInputText 
+            formControlName="Name"
+            [placeholder]="languageFactor === 'en' ? 'Enter box name' : 'أدخل اسم الصندوق'"
+            [ngClass]="{'ng-invalid ng-dirty': form.get('Name')?.invalid && form.get('Name')?.touched}">
+        </app-input-field>
+
+        <!-- Box Type -->
+        <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+          [label]="languageFactor === 'en' ? 'Box Type' : 'نوع الصندوق'"
+          [languageFactor]="languageFactor"
+          [isRequired]="hasRequiredValidator(form, 'Type')"
+          [isValid]="form.get('Type')?.valid"
+          icon="pi pi-arrow-right-arrow-left">
+          <p-dropdown
+            formControlName="Type"
+            [options]="boxTypeOptions"
+            optionLabel="label"
+            optionValue="value"
+            [placeholder]="languageFactor === 'en' ? 'Select box type' : 'اختر نوع الصندوق'"
+            [ngClass]="{'ng-invalid ng-dirty': form.get('Type')?.invalid && form.get('Type')?.touched}">
+          </p-dropdown>
+        </app-input-field>
+      </div>
+    </div>
+
+    <!-- Items Section: Box Items Table -->
+    <div class="box-items-section">
+      <div class="section-header">
+        <h3 class="section-title">
+          <i class="pi pi-list"></i>
+          {{ languageFactor === 'en' ? 'Box Items' : 'عناصر الصندوق' }}
+        </h3>
+        <button 
+          pButton 
+          type="button"
+          (click)="addBoxItem()" 
+          class="p-button-success p-button-sm"
+          [label]="languageFactor === 'en' ? 'Add Item' : 'إضافة عنصر'"
+          icon="pi pi-plus">
+        </button>
+      </div>
+
+      <!-- Items Table -->
+      <div class="items-table-container">
+        <p-table 
+          [value]="getActiveItems()" 
+          [scrollable]="true"
+          styleClass="p-datatable-sm p-datatable-striped">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 5%">#</th>
+              <th style="width: 25%">{{ languageFactor === 'en' ? 'Amount' : 'المبلغ' }}</th>
+              <th style="width: 25%">{{ languageFactor === 'en' ? 'Date' : 'التاريخ' }}</th>
+              <th style="width: 35%">{{ languageFactor === 'en' ? 'Description' : 'الوصف' }}</th>
+              <th style="width: 10%">{{ languageFactor === 'en' ? 'Actions' : 'الإجراءات' }}</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr [formGroup]="boxItemsList.at(i)">
+              <td>{{ i + 1 }}</td>
+              
+              <!-- Amount -->
+              <td>
+                <p-inputNumber
+                  formControlName="Amount"
+                  mode="currency"
+                  currency="EGP"
+                  locale="en-EG"
+                  [placeholder]="languageFactor === 'en' ? 'Enter amount' : 'أدخل المبلغ'"
+                  [ngClass]="{'ng-invalid ng-dirty': boxItemsList.at(i).get('Amount')?.invalid && boxItemsList.at(i).get('Amount')?.touched}"
+                  styleClass="w-100">
+                </p-inputNumber>
+              </td>
+              
+              <!-- Date -->
+              <td>
+                <p-calendar
+                  formControlName="Date"
+                  [showIcon]="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="languageFactor === 'en' ? 'Select date' : 'اختر التاريخ'"
+                  [ngClass]="{'ng-invalid ng-dirty': boxItemsList.at(i).get('Date')?.invalid && boxItemsList.at(i).get('Date')?.touched}"
+                  styleClass="w-100">
+                </p-calendar>
+              </td>
+              
+              <!-- Description -->
+              <td>
+                <input 
+                  pInputText 
+                  formControlName="Description"
+                  [placeholder]="languageFactor === 'en' ? 'Enter description (optional)' : 'أدخل الوصف (اختياري)'"
+                  class="w-100">
+              </td>
+              
+              <!-- Actions -->
+              <td class="text-center">
+                <button 
+                  pButton 
+                  type="button"
+                  (click)="removeBoxItem(i)" 
+                  class="p-button-danger p-button-sm p-button-text"
+                  icon="pi pi-trash"
+                  [pTooltip]="languageFactor === 'en' ? 'Delete' : 'حذف'">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5" class="text-center">
+                {{ languageFactor === 'en' ? 'No items added yet' : 'لم يتم إضافة عناصر بعد' }}
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <tr>
+              <td colspan="4" class="text-right font-bold">
+                {{ languageFactor === 'en' ? 'Total Amount:' : 'المبلغ الإجمالي:' }}
+              </td>
+              <td class="font-bold">
+                {{ getTotalAmount() | currency:'EGP':'symbol':'1.2-2' }}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </form>
+
+  <!-- Action Buttons -->
+  <div class="add-actions">
+    <button 
+      pButton 
+      (click)="submit()" 
+      class="add-btn add-save-btn" 
+      [disabled]="form.invalid">
+      <i class="pi pi-save"></i> 
+      {{ languageFactor === 'en' ? 'Save' : 'حفظ' }}
+    </button>
+    <button 
+      pButton 
+      (click)="onCancel()" 
+      class="add-btn add-cancel-btn">
+      <i class="pi pi-times"></i> 
+      {{ languageFactor === 'en' ? 'Cancel' : 'إلغاء' }}
+    </button>
+  </div>
+</div>

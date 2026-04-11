@@ -1,26 +1,27 @@
-$logo-color: #47419b;
-$logo-color-darker: #3a358a;
-$logo-color-lighter: #544db2;
+// Brand Colors - Matching your system theme
+$primary-blue: #006B8F;
+$primary-orange: #F5A623;
+$blue-light: #0088B3;
+$blue-dark: #004D6B;
+$orange-light: #FFB84D;
+$orange-dark: #E09615;
 
 // Main container for the entire login view
 .login-container {
-    display: flex
-;
+    display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #47419bad;
+    background: linear-gradient(135deg, $primary-blue 0%, $blue-light 50%, $primary-orange 100%);
     background-size: cover;
     padding: 2rem;
     position: relative;
-    //background: url('../../../../assets/images/login-image.jpg') no-repeat center center;
 
     // Language selector positioned at the top right
     .language-container {
       position: absolute;
       top: 20px;
       right: 20px;
-      //background-color: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(10px);
       border-radius: 8px;
       padding: 5px;
@@ -32,63 +33,85 @@ $logo-color-lighter: #544db2;
       display: grid;
       grid-template-columns: 1fr 1fr;
       width: 100%;
-      max-width: 1000px;
-      height: 600px;
-      background: rgba(255, 255, 255, 0.1);
+      max-width: 1100px;
+      min-height: 600px;
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 20px;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       overflow: hidden;
 
       // Left panel for branding
       .left-panel {
-        display: flex
-;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    color: #fff;
-    text-align: center;
-    background: #19147170;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        color: #fff;
+        text-align: center;
+        background: linear-gradient(180deg, $primary-blue 0%, $blue-dark 100%);
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          right: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle, rgba(245, 166, 35, 0.1) 0%, transparent 70%);
+          animation: pulse 15s ease-in-out infinite;
+        }
 
         .branding {
+          position: relative;
+          z-index: 1;
+
           img {
-            width: 150px;
-            margin-bottom: 20px;
+            width: 180px;
+            margin-bottom: 30px;
             background: #FFF;
-            border-radius: 25px;
-            box-shadow: 0px 0px 10px 4px $logo-color;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+
+            &:hover {
+              transform: scale(1.05);
+            }
           }
+
           h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #e8f0fe;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
           }
+
           p {
             font-size: 1.1rem;
             max-width: 300px;
+            color: rgba(255, 255, 255, 0.9);
           }
+
           .version {
             margin-top: 20px;
             font-style: italic;
-            color: #ddd;
+            color: rgba(255, 255, 255, 0.7);
           }
         }
       }
 
       // Right panel for forms
       .right-panel {
-        padding: 40px;
-    display: flex
-;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    background: #fbfbff;
+        padding: 50px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        background: #ffffff;
 
         .back-btn {
           position: absolute;
@@ -96,54 +119,63 @@ $logo-color-lighter: #544db2;
           left: 20px;
           background: none;
           border: none;
-          //color: #fff;
+          color: $primary-blue;
           cursor: pointer;
           z-index: 10;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: $primary-orange;
+          }
+
           .mat-icon {
-            font-size: 24px;
+            font-size: 28px;
           }
         }
 
         .form-wrapper {
           width: 100%;
-          max-width: 400px;
+          max-width: 420px;
           margin: 0 auto;
-          color: #fff;
 
           .form-title {
             font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 30px;
-    text-align: center;
-    color: #FFF;
-    background: #3a358a;
-    border-radius: 10px;
-    padding: 10px 0px;
+            font-weight: 700;
+            margin-bottom: 35px;
+            text-align: center;
+            color: #FFF;
+            background: linear-gradient(135deg, $primary-blue 0%, $blue-light 100%);
+            border-radius: 12px;
+            padding: 15px 0;
+            box-shadow: 0 4px 15px rgba(0, 107, 143, 0.3);
           }
 
           .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             position: relative;
 
             label {
               display: block;
               margin-bottom: 8px;
-              font-weight: 500;
+              font-weight: 600;
+              color: $primary-blue;
             }
 
             .form-control, .p-password, .p-dropdown {
               width: 100%;
-              background: rgba(255, 255, 255, 0.2);
-              border: 1px solid rgba(255, 255, 255, 0.3);
-              border-radius: 8px;
-              color: #fff;
-              padding: 12px;
+              background: #f8f9fa;
+              border: 2px solid #e0e0e0;
+              border-radius: 10px;
+              color: #2c3e50;
+              padding: 12px 15px;
               font-size: 1rem;
-              transition: background 0.3s;
+              transition: all 0.3s ease;
 
               &:focus-within, &:focus {
-                background: rgba(255, 255, 255, 0.3);
+                background: #ffffff;
+                border-color: $primary-blue;
                 outline: none;
+                box-shadow: 0 0 0 3px rgba(0, 107, 143, 0.1);
               }
             }
 
@@ -154,26 +186,28 @@ $logo-color-lighter: #544db2;
                 padding: 0;
               }
               .p-placeholder {
-                  color: #ccc;
+                  color: #999;
               }
               .p-dropdown .p-dropdown-trigger {
-                  color: #fff;
+                  color: $primary-blue;
               }
             }
 
             .error-input {
-              color: #ff8a80;
+              color: #dc3545;
               font-size: 0.875rem;
               margin-top: 5px;
               position: absolute;
-              bottom: -20px;
+              bottom: -22px;
+              font-weight: 500;
             }
           }
 
           .registration-grid {
               display: grid;
               grid-template-columns: 1fr 1fr;
-              gap: 20px;
+              gap: 25px;
+              
               .full-width {
                   grid-column: 1 / -1;
               }
@@ -182,23 +216,39 @@ $logo-color-lighter: #544db2;
           .form-links {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 20px;
+            
             a {
-              color: #3a358a;
+              color: $primary-blue;
               text-decoration: none;
               cursor: pointer;
+              font-weight: 500;
+              transition: color 0.3s ease;
+
               &:hover {
+                color: $primary-orange;
                 text-decoration: underline;
               }
             }
           }
 
           .p-button {
-            background: $logo-color;
-            border: 1px solid;
+            background: linear-gradient(135deg, $primary-orange 0%, $orange-dark 100%);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 166, 35, 0.3);
+
             &:enabled:hover {
-              background: $logo-color-lighter;
+              background: linear-gradient(135deg, $orange-light 0%, $primary-orange 100%);
+              transform: translateY(-2px);
+              box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
+            }
+
+            &:disabled {
+              background: #ccc;
+              box-shadow: none;
             }
           }
         }
@@ -209,24 +259,110 @@ $logo-color-lighter: #544db2;
     @media (max-width: 992px) {
       .login-box {
         grid-template-columns: 1fr;
-        height: auto;
-        max-width: 500px;
+        max-width: 550px;
+        min-height: auto;
+
         .left-panel {
-          display: none; // Hide on smaller screens for simplicity
+          padding: 30px;
+          min-height: 250px;
+
+          .branding {
+            img {
+              width: 120px;
+              margin-bottom: 20px;
+            }
+
+            h1 {
+              font-size: 1.8rem;
+            }
+
+            p {
+              font-size: 1rem;
+            }
+          }
+        }
+
+        .right-panel {
+          padding: 40px 30px;
         }
       }
+
       .back-btn {
-        top: 30px !important;
-        color: #FFF;
+        top: 15px !important;
+        left: 15px !important;
       }
     }
-    @media (max-width: 576px) {
-      padding: 1rem;
+
+    @media (max-width: 768px) {
+      padding: 1.5rem 13.5rem;;
+
       .login-box {
-          .right-panel {
-              padding: 20px;
+        max-width: 100%;
+
+        /* .left-panel {
+          display: none;
+        } */
+
+        .right-panel {
+          padding: 35px 25px;
+
+          .form-wrapper {
+            max-width: 100%;
+
+            .form-title {
+              font-size: 1.75rem;
+              padding: 12px 0;
+            }
+
+            .registration-grid {
+              grid-template-columns: 1fr;
+              gap: 20px;
+            }
           }
+        }
       }
+    }
+
+    @media (max-width: 576px) {
+      padding: 4rem;
+
+      .login-box {
+        border-radius: 15px;
+
+        .right-panel {
+          padding: 25px 20px;
+
+          .form-wrapper {
+            .form-title {
+              font-size: 1.5rem;
+              margin-bottom: 25px;
+            }
+
+            .input-group {
+              margin-bottom: 20px;
+
+              .form-control, .p-password, .p-dropdown {
+                padding: 10px 12px;
+                font-size: 0.95rem;
+              }
+            }
+
+            .p-button {
+              padding: 12px !important;
+              font-size: 1rem !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
     }
   }
 
@@ -256,17 +392,26 @@ $logo-color-lighter: #544db2;
             position: absolute;
             bottom: -14px;
             font-weight: bold;
+            color: #dc3545;
         }
     }
     .add-field .add-input-group .add-input-icon {
-        color: #3a358a;
+        color: $primary-blue;
         margin-top: 0;
     }
     .add-field .add-input-group .add-floating-label {
-        color: #3a358a;
+        color: $primary-blue;
     }
     .add-field .add-input-group > .p-dropdown, .add-field .add-input-group > .p-calendar, .add-field .add-input-group > .p-inputtext {
-        background-color: #fbfbff !important;;
+        background-color: #f8f9fa !important;
+        border: 2px solid #e0e0e0 !important;
+        border-radius: 10px !important;
+        transition: all 0.3s ease;
+
+        &:focus, &:focus-within {
+            border-color: $primary-blue !important;
+            box-shadow: 0 0 0 3px rgba(0, 107, 143, 0.1) !important;
+        }
     }
 }
 

@@ -4,7 +4,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ActionData } from 'src/app/shared/core/normalTableColumn.model';
 import { PrivilegeModel } from '../../core/models/privilege.model';
 import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
-import { UsersService } from '../../../users/users.service';
 import { PrivilegeService } from '../../../privilege/privilege.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { LanguagesService } from 'src/app/shared/services/languages.service';
@@ -12,6 +11,7 @@ import { Constant } from 'src/app/core/constants/constant';
 import { PrivilegeChecked } from '../../../privilege/interfaces/privilege';
 import { FilterType } from 'src/app/shared/core/enums/filter-type.enum';
 import { NewDeleteModalComponent } from 'src/app/shared/components/new-delete-modal/new-delete-modal.component';
+import { UsersService } from '../../../users/services/users.service';
 
 @Component({
   selector: 'app-privileges-list',
@@ -130,7 +130,7 @@ export class PrivilegesList implements OnInit, OnDestroy {
     } else {
       header = 'حذف';
     }
-    let url = this.constant.SRM_API_ENDPOINT + `Privileges/Delete`;
+    let url = this.constant.API_ENDPOINT + `Privileges/Delete`;
     let model = {
       DeletedBy: JSON.parse(localStorage.getItem('userId')),
       DeletedDateTime: this.sharedServices.getDateTime(new Date()),

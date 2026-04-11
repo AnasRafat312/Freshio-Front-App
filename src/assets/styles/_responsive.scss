@@ -1,0 +1,71 @@
+// ========================================
+// Responsive Design & Media Queries
+// ========================================
+
+// Small Mobile Devices (max-width: 576px)
+@media (max-width: 576px) {
+    .p-button:not(.p-button-icon-only) {
+        width: 100%;
+        //margin-bottom: 0.5rem;
+    }
+}
+
+// Tablet Devices (max-width: 768px)
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    // Typography
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    h4 {
+        font-size: 1.125rem;
+    }
+
+    h5 {
+        font-size: 1rem;
+    }
+
+    h6 {
+        font-size: 0.875rem;
+    }
+
+    // Layout Components
+    .layout-sidebar {
+        width: 280px !important;
+    }
+
+    .layout-topbar {
+        .user-name {
+            display: none;
+        }
+    }
+
+    // Touch Target Size (Accessibility)
+    button,
+    a,
+    .p-button,
+    .p-checkbox,
+    .p-radiobutton {
+        min-height: auto;
+        min-width: auto;
+    }
+}
+
+// Desktop Devices (min-width: 992px)
+@media (min-width: 992px) {
+    body {
+        font-size: 16px;
+    }
+}

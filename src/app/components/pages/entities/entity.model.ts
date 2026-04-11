@@ -17,7 +17,7 @@ export interface Entity {
     lootcomDate: Date | string,
     birthDate: Date | string,
     moritalStatus: number,
-    nationalId: number,
+    NationalId: number,
     passportNo: number,
     gender: number,
     webDataType: number,

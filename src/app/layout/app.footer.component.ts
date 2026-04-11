@@ -27,14 +27,14 @@ export class AppFooterComponent {
 
     }
     openHelpForm() {
-        this.dialogRef = this.dialog.open(HelpMeComponent,{
+        /* this.dialogRef = this.dialog.open(HelpMeComponent,{
             position:{right:'0',bottom:'0'},
             width:'400px',
             height: '110vh',
-        });
+        }); */
       }
       openInfo(){
-        if(this.languageFactor=='en')
+        /* if(this.languageFactor=='en')
         {
             this.dialogRef = this.dialog.open(PageInfoComponent,{
                 data : {PageName : PageNaming.TESTING},
@@ -53,7 +53,7 @@ export class AppFooterComponent {
                 height: '100vh',
                 maxHeight: '100%',
             });
-        }
+        } */
 
 
       }

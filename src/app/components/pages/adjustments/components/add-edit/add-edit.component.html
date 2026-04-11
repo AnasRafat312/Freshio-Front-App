@@ -1,0 +1,164 @@
+<div class="container">
+    <form [formGroup]="form">
+        <div class="row">
+            <!-- Name -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Name' : 'الاسم'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Name')"
+                [isValid]="form.get('Name')?.valid"
+                icon="pi pi-tag">
+                <input
+                    type="text"
+                    pInputText
+                    formControlName="Name"
+                    [placeholder]="languageFactor === 'en' ? 'Enter adjustment name' : 'أدخل اسم التعديل'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Name')?.invalid && form.get('Name')?.touched}">
+            </app-input-field>
+
+            <!-- Adjustment Type -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Adjustment Type' : 'نوع التعديل'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'AdjustmentType')"
+                [isValid]="form.get('AdjustmentType')?.valid"
+                icon="pi pi-tag">
+                <p-dropdown
+                    formControlName="AdjustmentType"
+                    [options]="adjustmentTypeOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [placeholder]="'Select adjustment type'|translateToArabic:languageFactor"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('AdjustmentType')?.invalid && form.get('AdjustmentType')?.touched}">
+                </p-dropdown>
+            </app-input-field>
+
+            <!-- Direction -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Direction' : 'الاتجاه'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Direction')"
+                [isValid]="form.get('Direction')?.valid"
+                icon="pi pi-arrows-v">
+                <p-dropdown
+                    formControlName="Direction"
+                    [options]="directionOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [placeholder]="'Select direction'|translateToArabic:languageFactor"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Direction')?.invalid && form.get('Direction')?.touched}">
+                </p-dropdown>
+            </app-input-field>
+
+            <!-- Calculation Type -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Calculation Type' : 'نوع الحساب'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'CalculationType')"
+                [isValid]="form.get('CalculationType')?.valid"
+                icon="pi pi-calculator">
+                <p-dropdown
+                    formControlName="CalculationType"
+                    [options]="calculationTypeOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [placeholder]="'Select calculation type'|translateToArabic:languageFactor"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('CalculationType')?.invalid && form.get('CalculationType')?.touched}">
+                </p-dropdown>
+            </app-input-field>
+
+            <!-- Value -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Value' : 'القيمة'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Value')"
+                [isValid]="form.get('Value')?.valid"
+                icon="pi pi-money-bill">
+                <p-inputNumber
+                    *ngIf="!isPercentageType"
+                    mode="currency"
+                    currency="EGP"
+                    locale="en-EG"
+                    formControlName="Value"
+                    [placeholder]="languageFactor === 'en' ? 'Enter value' : 'أدخل القيمة'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Value')?.invalid && form.get('Value')?.touched}">
+                </p-inputNumber>
+                <p-inputNumber
+                    *ngIf="isPercentageType"
+                    mode="decimal"
+                    prefix="%"
+                    [min]="0"
+                    [max]="100"
+                    [useGrouping]="false"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="2"
+                    formControlName="Value"
+                    [placeholder]="languageFactor === 'en' ? 'Enter percentage' : 'أدخل النسبة المئوية'"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Value')?.invalid && form.get('Value')?.touched}">
+                </p-inputNumber>
+            </app-input-field>
+
+            <!-- Applies To -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Applies To' : 'ينطبق على'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'AppliesTo')"
+                [isValid]="form.get('AppliesTo')?.valid"
+                icon="pi pi-users">
+                <p-dropdown
+                    formControlName="AppliesTo"
+                    [options]="appliesToOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [placeholder]="'Select applies to'|translateToArabic:languageFactor"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('AppliesTo')?.invalid && form.get('AppliesTo')?.touched}">
+                </p-dropdown>
+            </app-input-field>
+
+            <!-- Is Active -->
+            <app-input-field class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                [label]="languageFactor === 'en' ? 'Active Status' : 'حالة التفعيل'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'IsActive')"
+                [isValid]="form.get('IsActive')?.valid"
+                icon="pi pi-check-circle">
+                <p-dropdown
+                    formControlName="IsActive"
+                    [options]="[
+                        {label: languageFactor === 'en' ? 'Active' : 'نشط', value: true},
+                        {label: languageFactor === 'en' ? 'Inactive' : 'غير نشط', value: false}
+                    ]"
+                    optionLabel="label"
+                    optionValue="value"
+                    [placeholder]="'Select status'|translateToArabic:languageFactor"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('IsActive')?.invalid && form.get('IsActive')?.touched}">
+                </p-dropdown>
+            </app-input-field>
+
+            <!-- Description -->
+            <app-input-field class="mb-3 col-12"
+                [label]="languageFactor === 'en' ? 'Description' : 'الوصف'"
+                [languageFactor]="languageFactor"
+                [isRequired]="hasRequiredValidator(form,'Description')"
+                [isValid]="form.get('Description')?.valid"
+                icon="pi pi-align-left">
+                <textarea
+                    pInputTextarea
+                    formControlName="Description"
+                    [placeholder]="languageFactor === 'en' ? 'Enter description' : 'أدخل الوصف'"
+                    rows="3"
+                    [ngClass]="{'ng-invalid ng-dirty': form.get('Description')?.invalid && form.get('Description')?.touched}">
+                </textarea>
+            </app-input-field>
+        </div>
+    </form>
+    
+    <div class="add-actions">
+        <button pButton (click)="submit()" class="add-btn add-save-btn" [disabled]="form.invalid">
+          <i class="pi pi-save"></i> {{languageFactor === 'en' ? 'Save' : 'حفظ'}}
+        </button>
+        <button pButton (click)="onCancel()" class="add-btn add-cancel-btn">
+          <i class="pi pi-times"></i> {{languageFactor === 'en' ? 'Cancel' : 'إلغاء'}}
+        </button>
+    </div>
+</div>

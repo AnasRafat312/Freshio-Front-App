@@ -3,6 +3,7 @@ import { DeleteService } from '../delete-modal/delete.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { LanguagesService } from '../../services/languages.service';
+import { ResponseModel } from '../../model/response';
 @Component({
   selector: 'app-new-delete-modal',
   templateUrl: './new-delete-modal.component.html',
@@ -45,22 +46,17 @@ export class NewDeleteModalComponent {
       )
     } else {
       this.deleteService.deleteFun(this.data?.url, this.data?.id).subscribe(
-        (res: any) => {
-          if (res?.response) {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: res?.message });
+        (res: ResponseModel) => {
+          if (res?.Success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: res?.Message });
             this.dialoge.close(true);
           }
           else {
-            if (res?.messageType === 1) {
-                this.messageService.add({ severity: 'warn', summary: 'Warn', detail: res?.message });
-            }
-            else {
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: res?.message });
-            }
+            this.messageService.add({ severity: 'warn', summary: 'Warn', detail: res?.Message });
           }
         },
         (err: any) => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: err?.message });
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: err?.error?.Message });
         }
       )
     }

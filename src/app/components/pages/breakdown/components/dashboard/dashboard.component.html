@@ -1,0 +1,315 @@
+<div class="breakdown-dashboard">
+  <!-- Balance Header -->
+  <div class="balance-header">
+    <div class="balance-card">
+      <div class="balance-icon">
+        <i class="pi pi-wallet"></i>
+      </div>
+      <div class="balance-info">
+        <label>{{ languageFactor === 'en' ? 'Current Balance' : 'الرصيد الحالي' }}</label>
+        <div class="balance-amount" [ngClass]="{'positive': netBalance >= 0, 'negative': netBalance < 0}">
+          {{ netBalance | currency:'EGP':'symbol':'1.2-2' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="totals-summary">
+      <div class="total-card total-in">
+        <i class="pi pi-arrow-down"></i>
+        <div>
+          <label>{{ languageFactor === 'en' ? 'Total In' : 'إجمالي الدخل' }}</label>
+          <div class="total-amount">{{ totalIn | currency:'EGP':'symbol':'1.2-2' }}</div>
+        </div>
+      </div>
+      <div class="total-card total-out">
+        <i class="pi pi-arrow-up"></i>
+        <div>
+          <label>{{ languageFactor === 'en' ? 'Total Out' : 'إجمالي المصروفات' }}</label>
+          <div class="total-amount">{{ totalOut | currency:'EGP':'symbol':'1.2-2' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <p-tabView [(activeIndex)]="activeTabIndex" styleClass="custom-tabview">
+    <!-- Tab 1: Table View -->
+    <p-tabPanel [header]="languageFactor === 'en' ? 'Table View' : 'عرض الجدول'">
+      <ng-template pTemplate="header">
+        <i class="pi pi-table"></i>
+        <span>{{ languageFactor === 'en' ? 'Table View' : 'عرض الجدول' }}</span>
+      </ng-template>
+
+      <div class="table-view-container">
+        <!-- In Boxes Table -->
+        <div class="section-container">
+          <div class="section-header">
+            <h3>
+              <i class="pi pi-arrow-down"></i>
+              {{ languageFactor === 'en' ? 'In (Assets)' : 'الدخل (الأصول)' }}
+            </h3>
+            <button pButton type="button" (click)="addNewBox('In')" 
+              class="p-button-success p-button-sm"
+              [label]="languageFactor === 'en' ? 'Add Box' : 'إضافة صندوق'"
+              icon="pi pi-plus">
+            </button>
+          </div>
+
+          <p-table [value]="inBoxes" styleClass="p-datatable-sm p-datatable-striped">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ languageFactor === 'en' ? 'Box Name' : 'اسم الصندوق' }}</th>
+                <th>{{ languageFactor === 'en' ? 'Items' : 'العناصر' }}</th>
+                <th>{{ languageFactor === 'en' ? 'Total Amount' : 'المبلغ الإجمالي' }}</th>
+                <th>{{ languageFactor === 'en' ? 'Actions' : 'الإجراءات' }}</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-box>
+              <tr>
+                <td>{{ box.Name }}</td>
+                <td>{{ box.Items?.length || 0 }}</td>
+                <td class="amount-cell">{{ box.TotalAmount | currency:'EGP':'symbol':'1.2-2' }}</td>
+                <td>
+                  <button pButton type="button" (click)="editBox(box)" 
+                    class="p-button-warning p-button-sm p-button-text"
+                    icon="pi pi-pencil" [pTooltip]="languageFactor === 'en' ? 'Edit' : 'تعديل'">
+                  </button>
+                  <button pButton type="button" (click)="deleteBox(box)" 
+                    class="p-button-danger p-button-sm p-button-text"
+                    icon="pi pi-trash" [pTooltip]="languageFactor === 'en' ? 'Delete' : 'حذف'">
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="4" class="text-center">
+                  {{ languageFactor === 'en' ? 'No In boxes yet' : 'لا توجد صناديق دخل بعد' }}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <!-- Out Boxes Table -->
+        <div class="section-container">
+          <div class="section-header">
+            <h3>
+              <i class="pi pi-arrow-up"></i>
+              {{ languageFactor === 'en' ? 'Out (Cost)' : 'المصروفات (التكاليف)' }}
+            </h3>
+            <button pButton type="button" (click)="addNewBox('Out')" 
+              class="p-button-danger p-button-sm"
+              [label]="languageFactor === 'en' ? 'Add Box' : 'إضافة صندوق'"
+              icon="pi pi-plus">
+            </button>
+          </div>
+
+          <p-table [value]="outBoxes" styleClass="p-datatable-sm p-datatable-striped">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ languageFactor === 'en' ? 'Box Name' : 'اسم الصندوق' }}</th>
+                <th>{{ languageFactor === 'en' ? 'Items' : 'العناصر' }}</th>
+                <th>{{ languageFactor === 'en' ? 'Total Amount' : 'المبلغ الإجمالي' }}</th>
+                <th>{{ languageFactor === 'en' ? 'Actions' : 'الإجراءات' }}</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-box>
+              <tr>
+                <td>{{ box.Name }}</td>
+                <td>{{ box.Items?.length || 0 }}</td>
+                <td class="amount-cell">{{ box.TotalAmount | currency:'EGP':'symbol':'1.2-2' }}</td>
+                <td>
+                  <button pButton type="button" (click)="editBox(box)" 
+                    class="p-button-warning p-button-sm p-button-text"
+                    icon="pi pi-pencil" [pTooltip]="languageFactor === 'en' ? 'Edit' : 'تعديل'">
+                  </button>
+                  <button pButton type="button" (click)="deleteBox(box)" 
+                    class="p-button-danger p-button-sm p-button-text"
+                    icon="pi pi-trash" [pTooltip]="languageFactor === 'en' ? 'Delete' : 'حذف'">
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="4" class="text-center">
+                  {{ languageFactor === 'en' ? 'No Out boxes yet' : 'لا توجد صناديق مصروفات بعد' }}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-tabPanel>
+
+    <!-- Tab 2: Card View -->
+    <p-tabPanel [header]="languageFactor === 'en' ? 'Card View' : 'عرض البطاقات'">
+      <ng-template pTemplate="header">
+        <i class="pi pi-th-large"></i>
+        <span>{{ languageFactor === 'en' ? 'Card View' : 'عرض البطاقات' }}</span>
+      </ng-template>
+
+      <div class="card-view-container">
+        <!-- In Boxes (Left Half) -->
+        <div class="boxes-column in-column">
+          <div class="column-header">
+            <h3>
+              <i class="pi pi-arrow-down"></i>
+              {{ languageFactor === 'en' ? 'In (Assets)' : 'الدخل (الأصول)' }}
+            </h3>
+            <button pButton type="button" (click)="addNewBox('In')" 
+              class="p-button-success p-button-sm"
+              icon="pi pi-plus"
+              [label]="languageFactor === 'en' ? 'Add' : 'إضافة'">
+            </button>
+          </div>
+
+          <div class="boxes-grid">
+            <div *ngFor="let box of inBoxes" class="box-card in-box">
+              <div class="box-card-header">
+                <h4>{{ box.Name }}</h4>
+                <div class="box-actions">
+                  <button pButton type="button" (click)="addBoxItem(box)" 
+                    class="p-button-success p-button-sm p-button-rounded p-button-text"
+                    icon="pi pi-plus" [pTooltip]="languageFactor === 'en' ? 'Add Item' : 'إضافة عنصر'">
+                  </button>
+                  <button pButton type="button" (click)="editBox(box)" 
+                    class="p-button-warning p-button-sm p-button-rounded p-button-text"
+                    icon="pi pi-pencil" [pTooltip]="languageFactor === 'en' ? 'Edit Box' : 'تعديل الصندوق'">
+                  </button>
+                  <button pButton type="button" (click)="deleteBox(box)" 
+                    class="p-button-danger p-button-sm p-button-rounded p-button-text"
+                    icon="pi pi-trash" [pTooltip]="languageFactor === 'en' ? 'Delete Box' : 'حذف الصندوق'">
+                  </button>
+                </div>
+              </div>
+
+              <div class="box-total">
+                <label>{{ languageFactor === 'en' ? 'Total' : 'الإجمالي' }}</label>
+                <div class="total-value">{{ box.TotalAmount | currency:'EGP':'symbol':'1.2-2' }}</div>
+              </div>
+
+              <div class="box-items">
+                <div *ngFor="let item of box.Items" class="item-card">
+                  <div class="item-info">
+                    <div class="item-amount">{{ item.Amount | currency:'EGP':'symbol':'1.2-2' }}</div>
+                    <div class="item-date">{{ item.Date | date:'dd/MM/yyyy' }}</div>
+                    <div class="item-description" *ngIf="item.Description">{{ item.Description }}</div>
+                  </div>
+                  <div class="item-actions">
+                    <button pButton type="button" (click)="editBoxItem(item, box)" 
+                      class="p-button-sm p-button-text p-button-rounded"
+                      icon="pi pi-pencil">
+                    </button>
+                    <button pButton type="button" (click)="deleteBoxItem(item.Id)" 
+                      class="p-button-danger p-button-sm p-button-text p-button-rounded"
+                      icon="pi pi-trash">
+                    </button>
+                  </div>
+                </div>
+
+                <div *ngIf="!box.Items || box.Items.length === 0" class="no-items">
+                  <i class="pi pi-inbox"></i>
+                  <p>{{ languageFactor === 'en' ? 'No items yet' : 'لا توجد عناصر بعد' }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="inBoxes.length === 0" class="empty-state">
+              <i class="pi pi-inbox"></i>
+              <p>{{ languageFactor === 'en' ? 'No In boxes yet' : 'لا توجد صناديق دخل بعد' }}</p>
+              <button pButton type="button" (click)="addNewBox('In')" 
+                class="p-button-success"
+                [label]="languageFactor === 'en' ? 'Add First Box' : 'إضافة أول صندوق'"
+                icon="pi pi-plus">
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Out Boxes (Right Half) -->
+        <div class="boxes-column out-column">
+          <div class="column-header">
+            <h3>
+              <i class="pi pi-arrow-up"></i>
+              {{ languageFactor === 'en' ? 'Out (Cost)' : 'المصروفات (التكاليف)' }}
+            </h3>
+            <button pButton type="button" (click)="addNewBox('Out')" 
+              class="p-button-danger p-button-sm"
+              icon="pi pi-plus"
+              [label]="languageFactor === 'en' ? 'Add' : 'إضافة'">
+            </button>
+          </div>
+
+          <div class="boxes-grid">
+            <div *ngFor="let box of outBoxes" class="box-card out-box">
+              <div class="box-card-header">
+                <h4>{{ box.Name }}</h4>
+                <div class="box-actions">
+                  <button pButton type="button" (click)="addBoxItem(box)" 
+                    class="p-button-success p-button-sm p-button-rounded p-button-text"
+                    icon="pi pi-plus" [pTooltip]="languageFactor === 'en' ? 'Add Item' : 'إضافة عنصر'">
+                  </button>
+                  <button pButton type="button" (click)="editBox(box)" 
+                    class="p-button-warning p-button-sm p-button-rounded p-button-text"
+                    icon="pi pi-pencil" [pTooltip]="languageFactor === 'en' ? 'Edit Box' : 'تعديل الصندوق'">
+                  </button>
+                  <button pButton type="button" (click)="deleteBox(box)" 
+                    class="p-button-danger p-button-sm p-button-rounded p-button-text"
+                    icon="pi pi-trash" [pTooltip]="languageFactor === 'en' ? 'Delete Box' : 'حذف الصندوق'">
+                  </button>
+                </div>
+              </div>
+
+              <div class="box-total">
+                <label>{{ languageFactor === 'en' ? 'Total' : 'الإجمالي' }}</label>
+                <div class="total-value">{{ box.TotalAmount | currency:'EGP':'symbol':'1.2-2' }}</div>
+              </div>
+
+              <div class="box-items">
+                <div *ngFor="let item of box.Items" class="item-card">
+                  <div class="item-info">
+                    <div class="item-amount">{{ item.Amount | currency:'EGP':'symbol':'1.2-2' }}</div>
+                    <div class="item-date">{{ item.Date | date:'dd/MM/yyyy' }}</div>
+                    <div class="item-description" *ngIf="item.Description">{{ item.Description }}</div>
+                  </div>
+                  <div class="item-actions">
+                    <button pButton type="button" (click)="editBoxItem(item, box)" 
+                      class="p-button-sm p-button-text p-button-rounded"
+                      icon="pi pi-pencil">
+                    </button>
+                    <button pButton type="button" (click)="deleteBoxItem(item.Id)" 
+                      class="p-button-danger p-button-sm p-button-text p-button-rounded"
+                      icon="pi pi-trash">
+                    </button>
+                  </div>
+                </div>
+
+                <div *ngIf="!box.Items || box.Items.length === 0" class="no-items">
+                  <i class="pi pi-inbox"></i>
+                  <p>{{ languageFactor === 'en' ? 'No items yet' : 'لا توجد عناصر بعد' }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="outBoxes.length === 0" class="empty-state">
+              <i class="pi pi-inbox"></i>
+              <p>{{ languageFactor === 'en' ? 'No Out boxes yet' : 'لا توجد صناديق مصروفات بعد' }}</p>
+              <button pButton type="button" (click)="addNewBox('Out')" 
+                class="p-button-danger"
+                [label]="languageFactor === 'en' ? 'Add First Box' : 'إضافة أول صندوق'"
+                icon="pi pi-plus">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+
+  <!-- Loading Overlay -->
+  <div *ngIf="loading" class="loading-overlay">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</div>

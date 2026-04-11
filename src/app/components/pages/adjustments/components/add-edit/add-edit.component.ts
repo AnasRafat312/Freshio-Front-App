@@ -1,0 +1,210 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
+import { LanguagesService } from 'src/app/shared/services/languages.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
+import { Constant } from 'src/app/core/constants/constant';
+import { AdjustmentModel } from '../../core/models/adjustment.model';
+import { ResponseModel } from 'src/app/shared/model/response';
+import { AdjustmentType } from '../../core/enums/adjustment-type.enum';
+import { AdjustmentDirection } from '../../core/enums/adjustment-direction.enum';
+import { AdjustmentAppliesTo } from '../../core/enums/adjustment-applies-to.enum';
+import { CalculationType } from '../../core/enums/calculation-type.enum';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-adjustments-add-edit',
+  standalone: true,
+  imports: [CommonModule, SharedModule],
+  templateUrl: './add-edit.component.html',
+  styleUrls: ['./add-edit.component.scss']
+})
+export class AdjustmentsAddEditComponent implements OnInit, OnDestroy {
+  form: FormGroup;
+  languageFactor = 'en';
+  isEditMode = false;
+  adjustmentId: number | null = null;
+  languageSubscription: Subscription;
+  
+  adjustmentTypeOptions = [];
+  directionOptions = [];
+  appliesToOptions = [];
+  calculationTypeOptions = [];
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private language: LanguagesService,
+    private sharedService: SharedService,
+    private messageService: MessageService,
+    private constant: Constant,
+    public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig
+  ) {
+    this.initializeForm();
+    this.adjustmentTypeOptions = this.sharedService.getTypeList(AdjustmentType);
+    this.directionOptions = this.sharedService.getTypeList(AdjustmentDirection);
+    this.appliesToOptions = this.sharedService.getTypeList(AdjustmentAppliesTo);
+    this.calculationTypeOptions = this.sharedService.getTypeList(CalculationType);
+  }
+
+  ngOnInit(): void {
+    this.languageSubscription = this.language.currentLanguage.subscribe((data) => {
+      this.languageFactor = data;
+    });
+
+    // Check if opened in dialog with data
+    if (this.config.data) {
+      this.isEditMode = true;
+      this.adjustmentId = this.config.data.Id;
+      if(this.adjustmentId) {
+        this.loadAdjustmentData(this.adjustmentId);
+      }
+    } else {
+      // Check route params (for standalone page mode)
+      this.route.params.subscribe(params => {
+        if (params['id']) {
+          this.isEditMode = true;
+          this.adjustmentId = +params['id'];
+          this.loadAdjustmentData(this.adjustmentId);
+        }
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
+
+  private initializeForm(): void {
+    this.form = this.fb.group({
+      Name: ['', [Validators.required, Validators.minLength(3)]],
+      Description: [''],
+      AdjustmentType: [null, Validators.required],
+      Direction: [null, Validators.required],
+      CalculationType: [null, Validators.required],
+      Value: [0, [Validators.required, Validators.min(0)]],
+      AppliesTo: [null, Validators.required],
+      IsActive: [true, Validators.required]
+    });
+  }
+
+  private loadAdjustmentData(id: number): void {
+    const url = this.constant.API_ENDPOINT + `Adjustments/GetById/${id}`;
+    this.sharedService.confirm(url, '', 'Get').subscribe({
+      next: (response: ResponseModel) => {
+        if (response?.Data) {
+          this.form.patchValue(response?.Data);
+        }
+      },
+      error: (error) => {
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'Failed to load adjustment data' 
+        });
+      }
+    });
+  }
+
+  hasRequiredValidator(form: FormGroup, controlName: string): boolean {
+    const control = form.get(controlName);
+    if (control && control.validator) {
+      const validator = control.validator({} as any);
+      return validator && validator['required'];
+    }
+    return false;
+  }
+
+  get isPercentageType(): boolean {
+    return this.form.get('CalculationType')?.value === CalculationType.Percentage;
+  }
+
+  submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.messageService.add({ 
+        severity: 'warn', 
+        summary: 'Warning', 
+        detail: 'Please fill all required fields correctly' 
+      });
+      return;
+    }
+
+    const adjustmentData: AdjustmentModel = {
+      ...this.form.value,
+      Id: this.adjustmentId || 0
+    };
+
+    if (this.isEditMode) {
+      const url = this.constant.API_ENDPOINT + `Adjustments/Update/${this.adjustmentId}`;
+      this.sharedService.Update(url, adjustmentData).subscribe({
+        next: (response: ResponseModel) => {
+          if (response.Success) {
+            this.messageService.add({ 
+              severity: 'success', 
+              summary: 'Success', 
+              detail: response.Message || 'Adjustment updated successfully'
+            });
+            this.ref.close(response?.Data);
+          } else {
+            this.messageService.add({ 
+              severity: 'error', 
+              summary: 'Error', 
+              detail: response.Message || 'Operation failed' 
+            });
+          }
+        },
+        error: (error) => {
+          this.messageService.add({ 
+            severity: 'error', 
+            summary: 'Error', 
+            detail: 'An error occurred while updating the adjustment' 
+          });
+        }
+      });
+    } else {
+      const url = this.constant.API_ENDPOINT + 'Adjustments/Create';
+      this.sharedService.Create(url, adjustmentData).subscribe({
+        next: (response: ResponseModel) => {
+          if (response.Success) {
+            this.messageService.add({ 
+              severity: 'success', 
+              summary: 'Success', 
+              detail: response.Message || 'Adjustment added successfully'
+            });
+            this.ref.close(response?.Data);
+          } else {
+            this.messageService.add({ 
+              severity: 'error', 
+              summary: 'Error', 
+              detail: response.Message || 'Operation failed' 
+            });
+          }
+        },
+        error: (error) => {
+          this.messageService.add({ 
+            severity: 'error', 
+            summary: 'Error', 
+            detail: 'An error occurred while adding the adjustment' 
+          });
+        }
+      });
+    }
+  }
+
+  onCancel(): void {
+    if (this.ref) {
+      this.ref.close(false);
+    } else {
+      this.router.navigate(['/pages/adjustments']);
+    }
+  }
+}

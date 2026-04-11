@@ -263,16 +263,16 @@
                     [label]="'National ID' | translateToArabic: languageFactor"
                     [languageFactor]="languageFactor"
                     [icon]="'pi pi-id-card'"
-                    [isRequired]="hasRequiredValidator(form, 'nationalId')"
-                    [isValid]="form.get('nationalId')?.valid">
+                    [isRequired]="hasRequiredValidator(form, 'NationalId')"
+                    [isValid]="form.get('NationalId')?.valid">
                     <div class="taxRegNo">
-                        <input type="number" pInputText formControlName="nationalId" (input)="checkTaxNoValidity(form.value.nationalId)"/>
-                        <div *ngIf="Attachments" class="attatch-icon-content" (click)="addAttachments('person','nationalId')">
+                        <input type="number" pInputText formControlName="NationalId" (input)="checkTaxNoValidity(form.value.NationalId)"/>
+                        <div *ngIf="Attachments" class="attatch-icon-content" (click)="addAttachments('person','NationalId')">
                             <i class="fa-solid fa-paperclip w-100 h-100"></i>
                         </div>
                     </div>
                 </app-input-field>
-                <div *ngIf="f['nationalId'].errors && f['nationalId'].errors['nationalIdExist'] ">
+                <div *ngIf="f['NationalId'].errors && f['NationalId'].errors['NationalIdExist'] ">
                     <strong class="text-danger">{{'National ID Already Exist'|translateToArabic:languageFactor}}</strong>
                 </div>
             </div>
