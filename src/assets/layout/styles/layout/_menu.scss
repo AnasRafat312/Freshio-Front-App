@@ -232,17 +232,8 @@
             padding: .75rem 1rem;
             border-radius: 10px;
             transition: all $transitionDuration ease;
-            // Keep normal flex direction but adjust icon/text margins
-            
-            .layout-menuitem-icon {
-                margin-right: 0;
-                margin-left: 0.5rem;
-            }
-            
-            .layout-submenu-toggler {
-                margin-left: 0;
-                margin-right: auto;
-            }
+            flex-direction: row-reverse;
+            gap: 10px;
         }
     }
 }

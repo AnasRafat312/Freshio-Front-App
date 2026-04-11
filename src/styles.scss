@@ -739,15 +739,3 @@ tr {
     padding: 1rem;
   }
 }
-
-// ========================================
-// RTL Support - Arabic Language
-// ========================================
-
-// Multiselect checkbox margin for RTL
-[dir="rtl"] {
-  .p-multiselect-panel .p-multiselect-items .p-multiselect-item .p-checkbox {
-    margin-right: 0;
-    margin-left: 0.5rem;
-  }
-}

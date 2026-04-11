@@ -43,31 +43,24 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: linear-gradient(135deg, #6a11cb 0%, rgba(71, 65, 155, 0.6784313725) 100%);
+    background: linear-gradient(222deg, #6a11cb 0% 0%, #2575fc 100%);
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.02), 0 0 2px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.08);
     transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
     width: 235px;
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 0.5rem 0.75rem;
-    
+   // padding: 0.5rem 0.75rem;
     .layout-menu li a {
-      // Icons stay on left, labels on right in Arabic
       .layout-menuitem-icon {
         margin-right: 0;
         margin-left: 0.5rem;
-        order: 2; // Move icon after text
-      }
-      
-      .layout-menuitem-text {
-        order: 1; // Move text before icon
       }
 
       .layout-submenu-toggler {
         margin-left: 0;
         margin-right: auto;
-        order: 0; // Keep toggler at start (right side in RTL)
+        transform: rotate(180deg);
       }
     }
   }

@@ -12,7 +12,6 @@ import { Constant } from 'src/app/core/constants/constant';
 import { PrivilegeChecked } from '../../../privilege/interfaces/privilege';
 import { FilterType } from 'src/app/shared/core/enums/filter-type.enum';
 import { NewDeleteModalComponent } from 'src/app/shared/components/new-delete-modal/new-delete-modal.component';
-import { BankAccountsAddEditComponent } from '../add-edit/add-edit.component';
 
 @Component({
   selector: 'app-bank-accounts-list',
@@ -65,35 +64,25 @@ export class BankAccountsList implements OnInit, OnDestroy {
     this.language.currentLanguage.subscribe((data) => {
       this.languageFactor = data;
       this.model = {
-        AccountHolderName: {
+        Name: {
           filterType: FilterType.multi,
           filterList: [],
-          header: this.languageFactor === 'en' ? 'Account Holder Name' : 'اسم صاحب الحساب',
+          header: this.languageFactor === 'en' ? 'Name' : 'الأسم',
         },
         PhoneNumber: {
           filterType: FilterType.multi,
           filterList: [],
           header: this.languageFactor === 'en' ? 'Phone Number' : 'رقم التيليفون',
         },
-        BankName: {
-          filterType: FilterType.multi,
-          filterList: [],
-          header: this.languageFactor === 'en' ? 'Bank Name' : 'اسم البنك',
-        },
-        AccountNumber: {
-          filterType: FilterType.multi,
-          filterList: [],
-          header: this.languageFactor === 'en' ? 'Account Number' : 'رقم الحساب',
-        },
-        IBAN: {
-          filterType: FilterType.multi,
-          filterList: [],
-          header: this.languageFactor === 'en' ? 'IBAN' : 'الآيبان',
-        },
-        Balance: {
+        CurrentBalance: {
           filterType: FilterType.number,
           filterList: [],
-          header: this.languageFactor === 'en' ? 'Balance' : 'الرصيد',
+          header: this.languageFactor === 'en' ? 'Current Balance' : 'الرصيد الحالي',
+        },
+        InitialBalance: {
+          filterType: FilterType.number,
+          filterList: [],
+          header: this.languageFactor === 'en' ? 'Initial Balance' : 'الرصيد الأولي',
         },
       };
     });
@@ -141,31 +130,7 @@ export class BankAccountsList implements OnInit, OnDestroy {
   }
 
   addEdit(row?: any): void {
-    let header = '';
-    if (this.languageFactor == 'en') {
-      row ? header = 'Edit Bank Account' : header = 'Add Bank Account';
-    } else {
-      row ? header = 'تعديل الحساب البنكي' : header = 'إضافة حساب بنكي';
-    }
-    
-    this.ref = this.dialogService.open(
-      BankAccountsAddEditComponent,
-      {
-        header: header,
-        contentStyle: { overflow: 'auto' },
-        data: row,
-        baseZIndex: 10000,
-        maximizable: true,
-        resizable: true,
-        styleClass: 'lg-dialog-width'
-      }
-    );
-    
-    this.ref.onClose.subscribe((product) => {
-      if (product) {
-        //this.getAllRows();
-      }
-    });
+
   }
 
   deleteRow(row: any): void {

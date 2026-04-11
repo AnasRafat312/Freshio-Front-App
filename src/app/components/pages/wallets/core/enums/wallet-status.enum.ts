@@ -3,7 +3,7 @@ export enum WalletStatusEnum {
   Unavailable = 2
 }
 
-export enum WalletProviderEnum {
+export enum WalletTypeEnum {
   Vodafone = 1,
   Etisalat = 2,
   Access = 3
