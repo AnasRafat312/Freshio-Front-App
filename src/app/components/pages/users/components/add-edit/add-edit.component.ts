@@ -54,7 +54,7 @@ export class UsersAddEditComponent implements OnInit, OnDestroy {
     // Check if opened in dialog with data
     if (this.config.data) {
       this.isEditMode = true;
-      this.userId = this.config.data.Id;
+      this.userId = this.config.data.ID;
       if(this.userId) {
         this.loadUserData(this.userId);
       }
@@ -299,8 +299,8 @@ export class UsersAddEditComponent implements OnInit, OnDestroy {
             });
 
             // Upload image if selected
-            if (this.selectedFile && response.Data?.Id) {
-              this.uploadImage(response.Data.Id);
+            if (this.selectedFile && response.Data?.ID) {
+              this.uploadImage(response.Data.ID);
             }
 
             this.ref.close(response?.Data);

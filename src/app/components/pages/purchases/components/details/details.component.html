@@ -1,0 +1,90 @@
+<div *ngIf="purchase" class="purchase-details">
+  <div class="grid">
+    <!-- Purchase Number -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Purchase Number', 'رقم الشراء') }}</label>
+        <div class="detail-value">{{ purchase.PurchaseNumber }}</div>
+      </div>
+    </div>
+
+    <!-- Purchase Date -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Purchase Date', 'تاريخ الشراء') }}</label>
+        <div class="detail-value">{{ purchase.PurchaseDate | date:'medium' }}</div>
+      </div>
+    </div>
+
+    <!-- Supplier -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Supplier', 'المورد') }}</label>
+        <div class="detail-value">{{ purchase.SupplierName || purchase.ExternalSupplierName || '-' }}</div>
+      </div>
+    </div>
+
+    <!-- Employee -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Employee', 'الموظف') }}</label>
+        <div class="detail-value">{{ purchase.EmployeeName || '-' }}</div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="col-12" *ngIf="purchase.Notes">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Notes', 'ملاحظات') }}</label>
+        <div class="detail-value">{{ purchase.Notes }}</div>
+      </div>
+    </div>
+
+    <!-- Items Table -->
+    <div class="col-12 mt-3">
+      <h4>{{ getLabel('Purchase Items', 'أصناف الشراء') }}</h4>
+      <p-table [value]="purchase?.PurchaseOrderItems" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{ getLabel('Item', 'الصنف') }}</th>
+            <!-- <th>{{ getLabel('Unit', 'الوحدة') }}</th> -->
+            <th>{{ getLabel('Quantity', 'الكمية') }}</th>
+            <th>{{ getLabel('Unit Price', 'سعر الوحدة') }}</th>
+            <th>{{ getLabel('Total', 'الإجمالي') }}</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>{{ item.ItemName }}</td>
+            <!-- <td>{{ item.UnitOfMeasure }}</td> -->
+            <td>{{ item.Quantity | number:'1.2-2' }}</td>
+            <td>{{ item.UnitPrice | number:'1.2-2' }}</td>
+            <td>{{ item.TotalPrice | number:'1.2-2' }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Total Amount -->
+    <div class="col-12 mt-3">
+      <div class="total-amount-box">
+        <h4>
+          {{ getLabel('Total Amount:', 'الإجمالي الكلي:') }}
+          <span class="total-value">{{ purchase.TotalAmount | number:'1.2-2' }}</span>
+        </h4>
+      </div>
+    </div>
+
+    <!-- Created Date -->
+    <div class="col-12 md:col-6" *ngIf="purchase.CreatedDate">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Created Date', 'تاريخ الإنشاء') }}</label>
+        <div class="detail-value">{{ purchase.CreatedDate | date:'medium' }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!purchase" class="text-center p-4">
+  <p>{{ getLabel('No data available', 'لا توجد بيانات متاحة') }}</p>
+</div>

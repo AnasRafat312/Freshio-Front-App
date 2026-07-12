@@ -1,162 +1,125 @@
 <div class="container-fluid">
-    <div class="row text-center justify-content-center">
-        <div *ngIf="Wallets" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
-            <a class="card" routerLink="/pages/wallets">
-                <div class="card-body">
-                    <i class="fa-solid fa-wallet"></i>
-                    <h5 *ngIf="languageFactor === 'en'" class="card-title">Wallets</h5>
-                    <h5 *ngIf="languageFactor === 'ar'" class="card-title">المحافظ</h5>
-                    <span *ngIf="languageFactor === 'en'" class="card-description">Manage wallets and transactions.</span>
-                    <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة المحافظ والمعاملات.</span>
-                    
-                    <div *ngIf="balanceSummary" class="card-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">{{languageFactor === 'en' ? 'Count' : 'العدد'}}:</span>
-                            <span class="stat-value">{{balanceSummary.ElectronicWalletsCount}}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">{{languageFactor === 'en' ? 'Balance' : 'الرصيد'}}:</span>
-                            <span class="stat-value" [ngClass]="getBalanceClass(balanceSummary.ElectronicWalletsBalance)">
-                                {{balanceSummary.ElectronicWalletsBalance | currency:'EGP':'symbol':'1.2-2'}}
-                            </span>
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center p-5">
+        <p-progressSpinner></p-progressSpinner>
+        <p class="mt-3">{{languageFactor === 'en' ? 'Loading dashboard...' : 'جاري تحميل لوحة التحكم...'}}</p>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div *ngIf="!loading">
+        <!-- Metrics Cards -->
+        <div class="row text-center justify-content-center">
+            <!-- Pending Orders -->
+            <div class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
+                <a class="card card-warning" routerLink="/pages/sales-orders">
+                    <div class="card-body">
+                        <i class="pi pi-clock"></i>
+                        <h5 class="card-title">{{languageFactor === 'en' ? 'Pending Orders' : 'أوردرات معلقة'}}</h5>
+                        <span class="card-description">{{languageFactor === 'en' ? 'Orders awaiting approval' : 'أوردرات في انتظار الموافقة'}}</span>
+                        <div class="card-stats">
+                            <span class="stat-value stat-large">{{pendingOrdersCount}}</span>
                         </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
 
-        <div *ngIf="BankAccounts" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
-            <a class="card" routerLink="/pages/bank-accounts">
-                <div class="card-body">
-                    <i class="fa-solid fa-building-columns"></i>
-                    <h5 *ngIf="languageFactor === 'en'" class="card-title">Bank Accounts</h5>
-                    <h5 *ngIf="languageFactor === 'ar'" class="card-title">الحسابات البنكية</h5>
-                    <span *ngIf="languageFactor === 'en'" class="card-description">Manage bank accounts.</span>
-                    <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة الحسابات البنكية.</span>
-                    
-                    <div *ngIf="balanceSummary" class="card-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">{{languageFactor === 'en' ? 'Count' : 'العدد'}}:</span>
-                            <span class="stat-value">{{balanceSummary.BankAccountsCount}}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">{{languageFactor === 'en' ? 'Balance' : 'الرصيد'}}:</span>
-                            <span class="stat-value" [ngClass]="getBalanceClass(balanceSummary.BankAccountsBalance)">
-                                {{balanceSummary.BankAccountsBalance | currency:'EGP':'symbol':'1.2-2'}}
-                            </span>
+            <!-- Approved Orders Today -->
+            <div class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
+                <a class="card card-success" routerLink="/pages/sales-orders">
+                    <div class="card-body">
+                        <i class="pi pi-check-circle"></i>
+                        <h5 class="card-title">{{languageFactor === 'en' ? 'Approved Orders Today' : 'أوردرات معتمدة اليوم'}}</h5>
+                        <span class="card-description">{{languageFactor === 'en' ? 'Orders approved today' : 'أوردرات تم اعتمادها اليوم'}}</span>
+                        <div class="card-stats">
+                            <span class="stat-value stat-large">{{approvedOrdersToday}}</span>
                         </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
 
-        <div *ngIf="YellowCards" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
-            <a class="card" routerLink="/pages/yellow-cards">
-                <div class="card-body">
-                    <i class="fa-solid fa-credit-card"></i>
-                    <h5 *ngIf="languageFactor === 'en'" class="card-title">Yellow Cards</h5>
-                    <h5 *ngIf="languageFactor === 'ar'" class="card-title">البطاقات الصفراء</h5>
-                    <span *ngIf="languageFactor === 'en'" class="card-description">Manage yellow cards.</span>
-                    <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة البطاقات الصفراء.</span>
-                    
-                    <div *ngIf="balanceSummary" class="card-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">{{languageFactor === 'en' ? 'Count' : 'العدد'}}:</span>
-                            <span class="stat-value">{{balanceSummary.YellowCardsCount}}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">{{languageFactor === 'en' ? 'Balance' : 'الرصيد'}}:</span>
-                            <span class="stat-value" [ngClass]="getBalanceClass(balanceSummary.YellowCardsBalance)">
-                                {{balanceSummary.YellowCardsBalance | currency:'EGP':'symbol':'1.2-2'}}
-                            </span>
+            <!-- Total Sales Today -->
+            <div class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
+                <a class="card card-info" routerLink="/pages/sales-orders">
+                    <div class="card-body">
+                        <i class="pi pi-dollar"></i>
+                        <h5 class="card-title">{{languageFactor === 'en' ? 'Sales Today' : 'مبيعات اليوم'}}</h5>
+                        <span class="card-description">{{languageFactor === 'en' ? 'Total sales amount today' : 'إجمالي المبيعات اليوم'}}</span>
+                        <div class="card-stats">
+                            <span class="stat-value stat-large">{{totalSalesToday | number:'1.2-2'}}</span>
                         </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
 
-        <div *ngIf="CreditCards" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
-            <a class="card" routerLink="/pages/credit-cards">
-                <div class="card-body">
-                    <i class="fa-solid fa-credit-card"></i>
-                    <h5 *ngIf="languageFactor === 'en'" class="card-title">Credit Cards</h5>
-                    <h5 *ngIf="languageFactor === 'ar'" class="card-title">بطاقات الشراء</h5>
-                    <span *ngIf="languageFactor === 'en'" class="card-description">Manage credit cards.</span>
-                    <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة بطاقات الشراء.</span>
-                    
-                    <div *ngIf="balanceSummary" class="card-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">{{languageFactor === 'en' ? 'Count' : 'العدد'}}:</span>
-                            <span class="stat-value">{{balanceSummary.CreditCardsCount}}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">{{languageFactor === 'en' ? 'Balance' : 'الرصيد'}}:</span>
-                            <span class="stat-value" [ngClass]="getBalanceClass(balanceSummary.CreditCardsBalance)">
-                                {{balanceSummary.CreditCardsBalance | currency:'EGP':'symbol':'1.2-2'}}
-                            </span>
+            <!-- Total Profit Today -->
+            <div class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
+                <a class="card card-success" routerLink="/pages/sales-orders">
+                    <div class="card-body">
+                        <i class="pi pi-chart-line"></i>
+                        <h5 class="card-title">{{languageFactor === 'en' ? 'Profit Today' : 'أرباح اليوم'}}</h5>
+                        <span class="card-description">{{languageFactor === 'en' ? 'Total profit today' : 'إجمالي الأرباح اليوم'}}</span>
+                        <div class="card-stats">
+                            <span class="stat-value stat-large">{{totalProfitToday | number:'1.2-2'}}</span>
                         </div>
                     </div>
-                </div>
-            </a>
-        </div>
-        <div *ngIf="Breakdown" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
-            <a class="card" routerLink="/pages/breakdown">
-                <div class="card-body">
-                    <i class="fa-solid fa-boxes-stacked"></i>
-                    <h5 *ngIf="languageFactor === 'en'" class="card-title">Breakdown</h5>
-                    <h5 *ngIf="languageFactor === 'ar'" class="card-title">الصناديق</h5>
-                    <span *ngIf="languageFactor === 'en'" class="card-description">Manage boxes in and out.</span>
-                    <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة الصناديق الواردة والصادرة.</span>
-                    
-                    <div *ngIf="balanceSummary" class="card-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">{{languageFactor === 'en' ? 'Count' : 'العدد'}}:</span>
-                            <span class="stat-value">{{balanceSummary.BoxsCount}}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">{{languageFactor === 'en' ? 'Balance' : 'الرصيد'}}:</span>
-                            <span class="stat-value" [ngClass]="getBalanceClass(balanceSummary.BoxsBalance)">
-                                {{balanceSummary.BoxsBalance | currency:'EGP':'symbol':'1.2-2'}}
-                            </span>
+                </a>
+            </div>
+
+            <!-- Purchases Today -->
+            <div class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
+                <a class="card card-primary" routerLink="/pages/purchases">
+                    <div class="card-body">
+                        <i class="pi pi-shopping-cart"></i>
+                        <h5 class="card-title">{{languageFactor === 'en' ? 'Purchases Today' : 'مشتريات اليوم'}}</h5>
+                        <span class="card-description">{{languageFactor === 'en' ? 'Total purchases today' : 'إجمالي المشتريات اليوم'}}</span>
+                        <div class="card-stats">
+                            <span class="stat-value stat-large">{{purchasesToday | number:'1.2-2'}}</span>
                         </div>
                     </div>
-                </div>
-            </a>
-        </div>
-        <div *ngIf="Traders" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
-            <a class="card" routerLink="/pages/traders">
-                <div class="card-body">
-                    <i class="fa-solid fa-handshake"></i>
-                    <h5 *ngIf="languageFactor === 'en'" class="card-title">Traders</h5>
-                    <h5 *ngIf="languageFactor === 'ar'" class="card-title">التجار</h5>
-                    <span *ngIf="languageFactor === 'en'" class="card-description">Manage traders information.</span>
-                    <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة معلومات التجار.</span>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
 
-        <div *ngIf="Phones" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
-            <a class="card" routerLink="/pages/phones">
-                <div class="card-body">
-                    <i class="fa-solid fa-mobile-screen"></i>
-                    <h5 *ngIf="languageFactor === 'en'" class="card-title">Phones</h5>
-                    <h5 *ngIf="languageFactor === 'ar'" class="card-title">الهواتف</h5>
-                    <span *ngIf="languageFactor === 'en'" class="card-description">Manage phones and devices.</span>
-                    <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة الهواتف والأجهزة.</span>
-                </div>
-            </a>
-        </div>
+            <!-- Waste Today -->
+            <div class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
+                <a class="card card-danger" routerLink="/pages/waste">
+                    <div class="card-body">
+                        <i class="pi pi-trash"></i>
+                        <h5 class="card-title">{{languageFactor === 'en' ? 'Waste Today' : 'هالك اليوم'}}</h5>
+                        <span class="card-description">{{languageFactor === 'en' ? 'Waste records today' : 'سجلات الهالك اليوم'}}</span>
+                        <div class="card-stats">
+                            <span class="stat-value stat-large">{{wasteToday}}</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
 
-        <div *ngIf="Privileges" class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
-            <a class="card" routerLink="/pages/privileges-management">
-                <div class="card-body">
-                    <i class="fa-solid fa-key"></i>
-                    <h5 *ngIf="languageFactor === 'en'" class="card-title">Privileges</h5>
-                    <h5 *ngIf="languageFactor === 'ar'" class="card-title">الصلاحيات</h5>
-                    <span *ngIf="languageFactor === 'en'" class="card-description">Manage user privileges.</span>
-                    <span *ngIf="languageFactor === 'ar'" class="card-description">إدارة صلاحيات المستخدمين.</span>
-                </div>
-            </a>
+            <!-- Low Stock Items -->
+            <div class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
+                <a class="card card-danger" routerLink="/pages/inventory">
+                    <div class="card-body">
+                        <i class="pi pi-exclamation-triangle"></i>
+                        <h5 class="card-title">{{languageFactor === 'en' ? 'Low Stock Items' : 'أصناف منخفضة المخزون'}}</h5>
+                        <span class="card-description">{{languageFactor === 'en' ? 'Items below minimum stock' : 'أصناف أقل من الحد الأدنى'}}</span>
+                        <div class="card-stats">
+                            <span class="stat-value stat-large">{{lowStockItemsCount}}</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Shortage Items -->
+            <div class="col-sm-12 col-sm-6 col-md-4 col-lg-3 box">
+                <a class="card card-warning" routerLink="/pages/stock-shortages">
+                    <div class="card-body">
+                        <i class="pi pi-info-circle"></i>
+                        <h5 class="card-title">{{languageFactor === 'en' ? 'Shortage Items' : 'أصناف بها نواقص'}}</h5>
+                        <span class="card-description">{{languageFactor === 'en' ? 'Items with shortages' : 'أصناف تحتاج توريد'}}</span>
+                        <div class="card-stats">
+                            <span class="stat-value stat-large">{{shortageItemsCount}}</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 </div>

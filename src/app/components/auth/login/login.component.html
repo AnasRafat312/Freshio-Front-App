@@ -9,8 +9,8 @@
     <!-- Left Panel: Branding and Welcome Message -->
     <div class="left-panel">
       <div class="branding">
-        <img src="../../../../assets/images/new-logo.png" loading="lazy" alt="Company Logo">
-        <h1>{{'Welcome to Hesabato System'|translateToArabic:languageFactor}}</h1>
+        <img src="../../../../assets/images/Logo.png" loading="lazy" alt="Freshio Logo">
+        <h1>{{'Welcome to Freshio System'|translateToArabic:languageFactor}}</h1>
         <!-- <p>Your premier solution for automotive management. Sign in to continue.</p> -->
         <!-- <div class="version">Beta Version</div> -->
       </div>
@@ -27,16 +27,16 @@
       <div class="form-wrapper" *ngIf="true">
         <h2 class="form-title">{{'Sign In'|translateToArabic:languageFactor}}</h2>
         <form [formGroup]="form" (ngSubmit)="submit()">
-            <!-- Email or Username -->
+            <!-- Email or Email -->
             <app-input-field
-            [label]="languageFactor === 'ar' ? 'البريد الإلكتروني أو اسم المستخدم' : 'Email or Username'"
+            [label]="languageFactor === 'ar' ? 'البريد الإلكتروني أو اسم المستخدم' : 'Email or Email'"
             [languageFactor]="languageFactor"
-            [isRequired]="hasRequiredValidator(form,'Username')"
-            [isValid]="form.get('Username')?.valid"
+            [isRequired]="hasRequiredValidator(form,'Email')"
+            [isValid]="form.get('Email')?.valid"
             icon="pi pi-user">
-            <input type="text" pInputText formControlName="Username" id="inputUsername" [placeholder]="languageFactor === 'ar' ? 'أدخل البريد الإلكتروني أو اسم المستخدم' : 'Enter email or username'">
-            <div *ngIf="form.get('Username').touched && form.get('Username').invalid" class="error-input text-danger">
-              <div *ngIf="form.get('Username').hasError('required')">{{'Email or Username is required'|translateToArabic:languageFactor}}</div>
+            <input type="text" pInputText formControlName="Email" id="inputEmail" [placeholder]="languageFactor === 'ar' ? 'أدخل البريد الإلكتروني أو اسم المستخدم' : 'Enter email or Email'">
+            <div *ngIf="form.get('Email').touched && form.get('Email').invalid" class="error-input text-danger">
+              <div *ngIf="form.get('Email').hasError('required')">{{'Email or Email is required'|translateToArabic:languageFactor}}</div>
             </div>
         </app-input-field>
             <!-- Password -->
@@ -93,10 +93,10 @@
         <form [formGroup]="RegisterForm" (ngSubmit)="RegistrationSubmit()">
           <div class="registration-grid">
             <div class="input-group">
-              <label for="UserName">{{'User Name'|translateToArabic:languageFactor}}</label>
-              <input type="text" class="form-control" formControlName="UserName" id="UserName" [placeholder]="languageFactor === 'ar' ? 'أسم المستخدم' :'User Name'">
-              <div *ngIf="RegisterForm.get('UserName').touched && RegisterForm.get('UserName').invalid" class="error-input">
-                <div *ngIf="RegisterForm.get('UserName').hasError('required')">{{'User Name is required'|translateToArabic:languageFactor}}</div>
+              <label for="Email">{{'User Name'|translateToArabic:languageFactor}}</label>
+              <input type="text" class="form-control" formControlName="Email" id="Email" [placeholder]="languageFactor === 'ar' ? 'أسم المستخدم' :'User Name'">
+              <div *ngIf="RegisterForm.get('Email').touched && RegisterForm.get('Email').invalid" class="error-input">
+                <div *ngIf="RegisterForm.get('Email').hasError('required')">{{'User Name is required'|translateToArabic:languageFactor}}</div>
               </div>
             </div>
             <div class="input-group">

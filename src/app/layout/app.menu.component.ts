@@ -144,77 +144,57 @@ export class AppMenuComponent implements OnInit {
         }
 
 
+        // Freshio Business Menu Items
         const staticPages = [
             {
-                label: this.languagePipe.transform('Home', this.languageFactor),
-                icon: 'fa-solid fa-home fa-xl',
+                label: this.languagePipe.transform('Dashboard', this.languageFactor),
+                icon: 'pi pi-home',
                 routerLink: ['/pages/home'],
             },
             {
-                label: this.languagePipe.transform('Transactions', this.languageFactor),
-                icon: 'fa-solid fa-exchange-alt fa-xl',
-                items: [
-                    {
-                        label: this.languagePipe.transform('Transactions', this.languageFactor),
-                        icon: 'fa-solid fa-money-bill-transfer fa-xl',
-                        routerLink: ['/pages/transactions'],
-                    },
-                    {
-                        label: this.languagePipe.transform('Adjustments', this.languageFactor),
-                        icon: 'fa-solid fa-sliders-h fa-xl',
-                        routerLink: ['/pages/adjustments'],
-                    }
-                ]
+                label: this.languagePipe.transform('Items', this.languageFactor),
+                icon: 'pi pi-box',
+                routerLink: ['/pages/items'],
             },
             {
-                label: this.languagePipe.transform('Wallets', this.languageFactor),
-                icon: 'fa-solid fa-wallet fa-xl',
-                routerLink: ['/pages/wallets'],
+                label: this.languagePipe.transform('Inventory', this.languageFactor),
+                icon: 'pi pi-database',
+                routerLink: ['/pages/inventory'],
             },
             {
-                label: this.languagePipe.transform('Fawry Machines', this.languageFactor),
-                icon: 'fa-solid fa-desktop fa-xl',
-                routerLink: ['/pages/fawry-machines'],
+                label: this.languagePipe.transform('Entities', this.languageFactor),
+                icon: 'pi pi-users',
+                routerLink: ['/pages/entities'],
             },
             {
-                label: this.languagePipe.transform('Bank Accounts', this.languageFactor),
-                icon: 'fa-solid fa-building-columns fa-xl',
-                routerLink: ['/pages/bank-accounts'],
+                label: this.languagePipe.transform('Purchases', this.languageFactor),
+                icon: 'pi pi-shopping-cart',
+                routerLink: ['/pages/purchases'],
             },
             {
-                label: this.languagePipe.transform('Yellow Cards', this.languageFactor),
-                icon: 'fa-solid fa-credit-card fa-xl',
-                routerLink: ['/pages/yellow-cards'],
+                label: this.languagePipe.transform('Sales Orders', this.languageFactor),
+                icon: 'pi pi-shopping-bag',
+                routerLink: ['/pages/sales-orders'],
             },
             {
-                label: this.languagePipe.transform('Credit Cards', this.languageFactor),
-                icon: 'fa-solid fa-credit-card fa-xl',
-                routerLink: ['/pages/credit-cards'],
+                label: this.languagePipe.transform('Stock Shortages', this.languageFactor),
+                icon: 'pi pi-exclamation-triangle',
+                routerLink: ['/pages/stock-shortages'],
             },
             {
-                label: this.languagePipe.transform('Breakdown', this.languageFactor),
-                icon: 'fa-solid fa-boxes-stacked fa-xl',
-                routerLink: ['/pages/breakdown'],
+                label: this.languagePipe.transform('Waste', this.languageFactor),
+                icon: 'pi pi-trash',
+                routerLink: ['/pages/waste'],
             },
             {
-                label: this.languagePipe.transform('Traders', this.languageFactor),
-                icon: 'fa-solid fa-handshake fa-xl',
-                routerLink: ['/pages/traders'],
+                label: this.languagePipe.transform('Delivery Routes', this.languageFactor),
+                icon: 'pi pi-map-marker',
+                routerLink: ['/pages/delivery-routes'],
             },
-            /* {
-                label: this.languagePipe.transform('Roles', this.languageFactor),
-                icon: 'fa-solid fa-user-shield fa-xl',
-                routerLink: ['/pages/roles'],
-            }, */
             {
                 label: this.languagePipe.transform('Users', this.languageFactor),
-                icon: 'fa-solid fa-users fa-xl',
+                icon: 'pi pi-user',
                 routerLink: ['/pages/users'],
-            },
-            {
-                label: this.languagePipe.transform('Phones', this.languageFactor),
-                icon: 'fa-solid fa-mobile-screen fa-xl',
-                routerLink: ['/pages/phones'],
             }
         ];
 

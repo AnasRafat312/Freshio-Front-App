@@ -1,0 +1,40 @@
+.waste-details-container {
+  padding: 1rem;
+}
+
+.details-section {
+  margin-bottom: 2rem;
+
+  h3 {
+    color: #495057;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #dee2e6;
+  }
+}
+
+.detail-field {
+  label {
+    display: block;
+    font-weight: 600;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .detail-value {
+    color: #212529;
+    font-size: 1rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.actions-section {
+  padding-top: 1rem;
+  border-top: 2px solid #dee2e6;
+}

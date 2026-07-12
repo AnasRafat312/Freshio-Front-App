@@ -1,0 +1,73 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title-wrapper">
+      <div class="page-icon icon-delivery">
+        <i class="pi pi-map-marker"></i>
+      </div>
+      <h2 class="page-title">{{'Delivery Routes'|translateToArabic:languageFactor}}</h2>
+    </div>
+    <div class="header-actions">
+      <button 
+        pButton 
+        type="button" 
+        [label]="languageFactor === 'en' ? 'Add Delivery Route' : 'إضافة مسار توصيل'" 
+        icon="pi pi-plus" 
+        class="p-button-primary"
+        (click)="onAdd()">
+      </button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="page-body">
+    <p-table 
+      [value]="filteredList" 
+      styleClass="p-datatable-sm"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{ model.RouteDate?.header }}</th>
+          <th>{{ model.DriverName?.header }}</th>
+          <th>{{ model.OrdersCount?.header }}</th>
+          <th>{{ model.TotalDistance?.header }}</th>
+          <th>{{ model.TotalDuration?.header }}</th>
+          <th>{{ model.CreatedDate?.header }}</th>
+          <th>{{ languageFactor === 'en' ? 'Actions' : 'الإجراءات' }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-route>
+        <tr>
+          <td>{{ route.RouteDate | date:'yyyy-MM-dd' }}</td>
+          <td>{{ route.DriverName || '-' }}</td>
+          <td>{{ getOrdersCount(route) }}</td>
+          <td>{{ formatDistance(route.TotalDistance) }}</td>
+          <td>{{ formatDuration(route.TotalDuration) }}</td>
+          <td>{{ route.CreatedDate | date:'yyyy-MM-dd HH:mm' }}</td>
+          <td>
+            <div class="action-buttons">
+              <button 
+                pButton 
+                type="button" 
+                icon="pi pi-eye" 
+                class="p-button-info p-button-sm p-button-text"
+                [pTooltip]="languageFactor === 'en' ? 'View Details' : 'عرض التفاصيل'"
+                (click)="onView(route)">
+              </button>
+              <button 
+                pButton 
+                type="button" 
+                icon="pi pi-map" 
+                class="p-button-success p-button-sm p-button-text"
+                [pTooltip]="languageFactor === 'en' ? 'Open Google Maps' : 'فتح Google Maps'"
+                (click)="onOpenGoogleMaps(route)">
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

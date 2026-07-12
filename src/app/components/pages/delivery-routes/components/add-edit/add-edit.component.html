@@ -1,0 +1,174 @@
+<div class="delivery-route-form-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Header Section -->
+    <div class="form-section">
+      <h3>{{ languageFactor === 'en' ? 'Route Information' : 'معلومات المسار' }}</h3>
+      
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label>{{ languageFactor === 'en' ? 'Delivery Date' : 'تاريخ التوصيل' }}<span class="required-asterisk">*</span></label>
+          <p-calendar 
+            formControlName="RouteDate"
+            [showIcon]="true"
+            dateFormat="yy-mm-dd"
+            [placeholder]="languageFactor === 'en' ? 'Select date' : 'اختر التاريخ'"
+            styleClass="w-full">
+          </p-calendar>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>{{ languageFactor === 'en' ? 'Driver' : 'السائق' }}<span class="required-asterisk">*</span></label>
+          <p-dropdown 
+            [options]="driverOptions" 
+            formControlName="DriverEntityId"
+            [placeholder]="languageFactor === 'en' ? 'Select driver' : 'اختر السائق'"
+            [filter]="true"
+            styleClass="w-full">
+          </p-dropdown>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label>{{ languageFactor === 'en' ? 'Start Latitude' : 'خط عرض البداية' }}</label>
+          <p-inputNumber
+            formControlName="StartLocationLat"
+            mode="decimal"
+            [minFractionDigits]="6"
+            [maxFractionDigits]="6"
+            [placeholder]="languageFactor === 'en' ? 'Enter latitude' : 'أدخل خط العرض'"
+            styleClass="w-full">
+          </p-inputNumber>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label>{{ languageFactor === 'en' ? 'Start Longitude' : 'خط طول البداية' }}</label>
+          <p-inputNumber
+            formControlName="StartLocationLng"
+            mode="decimal"
+            [minFractionDigits]="6"
+            [maxFractionDigits]="6"
+            [placeholder]="languageFactor === 'en' ? 'Enter longitude' : 'أدخل خط الطول'"
+            styleClass="w-full">
+          </p-inputNumber>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label>{{ languageFactor === 'en' ? 'Start Address' : 'عنوان البداية' }}</label>
+          <input 
+            pInputText 
+            formControlName="StartLocationAddress"
+            [placeholder]="languageFactor === 'en' ? 'Enter address' : 'أدخل العنوان'"
+            class="w-full">
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Selection -->
+    <div class="form-section mt-4">
+      <h3>{{ languageFactor === 'en' ? 'Select Orders' : 'اختيار الأوردرات' }}</h3>
+      
+      <p-table 
+        [value]="availableOrders" 
+        [(selection)]="selectedOrders"
+        (selectionChange)="onOrderSelectionChange($event)"
+        dataKey="ID"
+        styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th>{{ languageFactor === 'en' ? 'Order Number' : 'رقم الأوردر' }}</th>
+            <th>{{ languageFactor === 'en' ? 'Customer' : 'العميل' }}</th>
+            <th>{{ languageFactor === 'en' ? 'Order Date' : 'تاريخ الأوردر' }}</th>
+            <th>{{ languageFactor === 'en' ? 'Status' : 'الحالة' }}</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="order"></p-tableCheckbox>
+            </td>
+            <td>{{ order.OrderNumber }}</td>
+            <td>{{ order.CustomerName }}</td>
+            <td>{{ order.OrderDate | date:'yyyy-MM-dd' }}</td>
+            <td>
+              <p-tag [value]="order.Status === 1 ? (languageFactor === 'en' ? 'Approved' : 'معتمد') : (languageFactor === 'en' ? 'Partially Approved' : 'معتمد جزئياً')" 
+                     [severity]="order.Status === 1 ? 'success' : 'info'"></p-tag>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5" class="text-center">
+              {{ languageFactor === 'en' ? 'No orders ready for delivery' : 'لا توجد أوردرات جاهزة للتوصيل' }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Selected Orders (Stop Ordering) -->
+    <div class="form-section mt-4" *ngIf="selectedOrders.length > 0">
+      <h3>{{ languageFactor === 'en' ? 'Stop Order' : 'ترتيب الوقفات' }}</h3>
+      
+      <div class="stops-list">
+        <div *ngFor="let order of selectedOrders; let i = index" class="stop-item">
+          <div class="stop-number">{{ i + 1 }}</div>
+          <div class="stop-info">
+            <div class="stop-order-number">{{ order.OrderNumber }}</div>
+            <div class="stop-customer">{{ order.CustomerName }}</div>
+          </div>
+          <div class="stop-actions">
+            <button 
+              pButton 
+              type="button" 
+              icon="pi pi-arrow-up" 
+              class="p-button-sm p-button-text"
+              [disabled]="i === 0"
+              [pTooltip]="languageFactor === 'en' ? 'Move Up' : 'تحريك لأعلى'"
+              (click)="moveUp(i)">
+            </button>
+            <button 
+              pButton 
+              type="button" 
+              icon="pi pi-arrow-down" 
+              class="p-button-sm p-button-text"
+              [disabled]="i === selectedOrders.length - 1"
+              [pTooltip]="languageFactor === 'en' ? 'Move Down' : 'تحريك لأسفل'"
+              (click)="moveDown(i)">
+            </button>
+            <button 
+              pButton 
+              type="button" 
+              icon="pi pi-times" 
+              class="p-button-danger p-button-sm p-button-text"
+              [pTooltip]="languageFactor === 'en' ? 'Remove' : 'إزالة'"
+              (click)="removeOrder(i)">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions mt-4">
+      <button 
+        pButton 
+        type="button" 
+        [label]="languageFactor === 'en' ? 'Cancel' : 'إلغاء'" 
+        icon="pi pi-times" 
+        class="p-button-text p-button-secondary"
+        (click)="onCancel()"
+        [disabled]="loading">
+      </button>
+      <button 
+        pButton 
+        type="submit" 
+        [label]="languageFactor === 'en' ? 'Save' : 'حفظ'" 
+        icon="pi pi-check" 
+        class="p-button-primary"
+        [loading]="loading">
+      </button>
+    </div>
+  </form>
+</div>

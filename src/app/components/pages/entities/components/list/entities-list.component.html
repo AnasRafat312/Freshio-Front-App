@@ -1,0 +1,64 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title-wrapper">
+      <div class="page-icon icon-entities">
+        <i class="pi pi-users"></i>
+      </div>
+      <h2 class="page-title">{{'Entities'|translateToArabic:languageFactor}}</h2>
+    </div>
+    <div class="header-actions">
+      <!-- Role Filter -->
+      <p-dropdown 
+        [options]="roleFilterOptions" 
+        [(ngModel)]="selectedRoleFilter"
+        (onChange)="onRoleFilterChange($event)"
+        [placeholder]="languageFactor === 'en' ? 'Filter by Role' : 'تصفية حسب الدور'"
+        styleClass="mr-2">
+      </p-dropdown>
+      
+      <!-- Add Button -->
+      <button *ngIf="Add" pButton type="button" [label]="'Add'|translateToArabic:languageFactor" icon="pi pi-plus" class="p-button-success" (click)="addEdit()"></button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="page-body">
+    <app-basic-table 
+      [mainList]="mainList" 
+      [filteredList]="filteredList" 
+      [model]="model" 
+      [ActionsList]="actionsList">
+      
+      <!-- Custom template for Roles column if needed -->
+      <ng-template #rolesTemplate let-row="row">
+        <div class="roles-badges">
+          <p-tag 
+            *ngIf="row.IsCustomer"
+            [value]="languageFactor === 'en' ? 'Customer' : 'عميل'" 
+            severity="success"
+            class="mr-1">
+          </p-tag>
+          <p-tag 
+            *ngIf="row.IsSupplier"
+            [value]="languageFactor === 'en' ? 'Supplier' : 'مورد'" 
+            severity="info"
+            class="mr-1">
+          </p-tag>
+          <p-tag 
+            *ngIf="row.IsEmployee"
+            [value]="languageFactor === 'en' ? 'Employee' : 'موظف'" 
+            severity="warning"
+            class="mr-1">
+          </p-tag>
+          <p-tag 
+            *ngIf="row.IsDriver"
+            [value]="languageFactor === 'en' ? 'Driver' : 'سائق'" 
+            severity="help"
+            class="mr-1">
+          </p-tag>
+        </div>
+      </ng-template>
+    </app-basic-table>
+  </div>
+</div>

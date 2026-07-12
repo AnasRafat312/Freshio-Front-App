@@ -42,7 +42,7 @@ export class UsersStore {
   updateUser(updatedUser: UserModel): void {
     this.usersSignal.update(users => 
       users.map(user => 
-        user.Id === updatedUser.Id ? updatedUser : user
+        user.ID === updatedUser.ID ? updatedUser : user
       )
     );
   }
@@ -53,7 +53,7 @@ export class UsersStore {
    */
   removeUser(userId: number): void {
     this.usersSignal.update(users => 
-      users.filter(user => user.Id !== userId)
+      users.filter(user => user.ID !== userId)
     );
   }
 

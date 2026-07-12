@@ -1,0 +1,145 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title-wrapper">
+      <div class="page-icon icon-shortages">
+        <i class="pi pi-exclamation-triangle"></i>
+      </div>
+      <h2 class="page-title">{{'Stock Shortages Report'|translateToArabic:languageFactor}}</h2>
+    </div>
+    <div class="header-actions">
+      <button 
+        pButton 
+        type="button" 
+        [label]="languageFactor === 'en' ? 'Refresh' : 'تحديث'" 
+        icon="pi pi-refresh" 
+        class="p-button-secondary p-button-outlined mr-2"
+        (click)="onRefresh()"
+        [loading]="loading">
+      </button>
+      <button 
+        pButton 
+        type="button" 
+        [label]="languageFactor === 'en' ? 'Export' : 'تصدير'" 
+        icon="pi pi-file-excel" 
+        class="p-button-success p-button-outlined mr-2"
+        (click)="onExport()"
+        [disabled]="filteredList.length === 0"
+        [loading]="loading">
+      </button>
+      <button 
+        pButton 
+        type="button" 
+        [label]="languageFactor === 'en' ? 'Create Purchase' : 'إنشاء مشتريات'" 
+        icon="pi pi-shopping-cart" 
+        class="p-button-primary"
+        (click)="onCreatePurchaseFromShortages()"
+        [disabled]="filteredList.length === 0">
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section card mb-3">
+    <form [formGroup]="filterForm">
+      <div class="row">
+        <div class="col-md-3 col-sm-6 mb-2">
+          <label>{{ languageFactor === 'en' ? 'From Date' : 'من تاريخ' }}</label>
+          <p-calendar 
+            formControlName="FromDate"
+            [showIcon]="true"
+            dateFormat="yy-mm-dd"
+            [placeholder]="languageFactor === 'en' ? 'Select date' : 'اختر التاريخ'"
+            styleClass="w-full"
+            (onSelect)="onFilterChange()">
+          </p-calendar>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-2">
+          <label>{{ languageFactor === 'en' ? 'To Date' : 'إلى تاريخ' }}</label>
+          <p-calendar 
+            formControlName="ToDate"
+            [showIcon]="true"
+            dateFormat="yy-mm-dd"
+            [placeholder]="languageFactor === 'en' ? 'Select date' : 'اختر التاريخ'"
+            styleClass="w-full"
+            (onSelect)="onFilterChange()">
+          </p-calendar>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-2">
+          <label>{{ languageFactor === 'en' ? 'Customer' : 'العميل' }}</label>
+          <p-dropdown 
+            [options]="customerOptions" 
+            formControlName="CustomerEntityId"
+            [placeholder]="languageFactor === 'en' ? 'All customers' : 'جميع العملاء'"
+            [filter]="true"
+            styleClass="w-full"
+            (onChange)="onFilterChange()">
+          </p-dropdown>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-2">
+          <label>{{ languageFactor === 'en' ? 'Item' : 'الصنف' }}</label>
+          <p-dropdown 
+            [options]="itemOptions" 
+            formControlName="ItemId"
+            [placeholder]="languageFactor === 'en' ? 'All items' : 'جميع الأصناف'"
+            [filter]="true"
+            styleClass="w-full"
+            (onChange)="onFilterChange()">
+          </p-dropdown>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Body -->
+  <div class="page-body">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-state text-center p-5">
+      <p-progressSpinner></p-progressSpinner>
+      <p class="mt-3">{{ languageFactor === 'en' ? 'Loading report...' : 'جاري تحميل التقرير...' }}</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && filteredList.length === 0" class="empty-state text-center p-5">
+      <i class="pi pi-check-circle" style="font-size: 4rem; color: #22c55e;"></i>
+      <h3 class="mt-3">{{ languageFactor === 'en' ? 'No current shortages' : 'لا توجد نواقص حالياً' }}</h3>
+      <p>{{ languageFactor === 'en' ? 'All items have sufficient stock' : 'جميع الأصناف لديها مخزون كافٍ' }}</p>
+    </div>
+
+    <!-- Report Table -->
+    <div *ngIf="!loading && filteredList.length > 0">
+      <app-basic-table 
+        [mainList]="mainList" 
+        [filteredList]="filteredList" 
+        [model]="model" 
+        [ActionsList]="[]">
+        
+        <!-- Custom template for Missing Quantity column -->
+        <ng-template #missingQuantityTemplate let-row="row">
+          <span class="missing-quantity-badge">{{ row.MissingQuantity | number:'1.2-2' }}</span>
+        </ng-template>
+      </app-basic-table>
+
+      <!-- Summary Section -->
+      <div class="summary-section mt-3">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="summary-card">
+              <label>{{ languageFactor === 'en' ? 'Total Missing Quantity' : 'إجمالي الكمية الناقصة' }}</label>
+              <div class="summary-value missing">{{ getTotalMissingQuantity() | number:'1.2-2' }}</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="summary-card">
+              <label>{{ languageFactor === 'en' ? 'Total Estimated Cost' : 'إجمالي التكلفة التقديرية' }}</label>
+              <div class="summary-value cost">{{ getTotalEstimatedCost() | number:'1.2-2' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

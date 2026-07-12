@@ -3,7 +3,83 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [RouterModule.forChild([
+        // Dashboard (Home)
         { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule)},
+        { path: 'dashboard', redirectTo: 'home', pathMatch: 'full' },
+        
+        // Freshio System Routes
+        { 
+            path: 'items',
+            children: [
+                { path: '', loadComponent: () => import('./items/components/list/items-list.component').then(m => m.ItemsList) },
+                { path: 'add', loadComponent: () => import('./items/components/add-edit/add-edit.component').then(m => m.ItemsAddEditComponent) },
+                { path: 'edit/:id', loadComponent: () => import('./items/components/add-edit/add-edit.component').then(m => m.ItemsAddEditComponent) },
+                { path: 'details/:id', loadComponent: () => import('./items/components/details/details.component').then(m => m.ItemsDetailsComponent) }
+            ]
+        },
+        { 
+            path: 'inventory',
+            children: [
+                { path: '', loadComponent: () => import('./inventory/components/list/inventory-list.component').then(m => m.InventoryList) }
+            ]
+        },
+        { 
+            path: 'entities',
+            children: [
+                { path: '', loadComponent: () => import('./entities/components/list/entities-list.component').then(m => m.EntitiesList) },
+                { path: 'add', loadComponent: () => import('./entities/components/add-edit/add-edit.component').then(m => m.EntitiesAddEditComponent) },
+                { path: 'edit/:id', loadComponent: () => import('./entities/components/add-edit/add-edit.component').then(m => m.EntitiesAddEditComponent) },
+                { path: 'details/:id', loadComponent: () => import('./entities/components/details/details.component').then(m => m.EntitiesDetailsComponent) }
+            ]
+        },
+        { 
+            path: 'purchases',
+            children: [
+                { path: '', loadComponent: () => import('./purchases/components/list/purchases-list.component').then(m => m.PurchasesList) },
+                { path: 'add', loadComponent: () => import('./purchases/components/add-edit/add-edit.component').then(m => m.PurchasesAddEditComponent) },
+                { path: 'edit/:id', loadComponent: () => import('./purchases/components/add-edit/add-edit.component').then(m => m.PurchasesAddEditComponent) },
+                { path: 'details/:id', loadComponent: () => import('./purchases/components/details/details.component').then(m => m.PurchasesDetailsComponent) }
+            ]
+        },
+        { 
+            path: 'sales-orders',
+            children: [
+                { path: '', loadComponent: () => import('./sales-orders/components/list/sales-orders-list.component').then(m => m.SalesOrdersList) },
+                { path: 'add', loadComponent: () => import('./sales-orders/components/add-edit/add-edit.component').then(m => m.SalesOrdersAddEditComponent) },
+                { path: 'edit/:id', loadComponent: () => import('./sales-orders/components/add-edit/add-edit.component').then(m => m.SalesOrdersAddEditComponent) },
+                { path: 'details/:id', loadComponent: () => import('./sales-orders/components/details/details.component').then(m => m.SalesOrdersDetailsComponent) }
+            ]
+        },
+        { 
+            path: 'stock-shortages',
+            children: [
+                { path: '', loadComponent: () => import('./stock-shortages/components/report/stock-shortages-report.component').then(m => m.StockShortagesReport) }
+            ]
+        },
+        { 
+            path: 'waste',
+            children: [
+                { path: '', loadComponent: () => import('./waste/components/list/waste-list.component').then(m => m.WasteList) },
+                { path: 'add', loadComponent: () => import('./waste/components/add-edit/add-edit.component').then(m => m.WasteAddEditComponent) },
+                { path: 'details/:id', loadComponent: () => import('./waste/components/details/details.component').then(m => m.WasteDetailsComponent) }
+            ]
+        },
+        { 
+            path: 'delivery-routes',
+            children: [
+                { path: '', loadComponent: () => import('./delivery-routes/components/list/delivery-routes-list.component').then(m => m.DeliveryRoutesList) },
+                { path: 'add', loadComponent: () => import('./delivery-routes/components/add-edit/add-edit.component').then(m => m.DeliveryRoutesAddEditComponent) },
+                { path: 'details/:id', loadComponent: () => import('./delivery-routes/components/details/details.component').then(m => m.DeliveryRoutesDetailsComponent) }
+            ]
+        },
+        { 
+            path: 'invoices',
+            children: [
+                { path: 'preview/:orderId', loadComponent: () => import('./invoices/components/invoice-preview/invoice-preview.component').then(m => m.InvoicePreview) }
+            ]
+        },
+
+        // Keep Users and Roles for system management
         { 
             path: 'users',
             children: [
@@ -13,115 +89,8 @@ import { RouterModule } from '@angular/router';
                 { path: 'details/:id', loadComponent: () => import('./users/components/details/details.component').then(m => m.UsersDetailsComponent) }
             ]
         },
-        { path: 'compaines', loadChildren: () => import('./companies/compaines.module').then(m => m.CompainesModule)},
         { path: 'privilege', loadChildren: () => import('./privilege/privilege.module').then(m => m.PrivilegeModule)},
         { path: 'roles', loadChildren: () => import('./roles/roles/roles.module').then(m => m.RolesModule)},
-        { 
-            path: 'wallets',
-            children: [
-                //{ path: '', redirectTo: '', pathMatch: 'full' },
-                { path: '', loadComponent: () => import('./wallets/components/list/wallets-list.component').then(m => m.WalletsList) },
-                { path: 'add', loadComponent: () => import('./wallets/components/add-edit/add-edit.component').then(m => m.WalletsAddEditComponent) },
-                { path: 'edit/:id', loadComponent: () => import('./wallets/components/add-edit/add-edit.component').then(m => m.WalletsAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./wallets/components/details/details.component').then(m => m.WalletsDetailsComponent) }
-            ]
-        },
-        { 
-            path: 'fawry-machines',
-            children: [
-                { path: '', loadComponent: () => import('./fawry-machines/components/list/fawry-machines-list.component').then(m => m.FawryMachinesList) },
-                { path: 'add', loadComponent: () => import('./fawry-machines/components/add-edit/add-edit.component').then(m => m.FawryMachinesAddEditComponent) },
-                { path: 'edit/:id', loadComponent: () => import('./fawry-machines/components/add-edit/add-edit.component').then(m => m.FawryMachinesAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./fawry-machines/components/details/details.component').then(m => m.FawryMachinesDetailsComponent) }
-            ]
-        },
-        { 
-            path: 'bank-accounts',
-            children: [
-                //{ path: '', redirectTo: '', pathMatch: 'full' },
-                { path: '', loadComponent: () => import('./bank-accounts/components/list/bank-accounts-list.component').then(m => m.BankAccountsList) },
-                { path: 'add', loadComponent: () => import('./bank-accounts/components/add-edit/add-edit.component').then(m => m.BankAccountsAddEditComponent) },
-                { path: 'edit/:id', loadComponent: () => import('./bank-accounts/components/add-edit/add-edit.component').then(m => m.BankAccountsAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./bank-accounts/components/details/details.component').then(m => m.BankAccountsDetailsComponent) }
-            ]
-        },
-        { 
-            path: 'yellow-cards',
-            children: [
-                //{ path: '', redirectTo: '', pathMatch: 'full' },
-                { path: '', loadComponent: () => import('./yellow-cards/components/list/yellow-cards-list.component').then(m => m.YellowCardsList) },
-                { path: 'add', loadComponent: () => import('./yellow-cards/components/add-edit/add-edit.component').then(m => m.YellowCardsAddEditComponent) },
-                { path: 'edit/:id', loadComponent: () => import('./yellow-cards/components/add-edit/add-edit.component').then(m => m.YellowCardsAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./yellow-cards/components/details/details.component').then(m => m.YellowCardsDetailsComponent) }
-            ]
-        },
-        { 
-            path: 'credit-cards',
-            children: [
-                //{ path: '', redirectTo: '', pathMatch: 'full' },
-                { path: '', loadComponent: () => import('./credit-cards/components/list/credit-cards-list.component').then(m => m.CreditCardsList) },
-                { path: 'add', loadComponent: () => import('./credit-cards/components/add-edit/add-edit.component').then(m => m.CreditCardsAddEditComponent) },
-                { path: 'edit/:id', loadComponent: () => import('./credit-cards/components/add-edit/add-edit.component').then(m => m.CreditCardsAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./credit-cards/components/details/details.component').then(m => m.CreditCardsDetailsComponent) }
-            ]
-        },
-        { 
-            path: 'traders',
-            children: [
-                //{ path: '', redirectTo: '', pathMatch: 'full' },
-                { path: '', loadComponent: () => import('./traders/components/list/traders-list.component').then(m => m.TradersList) },
-                { path: 'add', loadComponent: () => import('./traders/components/add-edit/add-edit.component').then(m => m.TradersAddEditComponent) },
-                { path: 'edit/:id', loadComponent: () => import('./traders/components/add-edit/add-edit.component').then(m => m.TradersAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./traders/components/details/details.component').then(m => m.TradersDetailsComponent) }
-            ]
-        },
-        { 
-            path: 'phones',
-            children: [
-                //{ path: '', redirectTo: '', pathMatch: 'full' },
-                { path: '', loadComponent: () => import('./phones/components/list/phones-list.component').then(m => m.PhonesList) },
-                { path: 'add', loadComponent: () => import('./phones/components/add-edit/add-edit.component').then(m => m.PhonesAddEditComponent) },
-                { path: 'edit/:id', loadComponent: () => import('./phones/components/add-edit/add-edit.component').then(m => m.PhonesAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./phones/components/details/details.component').then(m => m.PhonesDetailsComponent) }
-            ]
-        },
-        { 
-            path: 'privileges-management',
-            children: [
-                //{ path: '', redirectTo: '', pathMatch: 'full' },
-                { path: '', loadComponent: () => import('./privileges/components/list/privileges-list.component').then(m => m.PrivilegesList) },
-                { path: 'add', loadComponent: () => import('./privileges/components/add-edit/add-edit.component').then(m => m.PrivilegesAddEditComponent) },
-                { path: 'edit/:id', loadComponent: () => import('./privileges/components/add-edit/add-edit.component').then(m => m.PrivilegesAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./privileges/components/details/details.component').then(m => m.PrivilegesDetailsComponent) }
-            ]
-        },
-        { 
-            path: 'breakdown',
-            children: [
-                //{ path: '', redirectTo: '', pathMatch: 'full' },
-                { path: '', loadComponent: () => import('./breakdown/components/list/breakdown-list.component').then(m => m.BreakdownList) },
-                { path: 'add', loadComponent: () => import('./breakdown/components/add-edit/add-edit.component').then(m => m.BreakdownAddEditComponent) },
-                { path: 'edit/:id', loadComponent: () => import('./breakdown/components/add-edit/add-edit.component').then(m => m.BreakdownAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./breakdown/components/details/details.component').then(m => m.BreakdownDetailsComponent) }
-            ]
-        },
-        { 
-            path: 'adjustments',
-            children: [
-                { path: '', loadComponent: () => import('./adjustments/components/list/adjustments-list.component').then(m => m.AdjustmentsList) },
-                { path: 'add', loadComponent: () => import('./adjustments/components/add-edit/add-edit.component').then(m => m.AdjustmentsAddEditComponent) },
-                { path: 'edit/:id', loadComponent: () => import('./adjustments/components/add-edit/add-edit.component').then(m => m.AdjustmentsAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./adjustments/components/details/details.component').then(m => m.AdjustmentsDetailsComponent) }
-            ]
-        },
-        { 
-            path: 'transactions',
-            children: [
-                { path: '', loadComponent: () => import('./transactions/components/list/transactions-list.component').then(m => m.TransactionsList) },
-                { path: 'add', loadComponent: () => import('./transactions/components/add-edit/add-edit.component').then(m => m.TransactionsAddEditComponent) },
-                { path: 'details/:id', loadComponent: () => import('./transactions/components/details/details.component').then(m => m.TransactionsDetailsComponent) }
-            ]
-        },
 
         { path: '**', redirectTo: '/notfound' }
     ])],

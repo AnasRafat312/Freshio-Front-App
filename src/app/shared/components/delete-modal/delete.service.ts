@@ -10,9 +10,9 @@ export class DeleteService {
   constructor(public http: HttpClient) { }
   deleteFun(url:any,id?:any,data?:any): Observable<ResponseModel>{
     if(data) {
-      return this.http.post<ResponseModel>(url,data)
+      return this.http.post<ResponseModel>(url?.trim(),data)
     }else {
-      return this.http.delete<ResponseModel>(url+ '/' + id,{})
+      return this.http.delete<ResponseModel>(url?.trim()+ '/' + id,{})
     }
   }
 }

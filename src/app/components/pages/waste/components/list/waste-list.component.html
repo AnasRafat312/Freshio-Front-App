@@ -1,0 +1,35 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title-wrapper">
+      <div class="page-icon icon-waste">
+        <i class="pi pi-trash"></i>
+      </div>
+      <h2 class="page-title">{{'Waste'|translateToArabic:languageFactor}}</h2>
+    </div>
+    <div class="header-actions">
+      <button 
+        *ngIf="Add"
+        pButton 
+        type="button" 
+        [label]="languageFactor === 'en' ? 'Add Waste' : 'إضافة هالك'" 
+        icon="pi pi-plus" 
+        class="p-button-success"
+        (click)="onAdd()">
+      </button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="page-body">
+    <app-basic-table 
+      [mainList]="mainList" 
+      [filteredList]="filteredList" 
+      [model]="model" 
+      [ActionsList]="actionsList">
+    </app-basic-table>
+  </div>
+</div>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog></p-confirmDialog>

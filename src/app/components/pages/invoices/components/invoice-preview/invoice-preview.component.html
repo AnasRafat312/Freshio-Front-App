@@ -1,0 +1,154 @@
+<div class="invoice-container" *ngIf="order">
+  <!-- Action Buttons (Hidden on Print) -->
+  <div class="action-buttons no-print">
+    <button 
+      pButton 
+      type="button" 
+      [label]="getLabel('Print', 'طباعة')" 
+      icon="pi pi-print" 
+      class="p-button-primary"
+      (click)="onPrint()">
+    </button>
+    <button 
+      pButton 
+      type="button" 
+      [label]="getLabel('Download PDF', 'تحميل PDF')" 
+      icon="pi pi-file-pdf" 
+      class="p-button-success"
+      (click)="onDownloadPdf()"
+      [loading]="loading">
+    </button>
+    <button 
+      pButton 
+      type="button" 
+      [label]="getLabel('Download Image', 'تحميل صورة')" 
+      icon="pi pi-image" 
+      class="p-button-info"
+      (click)="onDownloadImage()"
+      [loading]="loading">
+    </button>
+    <button 
+      pButton 
+      type="button" 
+      [label]="getLabel('Share WhatsApp', 'مشاركة واتساب')" 
+      icon="pi pi-whatsapp" 
+      class="p-button-success p-button-outlined"
+      (click)="onShareWhatsApp()"
+      [loading]="loading">
+    </button>
+    <button 
+      pButton 
+      type="button" 
+      [label]="getLabel('Close', 'إغلاق')" 
+      icon="pi pi-times" 
+      class="p-button-text"
+      (click)="onClose()">
+    </button>
+  </div>
+
+  <!-- Invoice Content (Printable Area) -->
+  <div class="invoice-content">
+    <!-- Company Header -->
+    <div class="invoice-header">
+      <div class="company-info">
+        <h1 class="company-name">{{ companyName }}</h1>
+      </div>
+      <div class="invoice-title">
+        <h2>{{ getLabel('Order Invoice', 'فاتورة طلب') }}</h2>
+      </div>
+    </div>
+
+    <!-- Order and Customer Info -->
+    <div class="invoice-info-section">
+      <div class="row">
+        <!-- Order Info -->
+        <div class="col-md-6">
+          <div class="info-box">
+            <h3>{{ getLabel('Order Information', 'معلومات الأوردر') }}</h3>
+            <div class="info-row">
+              <span class="info-label">{{ getLabel('Order Number', 'رقم الأوردر') }}:</span>
+              <span class="info-value">{{ order.OrderNumber }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">{{ getLabel('Order Date', 'تاريخ الأوردر') }}:</span>
+              <span class="info-value">{{ order.OrderDate | date:'yyyy-MM-dd' }}</span>
+            </div>
+            <div class="info-row" *ngIf="order.ModifiedDate">
+              <span class="info-label">{{ getLabel('Approval Date', 'تاريخ الموافقة') }}:</span>
+              <span class="info-value">{{ order.ModifiedDate | date:'yyyy-MM-dd' }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">{{ getLabel('Status', 'الحالة') }}:</span>
+              <span class="info-value">
+                <p-tag [value]="getLabel(order.Status === 1 ? 'Approved' : 'Partially Approved', order.Status === 1 ? 'معتمد' : 'معتمد جزئياً')" 
+                       [severity]="order.Status === 1 ? 'success' : 'info'"></p-tag>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Info -->
+        <div class="col-md-6">
+          <div class="info-box">
+            <h3>{{ getLabel('Customer Information', 'معلومات العميل') }}</h3>
+            <div class="info-row">
+              <span class="info-label">{{ getLabel('Customer', 'العميل') }}:</span>
+              <span class="info-value">{{ order.CustomerName }}</span>
+            </div>
+            <!-- Additional customer fields can be added here if available in the model -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items Table -->
+    <div class="invoice-items-section">
+      <h3>{{ getLabel('Items', 'الأصناف') }}</h3>
+      <table class="invoice-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>{{ getLabel('Item', 'الصنف') }}</th>
+            <!-- <th>{{ getLabel('Unit', 'وحدة القياس') }}</th> -->
+            <th class="text-center">{{ getLabel('Quantity', 'الكمية') }}</th>
+            <th class="text-right">{{ getLabel('Unit Price', 'سعر الوحدة') }}</th>
+            <th class="text-right">{{ getLabel('Total', 'الإجمالي') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of getInvoiceItems(); let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.ItemName }}</td>
+            <!-- <td>{{ item.UnitOfMeasure }}</td> -->
+            <td class="text-center">{{ getItemQuantity(item) | number:'1.2-2' }}</td>
+            <td class="text-right">{{ item.UnitPrice | number:'1.2-2' }}</td>
+            <td class="text-right">{{ getItemTotal(item) | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="5" class="text-right total-label">{{ getLabel('Total Amount', 'الإجمالي') }}</td>
+            <td class="text-right total-value">{{ getInvoiceTotal() | number:'1.2-2' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Notes Section -->
+    <div class="invoice-notes-section" *ngIf="order.Notes">
+      <h3>{{ getLabel('Notes', 'الملاحظات') }}</h3>
+      <p>{{ order.Notes }}</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="invoice-footer">
+      <p class="thank-you">{{ getLabel('Thank you for your business!', 'شكراً لتعاملكم معنا!') }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div *ngIf="!order && loading" class="loading-state text-center p-5">
+  <p-progressSpinner></p-progressSpinner>
+  <p class="mt-3">{{ getLabel('Loading invoice...', 'جاري تحميل الفاتورة...') }}</p>
+</div>

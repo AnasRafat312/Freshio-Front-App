@@ -1,0 +1,286 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <!-- Name -->
+      <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'Name' : 'الاسم'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'Name')"
+        [isValid]="form.get('Name')?.valid"
+        icon="pi pi-user">
+        <input 
+          pInputText 
+          formControlName="Name"
+          [placeholder]="languageFactor === 'en' ? 'Enter entity name' : 'أدخل اسم الجهة'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('Name')?.invalid && form.get('Name')?.touched}">
+      </app-input-field>
+
+      <!-- WhatsApp Number -->
+      <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'WhatsApp Number' : 'رقم واتساب'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'WhatsAppNumber')"
+        [isValid]="form.get('WhatsAppNumber')?.valid"
+        icon="pi pi-whatsapp">
+        <input 
+          pInputText 
+          formControlName="WhatsAppNumber"
+          [placeholder]="languageFactor === 'en' ? 'Enter WhatsApp number' : 'أدخل رقم واتساب'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('WhatsAppNumber')?.invalid && form.get('WhatsAppNumber')?.touched}">
+      </app-input-field>
+
+      <!-- Additional Phone -->
+      <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'Additional Phone' : 'رقم إضافي'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'AdditionalPhone')"
+        [isValid]="form.get('AdditionalPhone')?.valid"
+        icon="pi pi-phone">
+        <input 
+          pInputText 
+          formControlName="AdditionalPhone"
+          [placeholder]="languageFactor === 'en' ? 'Enter additional phone' : 'أدخل رقم إضافي'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('AdditionalPhone')?.invalid && form.get('AdditionalPhone')?.touched}">
+      </app-input-field>
+
+      <!-- Address -->
+      <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'Address' : 'العنوان'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'Address')"
+        [isValid]="form.get('Address')?.valid"
+        icon="pi pi-map-marker">
+        <input 
+          pInputText 
+          formControlName="Address"
+          [placeholder]="languageFactor === 'en' ? 'Enter address' : 'أدخل العنوان'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('Address')?.invalid && form.get('Address')?.touched}">
+      </app-input-field>
+
+      <!-- Map Panel -->
+      <div class="mb-3 col-12">
+        <div class="map-panel">
+          <div class="map-header">
+            <h3>{{ languageFactor === 'en' ? 'Select Location on Map' : 'اختر الموقع على الخريطة' }}</h3>
+            <button 
+              pButton 
+              type="button" 
+              [label]="languageFactor === 'en' ? 'Use Current Location' : 'استخدم الموقع الحالي'"
+              icon="pi pi-map-marker" 
+              class="p-button-sm p-button-outlined"
+              (click)="getCurrentLocation()">
+            </button>
+          </div>
+          
+          <!-- Search Input -->
+          <div class="map-search">
+            <span class="p-input-icon-left w-100">
+              <i class="pi pi-search"></i>
+              <input 
+                #searchInput
+                type="text" 
+                pInputText 
+                class="w-100"
+                [(ngModel)]="searchQuery"
+                [ngModelOptions]="{standalone: true}"
+                [placeholder]="languageFactor === 'en' ? 'Search for a place or address...' : 'ابحث عن مكان أو عنوان...'" />
+            </span>
+          </div>
+
+          <div class="map-container">
+            <google-map
+              [center]="mapCenter"
+              [zoom]="mapZoom"
+              [options]="mapOptions"
+              (mapClick)="onMapClick($event)"
+              width="100%"
+              height="400px">
+              <map-marker
+                *ngIf="markerPosition"
+                [position]="markerPosition"
+                [options]="markerOptions"
+                (mapDragend)="onMarkerDragEnd($event)">
+              </map-marker>
+            </google-map>
+          </div>
+          <p class="map-hint">
+            <i class="pi pi-info-circle"></i>
+            {{ languageFactor === 'en' ? 'Search for a location, click on the map, or drag the marker to adjust' : 'ابحث عن موقع، انقر على الخريطة، أو اسحب العلامة للتعديل' }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Google Map URL -->
+      <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'Google Maps Link' : 'رابط Google Maps'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'GoogleMapUrl')"
+        [isValid]="form.get('GoogleMapUrl')?.valid"
+        icon="pi pi-map">
+        <div class="p-inputgroup">
+          <input 
+            pInputText 
+            formControlName="GoogleMapUrl"
+            [placeholder]="languageFactor === 'en' ? 'Enter Google Maps URL' : 'أدخل رابط Google Maps'"
+            [ngClass]="{'ng-invalid ng-dirty': form.get('GoogleMapUrl')?.invalid && form.get('GoogleMapUrl')?.touched}">
+          <button 
+            pButton 
+            type="button" 
+            icon="pi pi-external-link" 
+            class="p-button-secondary"
+            [disabled]="!form.get('GoogleMapUrl')?.value"
+            (click)="openGoogleMap()">
+          </button>
+        </div>
+      </app-input-field>
+
+      <!-- Latitude -->
+      <app-input-field class="mb-3 col-lg-3 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'Latitude' : 'خط العرض'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'Latitude')"
+        [isValid]="form.get('Latitude')?.valid"
+        icon="pi pi-compass">
+        <p-inputNumber
+          mode="decimal"
+          formControlName="Latitude"
+          [minFractionDigits]="6"
+          [maxFractionDigits]="6"
+          [placeholder]="languageFactor === 'en' ? 'Latitude' : 'خط العرض'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('Latitude')?.invalid && form.get('Latitude')?.touched}">
+        </p-inputNumber>
+      </app-input-field>
+
+      <!-- Longitude -->
+      <app-input-field class="mb-3 col-lg-3 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'Longitude' : 'خط الطول'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'Longitude')"
+        [isValid]="form.get('Longitude')?.valid"
+        icon="pi pi-compass">
+        <p-inputNumber
+          mode="decimal"
+          formControlName="Longitude"
+          [minFractionDigits]="6"
+          [maxFractionDigits]="6"
+          [placeholder]="languageFactor === 'en' ? 'Longitude' : 'خط الطول'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('Longitude')?.invalid && form.get('Longitude')?.touched}">
+        </p-inputNumber>
+      </app-input-field>
+
+      <!-- Roles (Checkboxes) -->
+      <div class="mb-3 col-12">
+        <label class="mb-2 d-block">
+          {{ languageFactor === 'en' ? 'Roles' : 'الأدوار' }}
+          <span class="required-asterisk">*</span>
+        </label>
+        <div class="grid">
+          <!-- Is Customer -->
+          <div class="col-6 md:col-3">
+            <div class="field-checkbox">
+              <p-checkbox 
+                formControlName="IsCustomer" 
+                [binary]="true" 
+                inputId="isCustomer">
+              </p-checkbox>
+              <label for="isCustomer" class="ml-2">
+                {{ languageFactor === 'en' ? 'Customer' : 'عميل' }}
+              </label>
+            </div>
+          </div>
+
+          <!-- Is Supplier -->
+          <div class="col-6 md:col-3">
+            <div class="field-checkbox">
+              <p-checkbox 
+                formControlName="IsSupplier" 
+                [binary]="true" 
+                inputId="isSupplier">
+              </p-checkbox>
+              <label for="isSupplier" class="ml-2">
+                {{ languageFactor === 'en' ? 'Supplier' : 'مورد' }}
+              </label>
+            </div>
+          </div>
+
+          <!-- Is Employee -->
+          <div class="col-6 md:col-3">
+            <div class="field-checkbox">
+              <p-checkbox 
+                formControlName="IsEmployee" 
+                [binary]="true" 
+                inputId="isEmployee">
+              </p-checkbox>
+              <label for="isEmployee" class="ml-2">
+                {{ languageFactor === 'en' ? 'Employee' : 'موظف' }}
+              </label>
+            </div>
+          </div>
+
+          <!-- Is Driver -->
+          <div class="col-6 md:col-3">
+            <div class="field-checkbox">
+              <p-checkbox 
+                formControlName="IsDriver" 
+                [binary]="true" 
+                inputId="isDriver">
+              </p-checkbox>
+              <label for="isDriver" class="ml-2">
+                {{ languageFactor === 'en' ? 'Driver' : 'سائق' }}
+              </label>
+            </div>
+          </div>
+        </div>
+        <small class="p-error d-block mt-1">
+          {{ languageFactor === 'en' ? '* At least one role is required' : '* يجب اختيار دور واحد على الأقل' }}
+        </small>
+      </div>
+
+      <!-- Notes -->
+      <div class="mb-3 col-12">
+        <label>{{ languageFactor === 'en' ? 'Notes' : 'ملاحظات' }}</label>
+        <textarea 
+          pInputTextarea 
+          formControlName="Notes"
+          rows="3"
+          [placeholder]="languageFactor === 'en' ? 'Enter notes' : 'أدخل ملاحظات'"
+          class="w-full">
+        </textarea>
+      </div>
+
+      <!-- Is Active -->
+      <div class="mb-3 col-12">
+        <div class="field-checkbox">
+          <p-checkbox 
+            formControlName="IsActive" 
+            [binary]="true" 
+            inputId="isActive">
+          </p-checkbox>
+          <label for="isActive" class="ml-2">
+            {{ languageFactor === 'en' ? 'Active' : 'نشط' }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-content-end gap-2 mt-3">
+      <button 
+        pButton 
+        type="button" 
+        [label]="languageFactor === 'en' ? 'Cancel' : 'إلغاء'" 
+        icon="pi pi-times" 
+        class="p-button-text" 
+        (click)="onCancel()"
+        [disabled]="loading">
+      </button>
+      <button 
+        pButton 
+        type="submit" 
+        [label]="languageFactor === 'en' ? 'Save' : 'حفظ'" 
+        icon="pi pi-check" 
+        [loading]="loading">
+      </button>
+    </div>
+  </form>
+</div>

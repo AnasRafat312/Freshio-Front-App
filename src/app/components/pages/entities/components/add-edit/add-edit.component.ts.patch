@@ -1,0 +1,72 @@
+// Add this import at the top
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+
+// Change the class declaration to implement AfterViewInit
+export class EntitiesAddEditComponent implements OnInit, OnDestroy, AfterViewInit {
+
+// Remove the setTimeout from ngOnInit and add this new method:
+ngAfterViewInit(): void {
+  // Initialize autocomplete after view is ready
+  setTimeout(() => {
+    this.initializeAutocomplete();
+  }, 500);
+}
+
+// Update initializeAutocomplete to add error checking:
+private initializeAutocomplete(): void {
+  if (!this.searchInput) {
+    console.warn('Search input not found');
+    return;
+  }
+
+  if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
+    console.error('Google Maps Places library not loaded');
+    this.messageService.add({
+      severity: 'error',
+      summary: this.languageFactor === 'en' ? 'Error' : 'خطأ',
+      detail: this.languageFactor === 'en' ? 'Google Maps Places library not loaded' : 'مكتبة Google Maps Places غير محملة'
+    });
+    return;
+  }
+
+  const input = this.searchInput.nativeElement;
+  
+  try {
+    this.autocomplete = new google.maps.places.Autocomplete(input, {
+      fields: ['formatted_address', 'geometry', 'name'],
+      types: ['geocode', 'establishment']
+    });
+
+    this.autocomplete.addListener('place_changed', () => {
+      const place = this.autocomplete?.getPlace();
+      
+      if (!place || !place.geometry || !place.geometry.location) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: this.languageFactor === 'en' ? 'Warning' : 'تحذير',
+          detail: this.languageFactor === 'en' ? 'No details available for this place' : 'لا توجد تفاصيل متاحة لهذا المكان'
+        });
+        return;
+      }
+
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      
+      this.mapCenter = { lat, lng };
+      this.markerPosition = { lat, lng };
+      this.mapZoom = 15;
+      
+      this.updateLocationFields(lat, lng);
+      
+      if (place.formatted_address) {
+        this.form.patchValue({
+          Address: place.formatted_address
+        });
+      }
+    });
+    
+    console.log('Google Places Autocomplete initialized successfully');
+  } catch (error) {
+    console.error('Error initializing autocomplete:', error);
+  }
+}

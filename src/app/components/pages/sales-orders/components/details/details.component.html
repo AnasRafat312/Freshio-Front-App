@@ -1,0 +1,188 @@
+<div class="order-details-container" *ngIf="order">
+  <!-- Header Information -->
+  <div class="details-section">
+    <h3>{{ getLabel('Order Information', 'معلومات الأوردر') }}</h3>
+    
+    <div class="row">
+      <div class="col-md-4 col-sm-6 mb-3">
+        <div class="detail-field">
+          <label>{{ getLabel('Order Number', 'رقم الأوردر') }}</label>
+          <div class="detail-value">{{ order.OrderNumber || '-' }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-3">
+        <div class="detail-field">
+          <label>{{ getLabel('Order Date', 'تاريخ الأوردر') }}</label>
+          <div class="detail-value">{{ order.OrderDate | date:'yyyy-MM-dd' }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-3">
+        <div class="detail-field">
+          <label>{{ getLabel('Status', 'الحالة') }}</label>
+          <div class="detail-value">
+            <p-tag [value]="getStatusLabel(order.Status)" [severity]="getStatusSeverity(order.Status)"></p-tag>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-3">
+        <div class="detail-field">
+          <label>{{ getLabel('Customer', 'العميل') }}</label>
+          <div class="detail-value">{{ order.CustomerName || '-' }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-3">
+        <div class="detail-field">
+          <label>{{ getLabel('Total Amount', 'الإجمالي') }}</label>
+          <div class="detail-value amount">{{ order.TotalAmount | number:'1.2-2' }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-3" *ngIf="order.TotalCost !== null && order.TotalCost !== undefined">
+        <div class="detail-field">
+          <label>{{ getLabel('Total Cost', 'إجمالي التكلفة') }}</label>
+          <div class="detail-value amount">{{ order.TotalCost | number:'1.2-2' }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-3" *ngIf="order.TotalProfit !== null && order.TotalProfit !== undefined">
+        <div class="detail-field">
+          <label>{{ getLabel('Total Profit', 'إجمالي الربح') }}</label>
+          <div class="detail-value amount profit">{{ order.TotalProfit | number:'1.2-2' }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-3">
+        <div class="detail-field">
+          <label>{{ getLabel('Created At', 'تاريخ الإنشاء') }}</label>
+          <div class="detail-value">{{ order.CreatedDate | date:'yyyy-MM-dd HH:mm' }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-12 mb-3" *ngIf="order.Notes">
+        <div class="detail-field">
+          <label>{{ getLabel('Notes', 'ملاحظات') }}</label>
+          <div class="detail-value">{{ order.Notes }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-12 mb-3" *ngIf="order.RejectionReason">
+        <div class="detail-field">
+          <label>{{ getLabel('Rejection Reason', 'سبب الرفض') }}</label>
+          <div class="detail-value rejection-reason">{{ order.RejectionReason }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Items Table -->
+  <div class="details-section mt-4">
+    <h3>{{ getLabel('Order Items', 'أصناف الأوردر') }}</h3>
+    
+    <p-table [value]="order.SalesOrderItems" styleClass="p-datatable-sm">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{ getLabel('Item', 'الصنف') }}</th>
+          <!-- <th>{{ getLabel('Unit', 'الوحدة') }}</th> -->
+          <th>{{ getLabel('Requested Qty', 'الكمية المطلوبة') }}</th>
+          <th>{{ getLabel('Approved Qty', 'الكمية المعتمدة') }}</th>
+          <th>{{ getLabel('Unit Price', 'سعر الوحدة') }}</th>
+          <th>{{ getLabel('Unit Cost', 'تكلفة الوحدة') }}</th>
+          <th>{{ getLabel('Total Cost', 'إجمالي التكلفة') }}</th>
+          <th>{{ getLabel('Profit', 'الربح') }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{ item.ItemName }}</td>
+          <!-- <td>{{ item.UnitOfMeasure }}</td> -->
+          <td>{{ item.RequestedQuantity | number:'1.2-2' }}</td>
+          <td>{{ item.ApprovedQuantity !== null && item.ApprovedQuantity !== undefined ? (item.ApprovedQuantity | number:'1.2-2') : '-' }}</td>
+          <td>{{ item.UnitPrice | number:'1.2-2' }}</td>
+          <td>{{ item.UnitCost !== null && item.UnitCost !== undefined ? (item.UnitCost | number:'1.2-2') : '-' }}</td>
+          <td>{{ item.TotalCost !== null && item.TotalCost !== undefined ? (item.TotalCost | number:'1.2-2') : '-' }}</td>
+          <td>{{ item.Profit !== null && item.Profit !== undefined ? (item.Profit | number:'1.2-2') : '-' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions-section mt-4">
+    <div class="flex justify-content-end gap-2">
+      <!-- Pending Status Actions -->
+      <ng-container *ngIf="isPending()">
+        <button 
+          pButton 
+          type="button" 
+          [label]="getLabel('Edit', 'تعديل')" 
+          icon="pi pi-pencil" 
+          class="p-button-warning"
+          (click)="onEdit()">
+        </button>
+        <button 
+          pButton 
+          type="button" 
+          [label]="getLabel('Full Approval', 'الموافقة الكاملة')" 
+          icon="pi pi-check-circle" 
+          class="p-button-success"
+          (click)="onFullApproval()"
+          [loading]="loading">
+        </button>
+        <button 
+          pButton 
+          type="button" 
+          [label]="getLabel('Partial Approval', 'الموافقة الجزئية')" 
+          icon="pi pi-check" 
+          class="p-button-info"
+          (click)="onPartialApproval()">
+        </button>
+        <button 
+          pButton 
+          type="button" 
+          [label]="getLabel('Reject', 'رفض')" 
+          icon="pi pi-times-circle" 
+          class="p-button-danger"
+          (click)="onReject()">
+        </button>
+        <button 
+          pButton 
+          type="button" 
+          [label]="getLabel('View Shortages', 'عرض النواقص')" 
+          icon="pi pi-exclamation-triangle" 
+          class="p-button-warning p-button-outlined"
+          (click)="onViewShortages()"
+          [loading]="loading">
+        </button>
+      </ng-container>
+
+      <!-- Approved/Partially Approved Actions -->
+      <ng-container *ngIf="isApprovedOrPartial()">
+        <button 
+          pButton 
+          type="button" 
+          [label]="getLabel('Invoice', 'الفاتورة')" 
+          icon="pi pi-file" 
+          class="p-button-success"
+          (click)="onInvoice()">
+        </button>
+      </ng-container>
+
+      <!-- Close Button (Always visible) -->
+      <button 
+        pButton 
+        type="button" 
+        [label]="getLabel('Close', 'إغلاق')" 
+        icon="pi pi-times" 
+        class="p-button-text"
+        (click)="onClose()">
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog></p-confirmDialog>

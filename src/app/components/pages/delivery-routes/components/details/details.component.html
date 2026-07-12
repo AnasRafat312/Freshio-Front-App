@@ -1,0 +1,121 @@
+<div class="delivery-route-details-container" *ngIf="route">
+  <!-- Action Buttons (Hidden on Print) -->
+  <div class="action-buttons no-print">
+    <button 
+      pButton 
+      type="button" 
+      [label]="getLabel('Open Google Maps', 'فتح Google Maps')" 
+      icon="pi pi-map" 
+      class="p-button-success"
+      (click)="onOpenGoogleMaps()">
+    </button>
+    <button 
+      pButton 
+      type="button" 
+      [label]="getLabel('Print Driver Sheet', 'طباعة خط السير')" 
+      icon="pi pi-print" 
+      class="p-button-primary"
+      (click)="onPrint()">
+    </button>
+    <button 
+      pButton 
+      type="button" 
+      [label]="getLabel('Close', 'إغلاق')" 
+      icon="pi pi-times" 
+      class="p-button-text"
+      (click)="onClose()">
+    </button>
+  </div>
+
+  <!-- Route Details (Printable) -->
+  <div class="route-content">
+    <!-- Header Information -->
+    <div class="details-section">
+      <h3>{{ getLabel('Route Information', 'معلومات المسار') }}</h3>
+      
+      <div class="row">
+        <div class="col-md-4 col-sm-6 mb-3">
+          <div class="detail-field">
+            <label>{{ getLabel('Delivery Date', 'تاريخ التوصيل') }}</label>
+            <div class="detail-value">{{ route.RouteDate | date:'yyyy-MM-dd' }}</div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 mb-3">
+          <div class="detail-field">
+            <label>{{ getLabel('Driver', 'السائق') }}</label>
+            <div class="detail-value">{{ route.DriverName || '-' }}</div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 mb-3">
+          <div class="detail-field">
+            <label>{{ getLabel('Total Distance', 'المسافة الكلية') }}</label>
+            <div class="detail-value">{{ formatDistance(route.TotalDistance) }}</div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 mb-3">
+          <div class="detail-field">
+            <label>{{ getLabel('Total Duration', 'المدة الكلية') }}</label>
+            <div class="detail-value">{{ formatDuration(route.TotalDuration) }}</div>
+          </div>
+        </div>
+
+        <div class="col-md-8 mb-3" *ngIf="route.StartLocationAddress">
+          <div class="detail-field">
+            <label>{{ getLabel('Start Location', 'نقطة البداية') }}</label>
+            <div class="detail-value">{{ route.StartLocationAddress }}</div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 mb-3">
+          <div class="detail-field">
+            <label>{{ getLabel('Created At', 'تاريخ الإنشاء') }}</label>
+            <div class="detail-value">{{ route.CreatedDate | date:'yyyy-MM-dd HH:mm' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stops Table -->
+    <div class="details-section mt-4">
+      <h3>{{ getLabel('Delivery Stops', 'وقفات التوصيل') }}</h3>
+      
+      <p-table [value]="route.Stops" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{ getLabel('Stop #', 'رقم الوقفة') }}</th>
+            <th>{{ getLabel('Order Number', 'رقم الأوردر') }}</th>
+            <th>{{ getLabel('Customer', 'العميل') }}</th>
+            <th>{{ getLabel('Phone', 'الهاتف') }}</th>
+            <th>{{ getLabel('Address', 'العنوان') }}</th>
+            <th class="no-print">{{ getLabel('Actions', 'الإجراءات') }}</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-stop>
+          <tr>
+            <td>
+              <span class="stop-badge">{{ stop.StopOrder }}</span>
+            </td>
+            <td>{{ stop.OrderNumber }}</td>
+            <td>{{ stop.CustomerName }}</td>
+            <td>{{ stop.CustomerPhone || '-' }}</td>
+            <td>{{ stop.Address || '-' }}</td>
+            <td class="no-print">
+              <button 
+                *ngIf="stop.GoogleMapUrl"
+                pButton 
+                type="button" 
+                icon="pi pi-map-marker" 
+                class="p-button-success p-button-sm p-button-text"
+                [pTooltip]="getLabel('Open Location', 'فتح الموقع')"
+                (click)="window.open(stop.GoogleMapUrl, '_blank')">
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

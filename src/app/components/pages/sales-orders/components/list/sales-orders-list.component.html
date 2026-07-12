@@ -1,0 +1,43 @@
+<p-confirmDialog></p-confirmDialog>
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title-wrapper">
+      <div class="page-icon icon-sales-orders">
+        <i class="pi pi-shopping-bag"></i>
+      </div>
+      <h2 class="page-title">{{'Sales Orders'|translateToArabic:languageFactor}}</h2>
+    </div>
+    <div class="header-actions">
+      <!-- Status Filter -->
+      <p-dropdown 
+        [options]="statusFilterOptions" 
+        [(ngModel)]="selectedStatusFilter"
+        (onChange)="onStatusFilterChange($event)"
+        [placeholder]="languageFactor === 'en' ? 'Filter by Status' : 'تصفية حسب الحالة'"
+        styleClass="mr-2">
+      </p-dropdown>
+      
+      <!-- Add Button -->
+      <button *ngIf="Add" pButton type="button" [label]="'Add'|translateToArabic:languageFactor" icon="pi pi-plus" class="p-button-success" (click)="addEdit()"></button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="page-body">
+    <app-basic-table 
+      [mainList]="mainList" 
+      [filteredList]="filteredList" 
+      [model]="model" 
+      [ActionsList]="actionsList">
+      
+      <!-- Custom template for Status column -->
+      <ng-template #statusTemplate let-row="row">
+        <p-tag 
+          [value]="getStatusLabel(row.Status)" 
+          [severity]="getStatusSeverity(row.Status)">
+        </p-tag>
+      </ng-template>
+    </app-basic-table>
+  </div>
+</div>

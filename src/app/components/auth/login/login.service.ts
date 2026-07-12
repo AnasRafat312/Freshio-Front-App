@@ -13,7 +13,7 @@ export class LoginService {
     login(model: any) {
         
         return this.http.post<any>(
-            this.constant.API_ENDPOINT + 'Auth/Login',
+            this.constant.API_ENDPOINT + 'Authentication/Login',
             model
         );
     }

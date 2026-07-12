@@ -80,13 +80,16 @@
                         </div>
                     </div>
                 </th>
-                <th *ngFor="let col of ActionsList; let i = index" style="width: 55px;"></th>
+                <th *ngIf="ActionsList?.length > 0" [attr.colspan]="ActionsList.length" style="text-align: center;">
+                    {{'Actions'|translateToArabic:languageFactor}}
+                </th>
             </tr>
         </ng-template>
         
         <ng-template pTemplate="body" let-row let-index="rowIndex" let-columns="columns">
             <!-- Data rows -->
-            <tr [pContextMenuRow]="row" [pSelectableRow]="row" *ngIf="filteredList.length > 0" [pReorderableRow]="index"  [style.background-color]="(movedRowIndex === index) ? backgroundColor : ''">
+            <tr [pContextMenuRow]="row" [pSelectableRow]="row" *ngIf="filteredList.length > 0" [pReorderableRow]="index"  
+                [ngStyle]="(movedRowIndex === index) ? {'background-color': backgroundColor} : (getRowStyle ? getRowStyle(row) : {})">
                 <td *ngIf="rowReorder">
                     <div class="d-flex align-items-center justify-content-between">
                         <span class="pi pi-bars" pReorderableRowHandle>  {{index+1}}</span>

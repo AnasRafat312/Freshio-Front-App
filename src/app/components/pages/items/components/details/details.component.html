@@ -1,0 +1,77 @@
+<div *ngIf="item" class="item-details">
+  <div class="grid">
+    <!-- Name -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Name', 'اسم الصنف') }}</label>
+        <div class="detail-value">{{ item.Name }}</div>
+      </div>
+    </div>
+
+    <!-- Unit of Measure -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Unit of Measure', 'وحدة القياس') }}</label>
+        <div class="detail-value">{{ item.UnitOfMeasure }}</div>
+      </div>
+    </div>
+
+    <!-- Default Sell Price -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Default Sell Price', 'سعر البيع الافتراضي') }}</label>
+        <div class="detail-value">{{ item.DefaultSellPrice | number:'1.2-2' }}</div>
+      </div>
+    </div>
+
+    <!-- Average Purchase Price -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Average Purchase Price', 'متوسط تكلفة الشراء') }}</label>
+        <div class="detail-value">{{ item.AveragePurchasePrice || 0 | number:'1.2-2' }}</div>
+        <small class="text-muted">{{ getLabel('(Updated through purchases)', '(يتم تحديثه من خلال المشتريات)') }}</small>
+      </div>
+    </div>
+
+    <!-- Minimum Stock Quantity -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Minimum Stock Quantity', 'الحد الأدنى للمخزون') }}</label>
+        <div class="detail-value">{{ item.MinimumStockQuantity }}</div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Status', 'الحالة') }}</label>
+        <div class="detail-value">
+          <p-tag 
+            [value]="item.IsActive ? getLabel('Active', 'نشط') : getLabel('Inactive', 'غير نشط')" 
+            [severity]="item.IsActive ? 'success' : 'danger'">
+          </p-tag>
+        </div>
+      </div>
+    </div>
+
+    <!-- Created Date -->
+    <div class="col-12 md:col-6" *ngIf="item.CreatedDate">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Created Date', 'تاريخ الإنشاء') }}</label>
+        <div class="detail-value">{{ item.CreatedDate | date:'medium' }}</div>
+      </div>
+    </div>
+
+    <!-- Modified Date -->
+    <div class="col-12 md:col-6" *ngIf="item.ModifiedDate">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Modified Date', 'تاريخ التعديل') }}</label>
+        <div class="detail-value">{{ item.ModifiedDate | date:'medium' }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!item" class="text-center p-4">
+  <p>{{ getLabel('No data available', 'لا توجد بيانات متاحة') }}</p>
+</div>

@@ -553,6 +553,48 @@ export class TranslateToArabicPipe implements PipeTransform {
       // Calculation Type translations
       'Fixed': 'ثابت',
       'Percentage': 'نسبة مئوية',
+      
+      // Freshio Business Menu Items
+      'Dashboard': 'لوحة التحكم',
+      'Items': 'الأصناف',
+      'Inventory': 'المخزون',
+      'Purchases': 'المشتريات',
+      'Sales Orders': 'أوامر البيع',
+      'Stock Shortages': 'نواقص المخزون',
+      'Waste': 'الهدر',
+      'Delivery Routes': 'طرق التوصيل',
+      
+      // Actions
+      'Actions': 'الإجراءات',
+      
+      // BOQ and Projects
+      'BOQs': 'المقايسات',
+      'Purchase Orders': 'أوامر الشراء',
+      'Projects': 'المشاريع',
+      'Requests For Quotation': 'طلبات عروض الأسعار',
+      'Offers': 'العروض',
+      'Quantity Surveying': 'حصر الكميات',
+      'Project Invoices': 'فواتير المشاريع',
+      'Project Category': 'فئة المشروع',
+      'Cycles': 'الدورات',
+      'Cycle Steps': 'خطوات الدورة',
+      
+      // Common UI Elements
+      'Total Inventory Cost:': 'إجمالي تكلفة المخزون:',
+      'Total Cost': 'التكلفة الإجمالية',
+      'Avg Cost': 'متوسط التكلفة',
+      'Available Qty': 'الكمية المتاحة',
+      'Item Name': 'اسم الصنف',
+      'Unit Price': 'سعر الوحدة',
+      'Requested Qty': 'الكمية المطلوبة',
+      'Approved Qty': 'الكمية المعتمدة',
+      'Order Items': 'أصناف الأوردر',
+      'Purchase Items': 'أصناف الشراء',
+      'Profit': 'الربح',
+      
+      // Order Status
+      'Approved': 'مقبول',
+      'Partially Approved': 'مقبول جزئياً',
     };
     const arabicNumber = String(englishText).replace(/[0-9]/g, (match) => {
       return translations[match];

@@ -1,0 +1,86 @@
+<div class="waste-details-container" *ngIf="waste">
+  <!-- Header Information -->
+  <div class="details-section">
+    <h3>{{ getLabel('Waste Information', 'معلومات الهالك') }}</h3>
+    
+    <div class="row">
+      <div class="col-md-4 col-sm-6 mb-3">
+        <div class="detail-field">
+          <label>{{ getLabel('Waste Number', 'رقم الهالك') }}</label>
+          <div class="detail-value">{{ waste.WasteNumber || '-' }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-3">
+        <div class="detail-field">
+          <label>{{ getLabel('Waste Date', 'تاريخ الهالك') }}</label>
+          <div class="detail-value">{{ waste.WasteDate | date:'yyyy-MM-dd' }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-3">
+        <div class="detail-field">
+          <label>{{ getLabel('Employee', 'الموظف') }}</label>
+          <div class="detail-value">{{ waste.EmployeeName || '-' }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3" *ngIf="waste.Reason">
+        <div class="detail-field">
+          <label>{{ getLabel('Reason', 'السبب') }}</label>
+          <div class="detail-value">{{ waste.Reason }}</div>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3" *ngIf="waste.Notes">
+        <div class="detail-field">
+          <label>{{ getLabel('Notes', 'ملاحظات') }}</label>
+          <div class="detail-value">{{ waste.Notes }}</div>
+        </div>
+      </div>
+
+      <!-- <div class="col-md-4 col-sm-6 mb-3">
+        <div class="detail-field">
+          <label>{{ getLabel('Created At', 'تاريخ الإنشاء') }}</label>
+          <div class="detail-value">{{ waste.CreatedDate | date:'yyyy-MM-dd HH:mm' }}</div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- Items Table -->
+  <div class="details-section mt-4">
+    <h3>{{ getLabel('Waste Items', 'أصناف الهالك') }}</h3>
+    
+    <p-table [value]="waste.WasteOrderItems" styleClass="p-datatable-sm">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{ getLabel('Item', 'الصنف') }}</th>
+          <th>{{ getLabel('Unit', 'الوحدة') }}</th>
+          <th>{{ getLabel('Quantity', 'الكمية') }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{ item.ItemName }}</td>
+          <td>{{ item.ItemUnitOfMeasure }}</td>
+          <td>{{ item.Quantity | number:'1.2-2' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions-section mt-4">
+    <div class="flex justify-content-end">
+      <button 
+        pButton 
+        type="button" 
+        [label]="getLabel('Close', 'إغلاق')" 
+        icon="pi pi-times" 
+        class="p-button-text"
+        (click)="onClose()">
+      </button>
+    </div>
+  </div>
+</div>

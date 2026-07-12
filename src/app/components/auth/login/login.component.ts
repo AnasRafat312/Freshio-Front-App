@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
             this.languageFactor = data;
         });
         this.form = new FormGroup({
-            Username: new FormControl('', [Validators.required]),
+            Email: new FormControl('', [Validators.required]),
             Password: new FormControl('', [Validators.required]),
         });
     }
@@ -52,14 +52,16 @@ export class LoginComponent implements OnInit {
     }
     submit() {
         this.isloading = true;
+        
         this.loginService.login(this.form.value).subscribe({
-            next: (res: ResponseModel) => {
-                const data = res?.Data;
+            next: (res: any) => {
+                const data = res;
                 this.isloading = false;
-                if (res?.Data) {
-                    localStorage.setItem('userName', data?.Username);
-                    localStorage.setItem('token', data?.Token);
-                    this.userProfileService.setImageName(data?.userProfileImage);
+                if (data?.Token) {
+                    localStorage.setItem('email', data?.Email);
+                    localStorage.setItem('token', data.Token);
+                    localStorage.setItem('userName', res?.UserName);
+                    //this.userProfileService.setImageName(data?.userProfileImage);
                     this.router.navigate(['/pages/home']);
                 } else {
                     this.messageService.add({

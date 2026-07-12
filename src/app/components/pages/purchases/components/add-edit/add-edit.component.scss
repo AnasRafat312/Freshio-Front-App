@@ -1,0 +1,65 @@
+.required-asterisk {
+  color: red;
+  margin-left: 4px;
+}
+
+.items-grid {
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: #f8f9fa;
+}
+
+.item-row {
+  background-color: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.item-row:last-child {
+  margin-bottom: 0;
+}
+
+.empty-state {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.total-amount-box {
+  background-color: #e7f3ff;
+  border: 2px solid #2196f3;
+  border-radius: 4px;
+  padding: 1rem;
+  text-align: right;
+}
+
+.total-amount-box h4 {
+  margin: 0;
+  color: #1976d2;
+}
+
+.total-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 1rem;
+}
+
+:host ::ng-deep {
+  .p-inputnumber {
+    width: 100%;
+  }
+  
+  .p-inputnumber-input {
+    width: 100%;
+  }
+
+  .p-dropdown {
+    width: 100%;
+  }
+
+  .p-calendar {
+    width: 100%;
+  }
+}

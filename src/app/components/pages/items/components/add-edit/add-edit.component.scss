@@ -1,0 +1,14 @@
+.required-asterisk {
+  color: red;
+  margin-left: 4px;
+}
+
+:host ::ng-deep {
+  .p-inputnumber {
+    width: 100%;
+  }
+  
+  .p-inputnumber-input {
+    width: 100%;
+  }
+}

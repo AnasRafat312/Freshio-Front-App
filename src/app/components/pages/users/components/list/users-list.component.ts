@@ -172,7 +172,7 @@ export class Users implements OnInit, OnDestroy {
         tooltip: 'Delete ',
         icon: 'pi pi-trash',
         styleClass: 'p-button-danger',
-        action: (row: any) => this.deleteRow(row.Id),
+        action: (row: any) => this.deleteRow(row.ID),
       });
     }
   }

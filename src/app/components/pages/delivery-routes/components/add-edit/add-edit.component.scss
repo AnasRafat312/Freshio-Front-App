@@ -1,0 +1,93 @@
+.delivery-route-form-container {
+  padding: 1rem;
+}
+
+.form-section {
+  h3 {
+    color: #495057;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #dee2e6;
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #495057;
+  }
+}
+
+.required-asterisk {
+  color: red;
+  margin-left: 4px;
+}
+
+.stops-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stop-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+.stop-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #0d6efd;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.stop-info {
+  flex: 1;
+
+  .stop-order-number {
+    font-weight: 600;
+    color: #212529;
+  }
+
+  .stop-customer {
+    color: #6c757d;
+    font-size: 0.875rem;
+  }
+}
+
+.stop-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid #dee2e6;
+}
+
+:host ::ng-deep {
+  .p-calendar,
+  .p-dropdown,
+  .p-inputnumber,
+  .p-inputtext {
+    width: 100%;
+  }
+
+  .p-inputnumber-input {
+    width: 100%;
+  }
+}

@@ -24,7 +24,7 @@ export interface FertualTree {
     children?: FertualTree[];
   }
 export interface PrivilegeRoles {
-    Id: number;
+    ID: number;
     Name: string;
     CompanyID: number;
 }

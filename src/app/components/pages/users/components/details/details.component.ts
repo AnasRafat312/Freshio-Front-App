@@ -55,7 +55,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     // Clear any previous details first
     this.usersStore.clearUserDetails();
     
-    this.userId = this.config.data?.Id;
+    this.userId = this.config.data?.ID;
     if (this.userId) {
       this.loadUserDetails(this.userId);
     } else {

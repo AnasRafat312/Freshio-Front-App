@@ -1,5 +1,5 @@
 export interface BaseEntityModel{
-    Id:number;
+    ID:number;
     IsDeleted:Boolean;
     CreatedBy:number;
     CreatedDateTime: Date;

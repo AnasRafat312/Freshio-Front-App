@@ -24,6 +24,7 @@ export class BasicTableComponent implements OnInit, OnChanges {
     // columns probs
     @Input() globalFilterFields:string[] = []
     @Input() ActionsList: { icon: string, tooltip: string, styleClass: string, action: (row: any,index?:number) => void, condition?: (row: any) => boolean, disabled?: (row: any,index?:number) => boolean }[] = [];
+    @Input() getRowStyle?: (row: any) => any; // Function to get custom row styles
     cols: NormalTableColumn[] = [];
     _selectedColumns: NormalTableColumn[];
     loading: boolean = true;
@@ -58,7 +59,7 @@ export class BasicTableComponent implements OnInit, OnChanges {
     ) {}
 
     ngOnChanges(changes: SimpleChanges): void {
-        debugger
+        
         this.cols = this.generateColumns(this.cols, this.model);
         this._selectedColumns = this.cols?.filter(col => !col?.hidden);
         this.exportColumns = this.cols.map((col) => ({

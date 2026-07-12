@@ -32,12 +32,12 @@ describe('UsersService', () => {
   it('should get all users and update store', () => {
     const mockUsers = [
       { 
-        Id: 1, Username: 'user1', Email: 'user1@test.com', RoleName: 'Admin', 
+        ID: 1, Username: 'user1', Email: 'user1@test.com', RoleName: 'Admin', 
         IsActive: true, CompanyId: 1, IsDeleted: false, CreatedBy: 1, 
         CreatedDateTime: new Date() 
       },
       { 
-        Id: 2, Username: 'user2', Email: 'user2@test.com', RoleName: 'User', 
+        ID: 2, Username: 'user2', Email: 'user2@test.com', RoleName: 'User', 
         IsActive: true, CompanyId: 1, IsDeleted: false, CreatedBy: 1, 
         CreatedDateTime: new Date() 
       }
@@ -60,7 +60,7 @@ describe('UsersService', () => {
 
   it('should get user details and update store', () => {
     const mockUser = { 
-      Id: 1, Username: 'user1', Email: 'user1@test.com', RoleName: 'Admin', 
+      ID: 1, Username: 'user1', Email: 'user1@test.com', RoleName: 'Admin', 
       RoleId: 1, IsActive: true, IsDeleted: false, CreatedBy: 1, 
       CreatedDateTime: new Date() 
     };
@@ -90,7 +90,7 @@ describe('UsersService', () => {
     };
     const mockResponse = { 
       Success: true, 
-      Data: { Id: 3, ...newUser }, 
+      Data: { ID: 3, ...newUser }, 
       Message: 'User created successfully', 
       Errors: [] 
     };
@@ -114,7 +114,7 @@ describe('UsersService', () => {
     };
     const mockResponse = { 
       Success: true, 
-      Data: { Id: 1, ...updateData }, 
+      Data: { ID: 1, ...updateData }, 
       Message: 'User updated successfully', 
       Errors: [] 
     };

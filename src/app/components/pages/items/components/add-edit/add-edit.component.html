@@ -1,0 +1,102 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <!-- Name -->
+      <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'Name' : 'اسم الصنف'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'Name')"
+        [isValid]="form.get('Name')?.valid"
+        icon="pi pi-box">
+        <input 
+          pInputText 
+          formControlName="Name"
+          [placeholder]="languageFactor === 'en' ? 'Enter item name' : 'أدخل اسم الصنف'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('Name')?.invalid && form.get('Name')?.touched}">
+      </app-input-field>
+
+      <!-- Unit of Measure -->
+      <!-- <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'Unit of Measure' : 'وحدة القياس'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'UnitOfMeasure')"
+        [isValid]="form.get('UnitOfMeasure')?.valid"
+        icon="pi pi-tag">
+        <input 
+          pInputText 
+          formControlName="UnitOfMeasure"
+          [placeholder]="languageFactor === 'en' ? 'e.g., Kg, Piece, Box' : 'مثال: كجم، قطعة، صندوق'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('UnitOfMeasure')?.invalid && form.get('UnitOfMeasure')?.touched}">
+      </app-input-field> -->
+
+      <!-- Default Sell Price -->
+      <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'Default Sell Price' : 'سعر البيع الافتراضي'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'DefaultSellPrice')"
+        [isValid]="form.get('DefaultSellPrice')?.valid"
+        icon="pi pi-money-bill">
+        <p-inputNumber
+          mode="decimal"
+          formControlName="DefaultSellPrice"
+          [minFractionDigits]="2"
+          [maxFractionDigits]="2"
+          [min]="0"
+          [placeholder]="languageFactor === 'en' ? 'Enter sell price' : 'أدخل سعر البيع'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('DefaultSellPrice')?.invalid && form.get('DefaultSellPrice')?.touched}">
+        </p-inputNumber>
+      </app-input-field>
+
+      <!-- Minimum Stock Quantity -->
+      <app-input-field class="mb-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        [label]="languageFactor === 'en' ? 'Minimum Stock Quantity' : 'الحد الأدنى للمخزون'"
+        [languageFactor]="languageFactor"
+        [isRequired]="hasRequiredValidator(form,'MinimumStockQuantity')"
+        [isValid]="form.get('MinimumStockQuantity')?.valid"
+        icon="pi pi-chart-line">
+        <p-inputNumber
+          mode="decimal"
+          formControlName="MinimumStockQuantity"
+          [useGrouping]="false"
+          [min]="0"
+          [placeholder]="languageFactor === 'en' ? 'Enter minimum stock' : 'أدخل الحد الأدنى'"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('MinimumStockQuantity')?.invalid && form.get('MinimumStockQuantity')?.touched}">
+        </p-inputNumber>
+      </app-input-field>
+
+      <!-- Is Active -->
+      <div class="mb-3 col-12">
+        <div class="field-checkbox">
+          <p-checkbox 
+            formControlName="IsActive" 
+            [binary]="true" 
+            inputId="isActive">
+          </p-checkbox>
+          <label for="isActive" class="ml-2">
+            {{ languageFactor === 'en' ? 'Active' : 'نشط' }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-content-end gap-2 mt-3">
+      <button 
+        pButton 
+        type="button" 
+        [label]="languageFactor === 'en' ? 'Cancel' : 'إلغاء'" 
+        icon="pi pi-times" 
+        class="p-button-text" 
+        (click)="onCancel()"
+        [disabled]="loading">
+      </button>
+      <button 
+        pButton 
+        type="submit" 
+        [label]="languageFactor === 'en' ? 'Save' : 'حفظ'" 
+        icon="pi pi-check" 
+        [loading]="loading">
+      </button>
+    </div>
+  </form>
+</div>

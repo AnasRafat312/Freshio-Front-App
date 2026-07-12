@@ -75,6 +75,9 @@ import {MatDividerModule} from '@angular/material/divider'
 import { ExportOptionsModalComponent } from './components/export-options-modal/export-options-modal.component';
 import { DetailsModule } from './components/details/details.module';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { TagModule } from 'primeng/tag';
+
+
 @NgModule({
     declarations: [
         DeleteModalComponent,
@@ -156,7 +159,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
         AvatarModule,
         MatDividerModule,
         DetailsModule,
-        RadioButtonModule
+        RadioButtonModule,
+        
     ],
 
     exports: [
@@ -229,7 +233,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
         InputFieldComponent,
         MatDividerModule,
         DetailsModule,
-        RadioButtonModule
+        RadioButtonModule,
+        TagModule
     ],
 })
 export class SharedModule {}

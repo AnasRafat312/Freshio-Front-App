@@ -88,131 +88,131 @@ export class AppComponent implements OnInit {
     }
 
     updatePageTitle(url: string): void {
-        let title = 'Hesabato';
+        let title = 'Freshio';
         
         // Map routes to page titles
         if (url.includes('/home')) {
-            title = 'Home - Hesabato';
+            title = 'Home - Freshio';
         } else if (url.includes('/users')) {
             if (url.includes('/add')) {
-                title = 'Add User - Hesabato';
+                title = 'Add User - Freshio';
             } else if (url.includes('/edit')) {
-                title = 'Edit User - Hesabato';
+                title = 'Edit User - Freshio';
             } else if (url.includes('/details')) {
-                title = 'User Details - Hesabato';
+                title = 'User Details - Freshio';
             } else {
-                title = 'Users - Hesabato';
+                title = 'Users - Freshio';
             }
         } else if (url.includes('/compaines')) {
-            title = 'Companies - Hesabato';
+            title = 'Companies - Freshio';
         } else if (url.includes('/privilege')) {
-            title = 'Privileges - Hesabato';
+            title = 'Privileges - Freshio';
         } else if (url.includes('/roles')) {
-            title = 'Roles - Hesabato';
+            title = 'Roles - Freshio';
         } else if (url.includes('/wallets')) {
             if (url.includes('/add')) {
-                title = 'Add Wallet - Hesabato';
+                title = 'Add Wallet - Freshio';
             } else if (url.includes('/edit')) {
-                title = 'Edit Wallet - Hesabato';
+                title = 'Edit Wallet - Freshio';
             } else if (url.includes('/details')) {
-                title = 'Wallet Details - Hesabato';
+                title = 'Wallet Details - Freshio';
             } else {
-                title = 'Wallets - Hesabato';
+                title = 'Wallets - Freshio';
             }
         } else if (url.includes('/bank-accounts')) {
             if (url.includes('/add')) {
-                title = 'Add Bank Account - Hesabato';
+                title = 'Add Bank Account - Freshio';
             } else if (url.includes('/edit')) {
-                title = 'Edit Bank Account - Hesabato';
+                title = 'Edit Bank Account - Freshio';
             } else if (url.includes('/details')) {
-                title = 'Bank Account Details - Hesabato';
+                title = 'Bank Account Details - Freshio';
             } else {
-                title = 'Bank Accounts - Hesabato';
+                title = 'Bank Accounts - Freshio';
             }
         } else if (url.includes('/yellow-cards')) {
             if (url.includes('/add')) {
-                title = 'Add Yellow Card - Hesabato';
+                title = 'Add Yellow Card - Freshio';
             } else if (url.includes('/edit')) {
-                title = 'Edit Yellow Card - Hesabato';
+                title = 'Edit Yellow Card - Freshio';
             } else if (url.includes('/details')) {
-                title = 'Yellow Card Details - Hesabato';
+                title = 'Yellow Card Details - Freshio';
             } else {
-                title = 'Yellow Cards - Hesabato';
+                title = 'Yellow Cards - Freshio';
             }
         } else if (url.includes('/credit-cards')) {
             if (url.includes('/add')) {
-                title = 'Add Credit Card - Hesabato';
+                title = 'Add Credit Card - Freshio';
             } else if (url.includes('/edit')) {
-                title = 'Edit Credit Card - Hesabato';
+                title = 'Edit Credit Card - Freshio';
             } else if (url.includes('/details')) {
-                title = 'Credit Card Details - Hesabato';
+                title = 'Credit Card Details - Freshio';
             } else {
-                title = 'Credit Cards - Hesabato';
+                title = 'Credit Cards - Freshio';
             }
         } else if (url.includes('/traders')) {
             if (url.includes('/add')) {
-                title = 'Add Trader - Hesabato';
+                title = 'Add Trader - Freshio';
             } else if (url.includes('/edit')) {
-                title = 'Edit Trader - Hesabato';
+                title = 'Edit Trader - Freshio';
             } else if (url.includes('/details')) {
-                title = 'Trader Details - Hesabato';
+                title = 'Trader Details - Freshio';
             } else {
-                title = 'Traders - Hesabato';
+                title = 'Traders - Freshio';
             }
         } else if (url.includes('/phones')) {
             if (url.includes('/add')) {
-                title = 'Add Phone - Hesabato';
+                title = 'Add Phone - Freshio';
             } else if (url.includes('/edit')) {
-                title = 'Edit Phone - Hesabato';
+                title = 'Edit Phone - Freshio';
             } else if (url.includes('/details')) {
-                title = 'Phone Details - Hesabato';
+                title = 'Phone Details - Freshio';
             } else {
-                title = 'Phones - Hesabato';
+                title = 'Phones - Freshio';
             }
         } else if (url.includes('/privileges-management')) {
             if (url.includes('/add')) {
-                title = 'Add Privilege - Hesabato';
+                title = 'Add Privilege - Freshio';
             } else if (url.includes('/edit')) {
-                title = 'Edit Privilege - Hesabato';
+                title = 'Edit Privilege - Freshio';
             } else if (url.includes('/details')) {
-                title = 'Privilege Details - Hesabato';
+                title = 'Privilege Details - Freshio';
             } else {
-                title = 'Privileges Management - Hesabato';
+                title = 'Privileges Management - Freshio';
             }
         } else if (url.includes('/breakdown')) {
             if (url.includes('/add')) {
-                title = 'Add Breakdown - Hesabato';
+                title = 'Add Breakdown - Freshio';
             } else if (url.includes('/edit')) {
-                title = 'Edit Breakdown - Hesabato';
+                title = 'Edit Breakdown - Freshio';
             } else if (url.includes('/details')) {
-                title = 'Breakdown Details - Hesabato';
+                title = 'Breakdown Details - Freshio';
             } else {
-                title = 'Breakdown - Hesabato';
+                title = 'Breakdown - Freshio';
             }
         } else if (url.includes('/transaction-fees')) {
             if (url.includes('/add')) {
-                title = 'Add Transaction Fee - Hesabato';
+                title = 'Add Transaction Fee - Freshio';
             } else if (url.includes('/edit')) {
-                title = 'Edit Transaction Fee - Hesabato';
+                title = 'Edit Transaction Fee - Freshio';
             } else if (url.includes('/details')) {
-                title = 'Transaction Fee Details - Hesabato';
+                title = 'Transaction Fee Details - Freshio';
             } else {
-                title = 'Transaction Fees - Hesabato';
+                title = 'Transaction Fees - Freshio';
             }
         } else if (url.includes('/transactions')) {
             if (url.includes('/add')) {
-                title = 'Add Transaction - Hesabato';
+                title = 'Add Transaction - Freshio';
             } else if (url.includes('/details')) {
-                title = 'Transaction Details - Hesabato';
+                title = 'Transaction Details - Freshio';
             } else {
-                title = 'Transactions - Hesabato';
+                title = 'Transactions - Freshio';
             }
         } else if (url.includes('/auth/login')) {
-            title = 'Login - Hesabato';
+            title = 'Login - Freshio';
         } else if (url.includes('/auth')) {
-            title = 'Authentication - Hesabato';
+            title = 'Authentication - Freshio';
         } else if (url.includes('/notfound')) {
-            title = 'Page Not Found - Hesabato';
+            title = 'Page Not Found - Freshio';
         }
         
         this.titleService.setTitle(title);

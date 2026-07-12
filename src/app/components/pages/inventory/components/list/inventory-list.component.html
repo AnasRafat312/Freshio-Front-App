@@ -1,0 +1,64 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title-wrapper">
+      <div class="page-icon icon-inventory">
+        <i class="pi pi-database"></i>
+      </div>
+      <h2 class="page-title">{{'Inventory'|translateToArabic:languageFactor}}</h2>
+    </div>
+    <div class="header-actions">
+      <!-- Stock Status Filter -->
+      <p-dropdown 
+        [options]="stockStatusOptions" 
+        [(ngModel)]="selectedStockStatus"
+        (onChange)="onStockStatusFilterChange($event)"
+        [placeholder]="languageFactor === 'en' ? 'Filter by Status' : 'تصفية حسب الحالة'"
+        styleClass="mr-2">
+      </p-dropdown>
+      
+      <!-- Refresh Button -->
+      <button 
+        pButton 
+        type="button" 
+        [label]="'Refresh'|translateToArabic:languageFactor" 
+        icon="pi pi-refresh" 
+        class="p-button-secondary" 
+        (click)="refresh()">
+      </button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="page-body">
+    <app-basic-table 
+      [mainList]="mainList" 
+      [filteredList]="filteredList" 
+      [model]="model" 
+      [ActionsList]="actionsList"
+      [hasFooter]="true"
+      [getRowStyle]="getRowStyle"
+      >
+      
+      <!-- Custom template for StockStatus column -->
+      <ng-template #stockStatusTemplate let-row="row">
+        <p-tag 
+          [value]="getStockStatusLabel(row.StockStatus)" 
+          [severity]="getStockStatusSeverity(row.StockStatus)">
+        </p-tag>
+      </ng-template>
+
+      <!-- Footer template for totals -->
+      <tr class="footer">
+        <td></td> <!-- Empty cell for row reorder column if exists -->
+        <td colspan="2" style="text-align: right; font-weight: bold;">
+          {{ languageFactor === 'en' ? 'Total:' : 'الإجمالي:' }}
+        </td>
+        <td></td> <!-- AveragePurchasePrice column -->
+        <td style="font-weight: bold; color: #28a745; font-size: 1.1rem;">
+          {{ totalCost | number:'1.2-2' }}
+        </td>
+      </tr>
+    </app-basic-table>
+  </div>
+</div>

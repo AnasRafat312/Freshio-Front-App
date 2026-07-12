@@ -1,0 +1,143 @@
+<div *ngIf="entity" class="entity-details">
+  <div class="grid">
+    <!-- Name -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Name', 'الاسم') }}</label>
+        <div class="detail-value">{{ entity.Name }}</div>
+      </div>
+    </div>
+
+    <!-- Roles -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Roles', 'الأدوار') }}</label>
+        <div class="detail-value">
+          <p-tag 
+            *ngIf="entity.IsCustomer"
+            [value]="languageFactor === 'en' ? 'Customer' : 'عميل'" 
+            severity="success"
+            class="mr-1">
+          </p-tag>
+          <p-tag 
+            *ngIf="entity.IsSupplier"
+            [value]="languageFactor === 'en' ? 'Supplier' : 'مورد'" 
+            severity="info"
+            class="mr-1">
+          </p-tag>
+          <p-tag 
+            *ngIf="entity.IsEmployee"
+            [value]="languageFactor === 'en' ? 'Employee' : 'موظف'" 
+            severity="warning"
+            class="mr-1">
+          </p-tag>
+          <p-tag 
+            *ngIf="entity.IsDriver"
+            [value]="languageFactor === 'en' ? 'Driver' : 'سائق'" 
+            severity="help"
+            class="mr-1">
+          </p-tag>
+        </div>
+      </div>
+    </div>
+
+    <!-- WhatsApp Number -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('WhatsApp Number', 'رقم واتساب') }}</label>
+        <div class="detail-value">{{ entity.WhatsAppNumber || '-' }}</div>
+      </div>
+    </div>
+
+    <!-- Additional Phone -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Additional Phone', 'رقم إضافي') }}</label>
+        <div class="detail-value">{{ entity.AdditionalPhone || '-' }}</div>
+      </div>
+    </div>
+
+    <!-- Address -->
+    <div class="col-12">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Address', 'العنوان') }}</label>
+        <div class="detail-value">{{ entity.Address || '-' }}</div>
+      </div>
+    </div>
+
+    <!-- Google Map URL -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Google Maps Link', 'رابط Google Maps') }}</label>
+        <div class="detail-value">
+          <span *ngIf="!entity.GoogleMapUrl">-</span>
+          <button 
+            *ngIf="entity.GoogleMapUrl"
+            pButton 
+            type="button" 
+            [label]="getLabel('Open Map', 'عرض الخريطة')" 
+            icon="pi pi-external-link" 
+            class="p-button-sm p-button-secondary"
+            (click)="openGoogleMap()">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latitude & Longitude -->
+    <div class="col-12 md:col-3">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Latitude', 'خط العرض') }}</label>
+        <div class="detail-value">{{ entity.Latitude || '-' }}</div>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-3">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Longitude', 'خط الطول') }}</label>
+        <div class="detail-value">{{ entity.Longitude || '-' }}</div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="col-12" *ngIf="entity.Notes">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Notes', 'ملاحظات') }}</label>
+        <div class="detail-value">{{ entity.Notes }}</div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="col-12 md:col-6">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Status', 'الحالة') }}</label>
+        <div class="detail-value">
+          <p-tag 
+            [value]="entity.IsActive ? getLabel('Active', 'نشط') : getLabel('Inactive', 'غير نشط')" 
+            [severity]="entity.IsActive ? 'success' : 'danger'">
+          </p-tag>
+        </div>
+      </div>
+    </div>
+
+    <!-- Created Date -->
+    <div class="col-12 md:col-6" *ngIf="entity.CreatedAt">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Created Date', 'تاريخ الإنشاء') }}</label>
+        <div class="detail-value">{{ entity.CreatedAt | date:'medium' }}</div>
+      </div>
+    </div>
+
+    <!-- Modified Date -->
+    <div class="col-12 md:col-6" *ngIf="entity.UpdatedAt">
+      <div class="detail-field">
+        <label class="detail-label">{{ getLabel('Modified Date', 'تاريخ التعديل') }}</label>
+        <div class="detail-value">{{ entity.UpdatedAt | date:'medium' }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!entity" class="text-center p-4">
+  <p>{{ getLabel('No data available', 'لا توجد بيانات متاحة') }}</p>
+</div>

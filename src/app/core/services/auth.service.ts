@@ -9,7 +9,7 @@ import { Constant } from '../constants/constant';
  * Branch DTO Interface
  */
 interface BranchDto {
-  Id: number;
+  ID: number;
   CompanyId: number;
   Name: string;
   Address?: string;

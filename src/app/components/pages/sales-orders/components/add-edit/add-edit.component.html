@@ -1,0 +1,239 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Header Section -->
+    <div class="row">
+      <h3 class="col-12 mb-3">{{ languageFactor === 'en' ? 'Order Information' : 'معلومات الأوردر' }}</h3>
+      
+      <!-- Customer -->
+      <div class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <label>
+          {{ languageFactor === 'en' ? 'Customer' : 'العميل' }}
+          <span *ngIf="hasRequiredValidator(form, 'CustomerEntityId')" class="required-asterisk">*</span>
+        </label>
+        <p-dropdown 
+          [options]="customerOptions" 
+          formControlName="CustomerEntityId"
+          [placeholder]="languageFactor === 'en' ? 'Select customer' : 'اختر العميل'"
+          [filter]="true"
+          [autofocus]="false"
+          appendTo="body"
+          styleClass="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('CustomerEntityId')?.invalid && form.get('CustomerEntityId')?.touched}">
+        </p-dropdown>
+        <small *ngIf="form.get('CustomerEntityId')?.invalid && form.get('CustomerEntityId')?.touched" class="p-error">
+          {{ languageFactor === 'en' ? 'Customer is required' : 'العميل مطلوب' }}
+        </small>
+      </div>
+
+      <!-- Order Date -->
+      <div class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <label>
+          {{ languageFactor === 'en' ? 'Order Date' : 'تاريخ الأوردر' }}
+          <span *ngIf="hasRequiredValidator(form, 'OrderDate')" class="required-asterisk">*</span>
+        </label>
+        <p-calendar 
+          formControlName="OrderDate"
+          [showIcon]="true"
+          dateFormat="yy-mm-dd"
+          [placeholder]="languageFactor === 'en' ? 'Select date' : 'اختر التاريخ'"
+          appendTo="body"
+          styleClass="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': form.get('OrderDate')?.invalid && form.get('OrderDate')?.touched}">
+        </p-calendar>
+      </div>
+
+      <!-- Delivery Fees -->
+      <div class="mb-3 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <label>{{ languageFactor === 'en' ? 'Delivery Fees' : 'رسوم التوصيل' }}</label>
+        <p-inputNumber
+          formControlName="DeliveryFees"
+          mode="decimal"
+          [min]="0"
+          [minFractionDigits]="2"
+          [maxFractionDigits]="2"
+          [placeholder]="languageFactor === 'en' ? 'Enter delivery fees' : 'أدخل رسوم التوصيل'"
+          styleClass="w-full">
+        </p-inputNumber>
+      </div>
+
+      <!-- Notes -->
+      <div class="mb-3 col-12">
+        <label>{{ languageFactor === 'en' ? 'Notes' : 'ملاحظات' }}</label>
+        <textarea 
+          pInputTextarea 
+          formControlName="Notes"
+          rows="2"
+          [placeholder]="languageFactor === 'en' ? 'Enter notes' : 'أدخل ملاحظات'"
+          class="w-full">
+        </textarea>
+      </div>
+    </div>
+
+    <!-- Items Section -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <h3 class="mb-3">{{ languageFactor === 'en' ? 'Order Items' : 'أصناف الأوردر' }}</h3>
+        
+        <p-table [value]="items.controls" styleClass="p-datatable-sm" [responsive]="true" responsiveLayout="scroll">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>{{ languageFactor === 'en' ? 'Item' : 'الصنف' }} <span class="required-asterisk">*</span></th>
+              <th>{{ languageFactor === 'en' ? 'Available' : 'المتاح' }}</th>
+              <th>{{ languageFactor === 'en' ? 'Requested' : 'المطلوب' }} <span class="required-asterisk">*</span></th>
+              <th>{{ languageFactor === 'en' ? 'Unit Price' : 'سعر الوحدة' }} <span class="required-asterisk">*</span></th>
+              <th>{{ languageFactor === 'en' ? 'Total' : 'الإجمالي' }}</th>
+              <th style="width: 120px;">
+                <button 
+                  pButton 
+                  type="button" 
+                  [label]="languageFactor === 'en' ? 'Add' : 'إضافة'" 
+                  icon="pi pi-plus" 
+                  class="p-button-sm p-button-success"
+                  (click)="addItem()">
+                </button>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr [formGroup]="item" [ngClass]="{'has-warning': hasStockWarning(item)}">
+              <!-- Item -->
+              <td>
+                <p-dropdown 
+                  [options]="itemOptions" 
+                  formControlName="ItemId"
+                  [placeholder]="languageFactor === 'en' ? 'Select item' : 'اختر الصنف'"
+                  [filter]="true"
+                  appendTo="body"
+                  styleClass="w-full"
+                  [ngClass]="{'ng-invalid ng-dirty': item.get('ItemId')?.invalid && item.get('ItemId')?.touched}">
+                </p-dropdown>
+                <small *ngIf="item.get('ItemId')?.invalid && item.get('ItemId')?.touched" class="p-error">
+                  {{ languageFactor === 'en' ? 'Required' : 'مطلوب' }}
+                </small>
+              </td>
+              
+              <!-- Available Quantity -->
+              <td>
+                <p-inputNumber
+                  formControlName="AvailableQuantity"
+                  [disabled]="true"
+                  styleClass="w-full">
+                </p-inputNumber>
+              </td>
+              
+              <!-- Requested Quantity -->
+              <td>
+                <p-inputNumber
+                  mode="decimal"
+                  formControlName="RequestedQuantity"
+                  [min]="0.01"
+                  [minFractionDigits]="2"
+                  [maxFractionDigits]="2"
+                  [placeholder]="languageFactor === 'en' ? 'Qty' : 'الكمية'"
+                  styleClass="w-full"
+                  [ngClass]="{'ng-invalid ng-dirty': item.get('RequestedQuantity')?.invalid && item.get('RequestedQuantity')?.touched}">
+                </p-inputNumber>
+                <small *ngIf="item.get('RequestedQuantity')?.invalid && item.get('RequestedQuantity')?.touched" class="p-error">
+                  {{ languageFactor === 'en' ? 'Required' : 'مطلوب' }}
+                </small>
+              </td>
+              
+              <!-- Unit Price -->
+              <td>
+                <p-inputNumber
+                  mode="decimal"
+                  formControlName="UnitPrice"
+                  [min]="0"
+                  [minFractionDigits]="2"
+                  [maxFractionDigits]="2"
+                  [placeholder]="languageFactor === 'en' ? 'Price' : 'السعر'"
+                  styleClass="w-full"
+                  [ngClass]="{'ng-invalid ng-dirty': item.get('UnitPrice')?.invalid && item.get('UnitPrice')?.touched}">
+                </p-inputNumber>
+                <small *ngIf="item.get('UnitPrice')?.invalid && item.get('UnitPrice')?.touched" class="p-error">
+                  {{ languageFactor === 'en' ? 'Required' : 'مطلوب' }}
+                </small>
+              </td>
+              
+              <!-- Line Total -->
+              <td>
+                <p-inputNumber
+                  formControlName="LineTotal"
+                  mode="decimal"
+                  [minFractionDigits]="2"
+                  [maxFractionDigits]="2"
+                  [disabled]="true"
+                  styleClass="w-full">
+                </p-inputNumber>
+              </td>
+              
+              <!-- Actions -->
+              <td>
+                <div class="flex gap-2">
+                  <button 
+                    pButton 
+                    type="button" 
+                    icon="pi pi-trash" 
+                    class="p-button-danger p-button-sm p-button-text"
+                    (click)="removeItem(i)"
+                    [disabled]="items.length === 1"
+                    pTooltip="{{ languageFactor === 'en' ? 'Delete' : 'حذف' }}">
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <!-- Stock Warning Row -->
+            <tr *ngIf="hasStockWarning(item)">
+              <td colspan="6">
+                <p-message 
+                  severity="warn" 
+                  [text]="getStockWarningMessage()"
+                  styleClass="w-full">
+                </p-message>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6" class="text-center p-4">
+                {{ languageFactor === 'en' ? 'No items added yet. Click Add button to add items.' : 'لم يتم إضافة أصناف بعد. انقر على زر إضافة لإضافة الأصناف.' }}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+
+    <!-- Total Amount -->
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="total-amount-box">
+          <h4>
+            {{ languageFactor === 'en' ? 'Total Amount:' : 'الإجمالي الكلي:' }}
+            <span class="total-value">{{ getTotalAmount() | number:'1.2-2' }}</span>
+          </h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-content-end gap-2 mt-4">
+      <button 
+        pButton 
+        type="button" 
+        [label]="languageFactor === 'en' ? 'Cancel' : 'إلغاء'" 
+        icon="pi pi-times" 
+        class="p-button-text" 
+        (click)="onCancel()"
+        [disabled]="loading">
+      </button>
+      <button 
+        pButton 
+        type="submit" 
+        [label]="languageFactor === 'en' ? 'Save' : 'حفظ'" 
+        icon="pi pi-check" 
+        [loading]="loading">
+      </button>
+    </div>
+  </form>
+</div>

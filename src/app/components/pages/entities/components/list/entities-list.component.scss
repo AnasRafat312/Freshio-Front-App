@@ -1,0 +1,17 @@
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.roles-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+:host ::ng-deep {
+  .p-dropdown {
+    min-width: 200px;
+  }
+}
