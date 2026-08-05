@@ -28,6 +28,7 @@ export class PurchasesAddEditComponent implements OnInit, OnDestroy {
   purchaseId: number | null = null;
   languageSubscription: Subscription;
   loading = false;
+  deletedItems: any[] = [];
   
   // Dropdown options
   supplierOptions: any[] = [];
@@ -141,6 +142,7 @@ export class PurchasesAddEditComponent implements OnInit, OnDestroy {
   }
 
   private loadPurchaseData(data: any): void {
+    debugger
     this.form.patchValue({
       PurchaseDate: new Date(data.PurchaseDate),
       SupplierEntityId: data.SupplierEntityId,
@@ -150,8 +152,8 @@ export class PurchasesAddEditComponent implements OnInit, OnDestroy {
     });
 
     // Load items
-    if (data.Items && data.Items.length > 0) {
-      data.Items.forEach((item: any) => {
+    if (data.PurchaseOrderItems && data.PurchaseOrderItems.length > 0) {
+      data.PurchaseOrderItems.forEach((item: any) => {
         this.addItem(item);
       });
     }
@@ -159,6 +161,7 @@ export class PurchasesAddEditComponent implements OnInit, OnDestroy {
 
   addItem(itemData?: any): void {
     const itemGroup = this.fb.group({
+      ID: [itemData?.ID || 0],
       ItemId: [itemData?.ItemId || null, [Validators.required]],
       Quantity: [itemData?.Quantity || 1, [Validators.required, Validators.min(0.01)]],
       UnitPrice: [itemData?.UnitPrice || 0, [Validators.required, Validators.min(0)]],
@@ -173,6 +176,20 @@ export class PurchasesAddEditComponent implements OnInit, OnDestroy {
   }
 
   removeItem(index: number): void {
+    const item = this.items.at(index);
+    const itemId = item.get('ID')?.value;
+    
+    // If item has an ID (existing item from database), add it to deleted list
+    if (itemId) {
+      this.deletedItems.push({
+        ID: itemId,
+        ItemId: item.get('ItemId')?.value,
+        Quantity: item.get('Quantity')?.value,
+        UnitPrice: item.get('UnitPrice')?.value,
+        IsDeleted: true
+      });
+    }
+    
     this.items.removeAt(index);
   }
 
@@ -230,18 +247,25 @@ export class PurchasesAddEditComponent implements OnInit, OnDestroy {
     this.loading = true;
     
     const purchaseItems: CreatePurchaseItemDto[] = this.items.controls.map((control: any) => ({
+      ID: control.get('ID')?.value,
       ItemId: control.get('ItemId')?.value,
       Quantity: control.get('Quantity')?.value,
       UnitPrice: control.get('UnitPrice')?.value
     }));
 
+    // Include deleted items in the payload (only for update mode)
+    const allItems = this.isEditMode 
+      ? [...purchaseItems, ...this.deletedItems]
+      : purchaseItems;
+
     const purchaseData: CreatePurchaseDto = {
+      ID: this.purchaseId,
       PurchaseDate: this.form.get('PurchaseDate')?.value,
       SupplierEntityId: supplierEntityId || null,
       ExternalSupplierName: externalSupplierName || null,
       EmployeeEntityId: this.form.get('EmployeeEntityId')?.value || null,
       Notes: this.form.get('Notes')?.value || null,
-      PurchaseOrderItems: purchaseItems
+      PurchaseOrderItems: allItems
     };
 
     const request = this.isEditMode

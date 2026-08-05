@@ -38,6 +38,9 @@ export class SalesOrdersAddEditComponent implements OnInit, OnDestroy {
   
   // Inventory map for quick lookup
   inventoryMap: Map<number, number> = new Map();
+  
+  // Track deleted items with ID > 0
+  deletedItems: CreateSalesOrderItemDto[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -126,6 +129,7 @@ export class SalesOrdersAddEditComponent implements OnInit, OnDestroy {
 
   private initializeForm(): void {
     this.form = this.fb.group({
+      OrderNumber: [''],
       CustomerEntityId: [null, [Validators.required]],
       OrderDate: [new Date(), [Validators.required]],
       DeliveryFees: [0, [Validators.min(0)]],
@@ -152,6 +156,7 @@ export class SalesOrdersAddEditComponent implements OnInit, OnDestroy {
 
   private loadOrderData(data: any): void {
     this.form.patchValue({
+      OrderNumber: data.OrderNumber,
       CustomerEntityId: data.CustomerEntityId,
       OrderDate: new Date(data.OrderDate),
       DeliveryFees: data.DeliveryFees || 0,
@@ -159,8 +164,8 @@ export class SalesOrdersAddEditComponent implements OnInit, OnDestroy {
     });
 
     // Load items
-    if (data.Items && data.Items.length > 0) {
-      data.Items.forEach((item: any) => {
+    if (data.SalesOrderItems && data.SalesOrderItems?.length > 0) {
+      data.SalesOrderItems.forEach((item: any) => {
         this.addItem(item);
       });
     }
@@ -169,10 +174,11 @@ export class SalesOrdersAddEditComponent implements OnInit, OnDestroy {
   addItem(itemData?: any): void {
     const itemGroup = this.fb.group({
       ItemId: [itemData?.ItemId || null, [Validators.required]],
+      ID: [itemData?.Id || 0],
       AvailableQuantity: [{ value: itemData?.AvailableQuantity || 0, disabled: true }],
       RequestedQuantity: [itemData?.RequestedQuantity || 1, [Validators.required, Validators.min(0.01)]],
       UnitPrice: [itemData?.UnitPrice || 0, [Validators.required, Validators.min(0)]],
-      LineTotal: [{ value: itemData?.LineTotal || 0, disabled: true }],
+      LineTotal: [{ value: itemData?.UnitPrice * itemData?.RequestedQuantity || 0, disabled: true }],
       Notes: [itemData?.Notes || '']
     });
 
@@ -198,6 +204,23 @@ export class SalesOrdersAddEditComponent implements OnInit, OnDestroy {
   }
 
   removeItem(index: number): void {
+    const itemGroup = this.items.at(index) as FormGroup;
+    const itemId = itemGroup.get('ID')?.value;
+    
+    // If item has ID > 0, mark as deleted and add to deletedItems list
+    if (itemId && itemId > 0) {
+      const deletedItem: CreateSalesOrderItemDto = {
+        ID: itemId,
+        ItemId: itemGroup.get('ItemId')?.value,
+        RequestedQuantity: itemGroup.get('RequestedQuantity')?.value,
+        UnitPrice: itemGroup.get('UnitPrice')?.value,
+        Notes: itemGroup.get('Notes')?.value || null,
+        IsDeleted: true
+      };
+      this.deletedItems.push(deletedItem);
+    }
+    
+    // Remove item from the form array
     this.items.removeAt(index);
   }
 
@@ -262,17 +285,24 @@ export class SalesOrdersAddEditComponent implements OnInit, OnDestroy {
     
     const orderItems: CreateSalesOrderItemDto[] = this.items.controls.map((control: any) => ({
       ItemId: control.get('ItemId')?.value,
+      ID: control.get('ID')?.value,
       RequestedQuantity: control.get('RequestedQuantity')?.value,
       UnitPrice: control.get('UnitPrice')?.value,
-      Notes: control.get('Notes')?.value || null
+      Notes: control.get('Notes')?.value || null,
+      IsDeleted: false
     }));
+    
+    // Concatenate deleted items with active items for update
+    const allItems = this.isEditMode ? [...orderItems, ...this.deletedItems] : orderItems;
 
     const orderData: CreateSalesOrderDto = {
+      OrderNumber: this.form.get('OrderNumber')?.value || null,
       CustomerEntityId: this.form.get('CustomerEntityId')?.value,
       OrderDate: this.sharedService.getDateTime(this.form.get('OrderDate')?.value) ,
       DeliveryFees: this.form.get('DeliveryFees')?.value || 0,
       Notes: this.form.get('Notes')?.value || null,
-      SalesOrderItems: orderItems
+      SalesOrderItems: allItems,
+      ID: this.orderId || 0
     };
 
     const request = this.isEditMode
@@ -289,6 +319,9 @@ export class SalesOrdersAddEditComponent implements OnInit, OnDestroy {
               ? (this.languageFactor === 'en' ? 'Order updated successfully' : 'تم تحديث الأوردر بنجاح')
               : (this.languageFactor === 'en' ? 'Order created successfully' : 'تم إنشاء الأوردر بنجاح')
           });
+          response.Data.Id = response.Data.ID
+          debugger
+          response.Data.CustomerName = this.customerOptions.find(c => c.value == orderData.CustomerEntityId).label;
           this.ref.close(response.Data);
         } else {
           this.messageService.add({

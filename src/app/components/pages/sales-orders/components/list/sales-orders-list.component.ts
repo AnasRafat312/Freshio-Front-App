@@ -198,14 +198,14 @@ export class SalesOrdersList implements OnInit, OnDestroy {
         action: (row: SalesOrderModel) => this.rejectOrder(row),
         condition: (row: SalesOrderModel) => row.Status === OrderStatus.Pending
       },
-      // View Shortages - only for Pending orders
+/*       // View Shortages - only for Pending orders
       {
         tooltip: this.languageFactor === 'en' ? 'View Shortages' : 'عرض النواقص',
         icon: 'pi pi-exclamation-triangle',
         styleClass: 'p-button-warning',
         action: (row: SalesOrderModel) => this.viewShortages(row),
         condition: (row: SalesOrderModel) => row.Status === OrderStatus.Pending
-      },
+      }, */
       // View Details - available for all statuses
       {
         tooltip: this.languageFactor === 'en' ? 'View Details' : 'عرض التفاصيل',
@@ -218,10 +218,15 @@ export class SalesOrdersList implements OnInit, OnDestroy {
         tooltip: this.languageFactor === 'en' ? 'Invoice' : 'فاتورة',
         icon: 'pi pi-file-pdf',
         styleClass: 'p-button-secondary',
-        action: (row: SalesOrderModel) => this.viewInvoice(row),
-        condition: (row: SalesOrderModel) => 
-          row.Status === OrderStatus.Approved || row.Status === OrderStatus.PartiallyApproved
-      }
+        action: (row: SalesOrderModel) => this.viewInvoice(row)
+      },
+      // View Delete
+      {
+        tooltip: this.languageFactor === 'en' ? 'Delete' : 'حذف',
+        icon: 'pi pi-trash',
+        styleClass: 'p-button-danger',
+        action: (row: SalesOrderModel) => this.deleteRow(row),
+      },
     ];
   }
 
@@ -467,5 +472,50 @@ export class SalesOrdersList implements OnInit, OnDestroy {
       detail: this.languageFactor === 'en' ? 'Invoice feature coming soon' : 'ميزة الفاتورة قريباً'
     });
     // TODO: Implement invoice preview/print functionality
+  }
+
+  /**
+   * Delete sales order
+   */
+  deleteRow(row: SalesOrderModel): void {
+    const message = this.languageFactor === 'en' 
+      ? `Are you sure you want to delete order ${row.OrderNumber}? This action cannot be undone.`
+      : `هل أنت متأكد من حذف الأوردر ${row.OrderNumber}؟ لا يمكن التراجع عن هذا الإجراء.`;
+
+    const header = this.languageFactor === 'en' ? 'Confirm Delete' : 'تأكيد الحذف';
+
+    this.confirmationService.confirm({
+      message: message,
+      header: header,
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.salesOrdersService.deleteSalesOrder(row.ID!).subscribe({
+          next: (response) => {
+            if (response?.Success) {
+              this.messageService.add({
+                severity: 'success',
+                summary: this.languageFactor === 'en' ? 'Success' : 'نجح',
+                detail: this.languageFactor === 'en' ? 'Order deleted successfully' : 'تم حذف الأوردر بنجاح'
+              });
+              this.salesOrdersStore.removeSalesOrder(row.ID!);
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: this.languageFactor === 'en' ? 'Error' : 'خطأ',
+                detail: response?.Message || (this.languageFactor === 'en' ? 'Failed to delete order' : 'فشل حذف الأوردر')
+              });
+            }
+          },
+          error: (error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.languageFactor === 'en' ? 'Error' : 'خطأ',
+              detail: this.languageFactor === 'en' ? 'An error occurred while deleting the order' : 'حدث خطأ أثناء حذف الأوردر'
+            });
+          }
+        });
+      }
+    });
   }
 }

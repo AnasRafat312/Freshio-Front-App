@@ -48,23 +48,72 @@
     </div>
   </div>
 
-  <!-- Items Table -->
+  <!-- Details Table -->
   <div class="details-section mt-4">
-    <h3>{{ getLabel('Waste Items', 'أصناف الهالك') }}</h3>
+    <h3>{{ getLabel('Waste Details', 'تفاصيل الهالك') }}</h3>
     
-    <p-table [value]="waste.WasteOrderItems" styleClass="p-datatable-sm">
+    <p-table [value]="waste.WasteOrderItems" styleClass="p-datatable-sm" [responsive]="true" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
-          <th>{{ getLabel('Item', 'الصنف') }}</th>
+          <th>{{ getLabel('Type', 'النوع') }}</th>
+          <th>{{ getLabel('Reference', 'المرجع') }}</th>
           <th>{{ getLabel('Unit', 'الوحدة') }}</th>
           <th>{{ getLabel('Quantity', 'الكمية') }}</th>
+          <th>{{ getLabel('Waste Value', 'قيمة الهالك') }}</th>
+          <th>{{ getLabel('Total', 'الإجمالي') }}</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-item>
         <tr>
-          <td>{{ item.ItemName }}</td>
-          <td>{{ item.ItemUnitOfMeasure }}</td>
-          <td>{{ item.Quantity | number:'1.2-2' }}</td>
+          <!-- Type Column -->
+          <td>
+            <span class="badge badge-info">{{ item.WasteTypeName || '-' }}</span>
+          </td>
+          
+          <!-- Reference Column -->
+          <td>{{ getItemDisplayName(item) }}</td>
+          
+          <!-- Unit Column -->
+          <td>
+            @if (isItemOrMaterial(item)) {
+              {{ item.ItemUnitOfMeasure || item.UnitOfMeasure || '-' }}
+            } @else {
+              <span class="text-muted">—</span>
+            }
+          </td>
+          
+          <!-- Quantity Column -->
+          <td>
+            @if (isItemOrMaterial(item)) {
+              {{ item.Quantity | number:'1.2-2' }}
+            } @else {
+              <span class="text-muted">—</span>
+            }
+          </td>
+          
+          <!-- Waste Value Column -->
+          <td>
+            @if (isItemOrMaterial(item)) {
+              {{ (item.Cost || 0) / (item.Quantity || 1) | number:'1.2-2' }}
+            } @else if (isDelivery(item)) {
+              {{ item.Cost | number:'1.2-2' }}
+            } @else {
+              <span class="text-muted">—</span>
+            }
+          </td>
+          
+          <!-- Total Column -->
+          <td>
+            <strong>{{ item.Cost | number:'1.2-2' }}</strong>
+          </td>
+        </tr>
+      </ng-template>
+      
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" class="text-center">
+            {{ getLabel('No waste details found', 'لا توجد تفاصيل هالك') }}
+          </td>
         </tr>
       </ng-template>
     </p-table>

@@ -177,6 +177,11 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ['/pages/sales-orders'],
             },
             {
+                label: this.languagePipe.transform('Orders Dashboard', this.languageFactor),
+                icon: 'pi pi-chart-bar',
+                routerLink: ['/pages/orders-dashboard'],
+            },
+            {
                 label: this.languagePipe.transform('Stock Shortages', this.languageFactor),
                 icon: 'pi pi-exclamation-triangle',
                 routerLink: ['/pages/stock-shortages'],
@@ -186,7 +191,7 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-trash',
                 routerLink: ['/pages/waste'],
             },
-            {
+            /* {
                 label: this.languagePipe.transform('Delivery Routes', this.languageFactor),
                 icon: 'pi pi-map-marker',
                 routerLink: ['/pages/delivery-routes'],
@@ -195,7 +200,7 @@ export class AppMenuComponent implements OnInit {
                 label: this.languagePipe.transform('Users', this.languageFactor),
                 icon: 'pi pi-user',
                 routerLink: ['/pages/users'],
-            }
+            } */
         ];
 
 

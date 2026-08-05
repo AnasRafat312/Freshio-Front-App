@@ -29,8 +29,8 @@ export class PurchasesList implements OnInit, OnDestroy {
   Add = true;
   Details = true;
   // Edit and Delete may not be supported - check service capabilities
-  Edit = false;
-  Delete = false;
+  Edit = true;
+  Delete = true;
   ref: DynamicDialogRef | undefined;
   languageFactor = 'en';
 
@@ -159,13 +159,14 @@ export class PurchasesList implements OnInit, OnDestroy {
   }
 
   deleteRow(ID: number): void {
+    debugger
     let header = '';
     if (this.languageFactor == 'en') {
       header = 'Delete';
     } else {
       header = 'حذف';
     }
-    let url = this.constant.API_ENDPOINT + `Purchases/Delete/${ID}`;
+    let url = this.constant.API_ENDPOINT + `PurchaseOrder/DeletePurchaseOrder`;
     
     this.ref = this.dialogService.open(NewDeleteModalComponent, {
       header: header,

@@ -42,58 +42,203 @@
       </div>
     </div>
 
-    <!-- Items Section -->
+    <!-- Details Section -->
     <div class="form-section mt-4" formArrayName="Items">
-      <h3>{{ languageFactor === 'en' ? 'Waste Items' : 'أصناف الهالك' }}</h3>
+      <h3>{{ languageFactor === 'en' ? 'Waste Details' : 'تفاصيل الهالك' }}</h3>
       
-      <p-table [value]="items.controls" styleClass="items-table" [responsive]="true" responsiveLayout="scroll">
+      <p-table [value]="detailRows.controls" styleClass="items-table" [responsive]="true" responsiveLayout="scroll">
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 30%">{{ languageFactor === 'en' ? 'Item' : 'الصنف' }}<span class="required-asterisk">*</span></th>
-            <th style="width: 15%">{{ languageFactor === 'en' ? 'Unit' : 'الوحدة' }}</th>
-            <th style="width: 15%">{{ languageFactor === 'en' ? 'Available' : 'المتاح' }}</th>
-            <th style="width: 20%">{{ languageFactor === 'en' ? 'Waste Qty' : 'كمية الهالك' }}<span class="required-asterisk">*</span></th>
-            <th style="width: 10%">
+            <th style="width: 12%">{{ languageFactor === 'en' ? 'Type' : 'النوع' }}<span class="required-asterisk">*</span></th>
+            <th style="width: 18%">{{ languageFactor === 'en' ? 'Reference' : 'المرجع' }}</th>
+            <th style="width: 10%">{{ languageFactor === 'en' ? 'Unit' : 'الوحدة' }}</th>
+            <th style="width: 10%">{{ languageFactor === 'en' ? 'Available' : 'المتاح' }}</th>
+            <th style="width: 12%">{{ languageFactor === 'en' ? 'Quantity' : 'الكمية' }}</th>
+            <th style="width: 12%">{{ languageFactor === 'en' ? 'Waste Value' : 'قيمة الهالك' }}</th>
+            <th style="width: 12%">{{ languageFactor === 'en' ? 'Total' : 'الإجمالي' }}</th>
+            <th style="width: 9%">
               <button 
                 pButton 
                 type="button" 
                 icon="pi pi-plus" 
                 class="p-button-sm p-button-success"
-                [pTooltip]="languageFactor === 'en' ? 'Add Item' : 'إضافة صنف'"
-                (click)="addItem()">
+                [pTooltip]="languageFactor === 'en' ? 'Add Row' : 'إضافة صف'"
+                (click)="addDetailRow()">
               </button>
             </th>
           </tr>
         </ng-template>
         
-        <ng-template pTemplate="body" let-item let-i="rowIndex">
+        <ng-template pTemplate="body" let-row let-i="rowIndex">
           <tr [formGroupName]="i">
+            <!-- Type Column -->
             <td>
               <p-dropdown 
-                [options]="itemOptions" 
-                formControlName="ItemId"
-                [placeholder]="languageFactor === 'en' ? 'Select item' : 'اختر الصنف'"
-                [filter]="true"
+                [options]="detailTypeOptions" 
+                formControlName="detailType"
+                [placeholder]="languageFactor === 'en' ? 'Select type' : 'اختر النوع'"
                 appendTo="body"
                 styleClass="w-full"
-                [ngClass]="{'ng-invalid ng-dirty': item.get('ItemId')?.invalid && item.get('ItemId')?.touched}">
+                [ngClass]="{'ng-invalid ng-dirty': row.get('detailType')?.invalid && row.get('detailType')?.touched}">
               </p-dropdown>
-              <small *ngIf="item.get('ItemId')?.invalid && item.get('ItemId')?.touched" class="p-error d-block">
-                {{ languageFactor === 'en' ? 'Item is required' : 'الصنف مطلوب' }}
-              </small>
+              @if (row.get('detailType')?.invalid && row.get('detailType')?.touched) {
+                <small class="p-error d-block">
+                  {{ languageFactor === 'en' ? 'Type is required' : 'النوع مطلوب' }}
+                </small>
+              }
             </td>
             
+            <!-- Reference Column -->
             <td>
-              <input 
-                pInputText 
-                formControlName="UnitOfMeasure"
-                readonly
-                class="w-full readonly-field">
+              @switch (row.get('detailType')?.value) {
+                @case (WasteDetailType.Item) {
+                  <p-dropdown 
+                    [options]="getReferenceOptions(WasteDetailType.Item)" 
+                    formControlName="referenceId"
+                    [placeholder]="languageFactor === 'en' ? 'Select item' : 'اختر الصنف'"
+                    [filter]="true"
+                    appendTo="body"
+                    styleClass="w-full"
+                    [ngClass]="{'ng-invalid ng-dirty': row.get('referenceId')?.invalid && row.get('referenceId')?.touched}">
+                  </p-dropdown>
+                  @if (row.get('referenceId')?.invalid && row.get('referenceId')?.touched) {
+                    <small class="p-error d-block">
+                      {{ languageFactor === 'en' ? 'Item is required' : 'الصنف مطلوب' }}
+                    </small>
+                  }
+                }
+                @case (WasteDetailType.Material) {
+                  <p-dropdown 
+                    [options]="getReferenceOptions(WasteDetailType.Material)" 
+                    formControlName="referenceId"
+                    [placeholder]="languageFactor === 'en' ? 'Select material' : 'اختر المادة'"
+                    [filter]="true"
+                    appendTo="body"
+                    styleClass="w-full"
+                    [ngClass]="{'ng-invalid ng-dirty': row.get('referenceId')?.invalid && row.get('referenceId')?.touched}">
+                  </p-dropdown>
+                  @if (row.get('referenceId')?.invalid && row.get('referenceId')?.touched) {
+                    <small class="p-error d-block">
+                      {{ languageFactor === 'en' ? 'Material is required' : 'المادة مطلوبة' }}
+                    </small>
+                  }
+                }
+                @case (WasteDetailType.Delivery) {
+                  <input 
+                    pInputText 
+                    formControlName="deliveryReference"
+                    [placeholder]="languageFactor === 'en' ? 'Optional reference' : 'مرجع اختياري'"
+                    class="w-full">
+                }
+              }
             </td>
             
+            <!-- Unit Column -->
+            <td>
+              @if (row.get('detailType')?.value === WasteDetailType.Item || row.get('detailType')?.value === WasteDetailType.Material) {
+                <input 
+                  pInputText 
+                  formControlName="unitOfMeasure"
+                  readonly
+                  class="w-full readonly-field">
+              } @else {
+                <span class="text-muted">—</span>
+              }
+            </td>
+            
+            <!-- Available Column -->
+            <td>
+              @if (row.get('detailType')?.value === WasteDetailType.Item || row.get('detailType')?.value === WasteDetailType.Material) {
+                <p-inputNumber
+                  formControlName="availableQuantity"
+                  mode="decimal"
+                  [minFractionDigits]="2"
+                  [maxFractionDigits]="2"
+                  styleClass="w-full readonly-field"
+                  [disabled]="true">
+                </p-inputNumber>
+              } @else {
+                <span class="text-muted">—</span>
+              }
+            </td>
+            
+            <!-- Quantity Column -->
+            <td>
+              @if (row.get('detailType')?.value === WasteDetailType.Item || row.get('detailType')?.value === WasteDetailType.Material) {
+                <p-inputNumber
+                  formControlName="quantity"
+                  mode="decimal"
+                  [min]="0.01"
+                  [minFractionDigits]="2"
+                  [maxFractionDigits]="2"
+                  [placeholder]="languageFactor === 'en' ? 'Enter quantity' : 'أدخل الكمية'"
+                  styleClass="w-full"
+                  [ngClass]="{'ng-invalid ng-dirty': row.get('quantity')?.invalid && row.get('quantity')?.touched}">
+                </p-inputNumber>
+                @if (row.get('quantity')?.hasError('required') && row.get('quantity')?.touched) {
+                  <small class="p-error d-block">
+                    {{ languageFactor === 'en' ? 'Quantity is required' : 'الكمية مطلوبة' }}
+                  </small>
+                }
+                @if (row.get('quantity')?.hasError('exceedsAvailable') && row.get('referenceId')?.value) {
+                  <small class="p-error d-block">
+                    {{ languageFactor === 'en' ? 'Exceeds available quantity' : 'تتجاوز الكمية المتاحة' }}
+                  </small>
+                }
+              } @else {
+                <span class="text-muted">—</span>
+              }
+            </td>
+            
+            <!-- Waste Value Column -->
+            <td>
+              @switch (row.get('detailType')?.value) {
+                @case (WasteDetailType.Item) {
+                  <p-inputNumber
+                    formControlName="unitCost"
+                    mode="decimal"
+                    [min]="0"
+                    [minFractionDigits]="2"
+                    [maxFractionDigits]="2"
+                    [placeholder]="languageFactor === 'en' ? 'Unit cost' : 'تكلفة الوحدة'"
+                    styleClass="w-full">
+                  </p-inputNumber>
+                }
+                @case (WasteDetailType.Material) {
+                  <p-inputNumber
+                    formControlName="unitCost"
+                    mode="decimal"
+                    [min]="0"
+                    [minFractionDigits]="2"
+                    [maxFractionDigits]="2"
+                    [placeholder]="languageFactor === 'en' ? 'Unit cost' : 'تكلفة الوحدة'"
+                    styleClass="w-full">
+                  </p-inputNumber>
+                }
+                @case (WasteDetailType.Delivery) {
+                  <p-inputNumber
+                    formControlName="wasteAmount"
+                    mode="decimal"
+                    [min]="0.01"
+                    [minFractionDigits]="2"
+                    [maxFractionDigits]="2"
+                    [placeholder]="languageFactor === 'en' ? 'Enter amount' : 'أدخل المبلغ'"
+                    styleClass="w-full"
+                    [ngClass]="{'ng-invalid ng-dirty': row.get('wasteAmount')?.invalid && row.get('wasteAmount')?.touched}">
+                  </p-inputNumber>
+                  @if (row.get('wasteAmount')?.invalid && row.get('wasteAmount')?.touched) {
+                    <small class="p-error d-block">
+                      {{ languageFactor === 'en' ? 'Amount is required' : 'المبلغ مطلوب' }}
+                    </small>
+                  }
+                }
+              }
+            </td>
+            
+            <!-- Total Column -->
             <td>
               <p-inputNumber
-                formControlName="AvailableQuantity"
+                formControlName="total"
                 mode="decimal"
                 [minFractionDigits]="2"
                 [maxFractionDigits]="2"
@@ -102,25 +247,7 @@
               </p-inputNumber>
             </td>
             
-            <td>
-              <p-inputNumber
-                formControlName="Quantity"
-                mode="decimal"
-                [min]="0.01"
-                [minFractionDigits]="2"
-                [maxFractionDigits]="2"
-                [placeholder]="languageFactor === 'en' ? 'Enter quantity' : 'أدخل الكمية'"
-                styleClass="w-full"
-                [ngClass]="{'ng-invalid ng-dirty': item.get('Quantity')?.invalid && item.get('Quantity')?.touched || isQuantityExceeded(i)}">
-              </p-inputNumber>
-              <small *ngIf="item.get('Quantity')?.invalid && item.get('Quantity')?.touched" class="p-error d-block">
-                {{ languageFactor === 'en' ? 'Quantity is required' : 'الكمية مطلوبة' }}
-              </small>
-              <small *ngIf="isQuantityExceeded(i)" class="p-error d-block">
-                {{ languageFactor === 'en' ? 'Exceeds available quantity' : 'تتجاوز الكمية المتاحة' }}
-              </small>
-            </td>
-            
+            <!-- Actions Column -->
             <td class="text-center">
               <button 
                 pButton 
@@ -128,8 +255,8 @@
                 icon="pi pi-trash" 
                 class="p-button-danger p-button-sm p-button-text"
                 [pTooltip]="languageFactor === 'en' ? 'Delete' : 'حذف'"
-                (click)="removeItem(i)"
-                [disabled]="items.length === 1">
+                (click)="removeDetailRow(i)"
+                [disabled]="detailRows.length === 1">
               </button>
             </td>
           </tr>
@@ -137,10 +264,10 @@
         
         <ng-template pTemplate="emptymessage">
           <tr>
-            <td colspan="5" class="text-center">
+            <td colspan="8" class="text-center">
               <p-message 
                 severity="info" 
-                [text]="languageFactor === 'en' ? 'No items added yet. Click the + button to add items.' : 'لم يتم إضافة أصناف بعد. انقر على زر + لإضافة أصناف.'">
+                [text]="languageFactor === 'en' ? 'No details added yet. Click the + button to add rows.' : 'لم يتم إضافة تفاصيل بعد. انقر على زر + لإضافة صفوف.'">
               </p-message>
             </td>
           </tr>

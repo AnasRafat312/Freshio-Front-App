@@ -27,6 +27,7 @@ export interface PurchaseOrderItemModel {
 
 export interface CreatePurchaseDto {
     PurchaseDate: Date;
+    ID?: number;
     SupplierEntityId?: number;
     ExternalSupplierName?: string;
     EmployeeEntityId?: number;
@@ -35,9 +36,11 @@ export interface CreatePurchaseDto {
 }
 
 export interface CreatePurchaseItemDto {
+    ID?: number;
     ItemId: number;
     Quantity: number;
     UnitPrice: number;
+    IsDeleted?: boolean;
 }
 
 export interface PurchaseOrderDto {

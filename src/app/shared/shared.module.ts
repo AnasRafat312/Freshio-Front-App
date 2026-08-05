@@ -76,6 +76,7 @@ import { ExportOptionsModalComponent } from './components/export-options-modal/e
 import { DetailsModule } from './components/details/details.module';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TagModule } from 'primeng/tag';
+import { CardModule } from 'primeng/card';
 
 
 @NgModule({
@@ -160,6 +161,7 @@ import { TagModule } from 'primeng/tag';
         MatDividerModule,
         DetailsModule,
         RadioButtonModule,
+        CardModule,
         
     ],
 
@@ -234,7 +236,8 @@ import { TagModule } from 'primeng/tag';
         MatDividerModule,
         DetailsModule,
         RadioButtonModule,
-        TagModule
+        TagModule,
+        CardModule
     ],
 })
 export class SharedModule {}

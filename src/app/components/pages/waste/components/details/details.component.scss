@@ -38,3 +38,25 @@
   padding-top: 1rem;
   border-top: 2px solid #dee2e6;
 }
+
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+
+  &.badge-info {
+    color: #fff;
+    background-color: #17a2b8;
+  }
+}
+
+.text-muted {
+  color: #6c757d !important;
+  font-style: italic;
+}

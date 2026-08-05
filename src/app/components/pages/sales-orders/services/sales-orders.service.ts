@@ -121,4 +121,27 @@ export class SalesOrdersService {
     const url = `${this.constant.API_ENDPOINT}SalesOrder/GetPendingSalesOrders`;
     return this.http.get<ResponseModel>(url);
   }
+
+  /**
+   * Delete sales order
+   * @param id - Sales Order ID
+   */
+  deleteSalesOrder(id: number): Observable<ResponseModel> {
+    const url = `${this.constant.API_ENDPOINT}SalesOrder/DeleteSalesOrder/${id}`;
+    return this.http.delete<ResponseModel>(url);
+  }
+
+  /**
+   * Get orders items by date range
+   * @param fromDate - Start date
+   * @param toDate - End date
+   */
+  getOrdersItemsByDate(fromDate: Date | String, toDate: Date | String): Observable<ResponseModel> {
+    const url = `${this.constant.API_ENDPOINT}SalesOrder/GetOrdersItemsByDate`;
+    const body = {
+      fromDate: fromDate,
+      toDate: toDate
+    };
+    return this.http.post<ResponseModel>(url, body);
+  }
 }

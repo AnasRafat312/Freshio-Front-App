@@ -43,18 +43,22 @@ export enum OrderStatus {
 }
 
 export interface CreateSalesOrderDto {
+    OrderNumber?: string;
     OrderDate: Date | string;
     CustomerEntityId: number;
     DeliveryFees?: number;
     Notes?: string;
+    ID?: number;
     SalesOrderItems: CreateSalesOrderItemDto[];
 }
 
 export interface CreateSalesOrderItemDto {
     ItemId: number;
+    ID?: number;
     RequestedQuantity: number;
     UnitPrice: number;
     Notes?: string;
+    IsDeleted?: boolean;
 }
 
 export interface SalesOrderDto {
@@ -115,4 +119,12 @@ export interface PartialApproveItemDto {
 
 export interface RejectOrderDto {
     RejectionReason: string;
+}
+
+export interface OrderItemsByDateDto {
+    ItemId: number;
+    ItemName: string;
+    ItemUnitOfMeasure: string;
+    TotalRequestedQuantity: number;
+    TotalApprovedQuantity: number;
 }
