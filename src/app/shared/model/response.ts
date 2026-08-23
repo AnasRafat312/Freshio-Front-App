@@ -3,5 +3,13 @@ export interface ResponseModel {
     Errors: string[],
     Message: string,
     Success: boolean,
-    Data: any
+    Data: any,
+    Shortages?: Array<{
+        OrderItemId: number,
+        ItemId: number,
+        ItemName: string,
+        RequestedQuantity: number,
+        AvailableQuantity: number,
+        MissingQuantity: number
+    }>
 }

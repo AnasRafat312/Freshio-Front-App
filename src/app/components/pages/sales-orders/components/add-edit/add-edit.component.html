@@ -93,6 +93,7 @@
               <th>{{ languageFactor === 'en' ? 'Requested' : 'المطلوب' }} <span class="required-asterisk">*</span></th>
               <th>{{ languageFactor === 'en' ? 'Unit Price' : 'سعر الوحدة' }} <span class="required-asterisk">*</span></th>
               <th>{{ languageFactor === 'en' ? 'Total' : 'الإجمالي' }}</th>
+              <th>{{ languageFactor === 'en' ? 'Comment' : 'تعليق' }}</th>
               <th style="width: 120px;">
                 <button 
                   pButton 
@@ -178,6 +179,17 @@
                 </p-inputNumber>
               </td>
               
+              <!-- Comment -->
+              <td>
+                <textarea 
+                  pInputTextarea 
+                  formControlName="Notes"
+                  rows="2"
+                  [placeholder]="languageFactor === 'en' ? 'Enter comment' : 'أدخل تعليق'"
+                  class="w-full">
+                </textarea>
+              </td>
+              
               <!-- Actions -->
               <td>
                 <div class="flex gap-2">
@@ -195,7 +207,7 @@
             </tr>
             <!-- Stock Warning Row -->
             <tr *ngIf="hasStockWarning(item)">
-              <td colspan="6">
+              <td colspan="7">
                 <p-message 
                   severity="warn" 
                   [text]="getStockWarningMessage()"
@@ -206,7 +218,7 @@
           </ng-template>
           <ng-template pTemplate="emptymessage">
             <tr>
-              <td colspan="6" class="text-center p-4">
+              <td colspan="7" class="text-center p-4">
                 {{ languageFactor === 'en' ? 'No items added yet. Click Add button to add items.' : 'لم يتم إضافة أصناف بعد. انقر على زر إضافة لإضافة الأصناف.' }}
               </td>
             </tr>

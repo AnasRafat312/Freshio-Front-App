@@ -49,10 +49,10 @@ export class OrdersDashboardComponent implements OnInit, OnDestroy {
         filterList: [],
         header: this.languageFactor === 'en' ? 'Item Name' : 'اسم الصنف',
       },
-      ItemUnitOfMeasure: {
-        filterType: FilterType.multi,
+      Comment: {
+        filterType: FilterType.text,
         filterList: [],
-        header: this.languageFactor === 'en' ? 'Unit' : 'الوحدة',
+        header: this.languageFactor === 'en' ? 'Comments' : 'تعليقات',
       },
       TotalRequestedQuantity: {
         filterType: FilterType.number,

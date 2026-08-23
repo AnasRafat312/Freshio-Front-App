@@ -169,7 +169,8 @@ export class PartialApproveDialogComponent implements OnInit, OnDestroy {
             summary: this.getLabel('Success', 'نجح'),
             detail: this.getLabel('Order partially approved successfully', 'تم اعتماد الأوردر جزئياً بنجاح')
           });
-          this.ref.close(true);
+          // Return the updated order data from the response
+          this.ref.close(response?.Data || true);
         } else {
           this.messageService.add({
             severity: 'error',

@@ -23,6 +23,7 @@ import { ActionData } from 'src/app/shared/core/normalTableColumn.model';
 export class WasteList implements OnInit, OnDestroy {
   mainList: WasteOrderModel[] = [];
   filteredList: WasteOrderModel[] = [];
+  totalWasteAmount:number = 0
   model: any = {};
   actionsList: ActionData[] = [];
   languageFactor = 'en';
@@ -44,9 +45,11 @@ export class WasteList implements OnInit, OnDestroy {
     // React to signal changes automatically
     effect(() => {
       try {
+        this.totalWasteAmount = 0
         const wasteRecords = this.wasteStore.wasteRecords();
         this.mainList = wasteRecords || [];
         this.filteredList = [...(wasteRecords || [])];
+        this.filteredList.forEach(row => this.totalWasteAmount+=row.TotalWasteAmount)
       } catch (error) {
         console.error('Error in waste records effect:', error);
         this.mainList = [];
@@ -100,6 +103,11 @@ export class WasteList implements OnInit, OnDestroy {
         filterType: FilterType.multi,
         filterList: [],
         header: this.languageFactor === 'en' ? 'Reason' : 'السبب',
+      },
+      TotalWasteAmount: {
+        filterType: FilterType.number,
+        filterList: [],
+        header: this.languageFactor === 'en' ? 'Total Waste Amount' : 'إجمالي الهالك',
       }
     };
   }

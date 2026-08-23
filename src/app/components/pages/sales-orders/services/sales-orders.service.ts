@@ -123,6 +123,15 @@ export class SalesOrdersService {
   }
 
   /**
+   * Return sales order (changes status back to Pending)
+   * @param id - Sales Order ID
+   */
+  returnSalesOrder(id: number): Observable<ResponseModel> {
+    const url = `${this.constant.API_ENDPOINT}SalesOrder/ReturnSalesOrder/${id}`;
+    return this.http.post<ResponseModel>(url, {});
+  }
+
+  /**
    * Delete sales order
    * @param id - Sales Order ID
    */

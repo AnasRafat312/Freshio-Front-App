@@ -52,6 +52,7 @@ export class BasicTableComponent implements OnInit, OnChanges {
     @ContentChild('statusCell') statusCellTemplate: TemplateRef<any>;
     @ContentChild('isInBudgetCell') isInBudgetCellTemplate: TemplateRef<any>;
     @Output() selectedRowChange = new EventEmitter<any>();
+    @Output() OnFiltereList = new EventEmitter<any[]>();
 
     constructor(
         private language: LanguagesService,
@@ -112,6 +113,7 @@ export class BasicTableComponent implements OnInit, OnChanges {
             this.mainList,
             this.columnContainer
         );
+        this.OnFiltereList.emit(this.filteredList)
     }
 
     onColsSelect(event) {

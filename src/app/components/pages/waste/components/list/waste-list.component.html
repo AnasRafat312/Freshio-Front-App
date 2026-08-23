@@ -26,7 +26,16 @@
       [mainList]="mainList" 
       [filteredList]="filteredList" 
       [model]="model" 
-      [ActionsList]="actionsList">
+      [ActionsList]="actionsList"
+      [hasFooter]="true"
+      >
+      <ng-container class="footer">
+        <tr>
+          <td colspan="5"></td>
+          <td>{{totalWasteAmount}}</td>
+          <td></td>
+        </tr>
+      </ng-container>
     </app-basic-table>
   </div>
 </div>

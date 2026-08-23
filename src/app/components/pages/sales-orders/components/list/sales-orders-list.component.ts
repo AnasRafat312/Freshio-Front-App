@@ -27,6 +27,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 export class SalesOrdersList implements OnInit, OnDestroy {
   mainList: SalesOrderModel[] = [];
   filteredList: SalesOrderModel[] = [];
+  totalProfit:number = 0
   model: any = {};
   actionsList: ActionData[] = [];
   Add = true;
@@ -53,6 +54,7 @@ export class SalesOrdersList implements OnInit, OnDestroy {
     effect(() => {
       this.mainList = this.salesOrdersStore.salesOrders();
       this.applyStatusFilter();
+      this.calculateTotalProfit()
     });
   }
 
@@ -93,7 +95,12 @@ export class SalesOrdersList implements OnInit, OnDestroy {
         return '';
     }
   }
-
+  calculateTotalProfit() {
+    this.totalProfit = 0
+    this.filteredList.forEach(row => {
+      this.totalProfit += row.TotalProfit
+    })
+  }
   /**
    * Get status badge severity
    */
@@ -206,6 +213,14 @@ export class SalesOrdersList implements OnInit, OnDestroy {
         action: (row: SalesOrderModel) => this.viewShortages(row),
         condition: (row: SalesOrderModel) => row.Status === OrderStatus.Pending
       }, */
+      // Return - only for Approved, PartiallyApproved, and Rejected orders
+      {
+        tooltip: this.languageFactor === 'en' ? 'Return' : 'إرجاع',
+        icon: 'pi pi-replay',
+        styleClass: 'p-button-warning',
+        action: (row: SalesOrderModel) => this.returnOrder(row),
+        condition: (row: SalesOrderModel) => row.Status === OrderStatus.Approved || row.Status === OrderStatus.PartiallyApproved || row.Status === OrderStatus.Rejected
+      },
       // View Details - available for all statuses
       {
         tooltip: this.languageFactor === 'en' ? 'View Details' : 'عرض التفاصيل',
@@ -325,11 +340,13 @@ export class SalesOrdersList implements OnInit, OnDestroy {
                 summary: this.languageFactor === 'en' ? 'Success' : 'نجح',
                 detail: this.languageFactor === 'en' ? 'Order approved successfully' : 'تم اعتماد الأوردر بنجاح'
               });
-              this.getAllRows();
+              // Update the order status in the signal
+              const updatedOrder = { ...row, Status: OrderStatus.Approved };
+              this.salesOrdersStore.updateSalesOrder(updatedOrder);
             } else {
               // Check if there are shortages
-              if (response?.Data?.Shortages && response.Data.Shortages.length > 0) {
-                this.showShortagesDialog(response.Data.Shortages);
+              if (response?.Shortages && response.Shortages.length > 0) {
+                this.showShortagesDialog(response.Shortages);
               } else {
                 this.messageService.add({
                   severity: 'error',
@@ -340,6 +357,10 @@ export class SalesOrdersList implements OnInit, OnDestroy {
             }
           },
           error: (error) => {
+            // Check if there are shortages
+              if (error?.error?.Shortages && error?.error?.Shortages.length > 0) {
+                this.showShortagesDialog(error?.error.Shortages);
+              }
             this.messageService.add({
               severity: 'error',
               summary: this.languageFactor === 'en' ? 'Error' : 'خطأ',
@@ -376,7 +397,13 @@ export class SalesOrdersList implements OnInit, OnDestroy {
 
     this.ref.onClose.subscribe((result) => {
       if (result) {
-        this.getAllRows();
+        // If result is an object (updated order data), use it; otherwise update status only
+        if (typeof result === 'object' && result.ID) {
+          this.salesOrdersStore.updateSalesOrder(result);
+        } else {
+          const updatedOrder = { ...row, Status: OrderStatus.PartiallyApproved };
+          this.salesOrdersStore.updateSalesOrder(updatedOrder);
+        }
       }
     });
   }
@@ -401,7 +428,13 @@ export class SalesOrdersList implements OnInit, OnDestroy {
 
     this.ref.onClose.subscribe((result) => {
       if (result) {
-        this.getAllRows();
+        // If result is an object (updated order data), use it; otherwise update status only
+        if (typeof result === 'object' && result.ID) {
+          this.salesOrdersStore.updateSalesOrder(result);
+        } else {
+          const updatedOrder = { ...row, Status: OrderStatus.Rejected };
+          this.salesOrdersStore.updateSalesOrder(updatedOrder);
+        }
       }
     });
   }
@@ -460,6 +493,52 @@ export class SalesOrdersList implements OnInit, OnDestroy {
         focusOnShow: false
       }
     );
+  }
+
+  /**
+   * Return sales order (change status back to Pending)
+   */
+  returnOrder(row: SalesOrderModel): void {
+    const message = this.languageFactor === 'en' 
+      ? `Are you sure you want to return order ${row.OrderNumber}? The order status will be changed back to Pending.`
+      : `هل أنت متأكد من إرجاع الأوردر ${row.OrderNumber}؟ سيتم تغيير حالة الأوردر إلى معلق.`;
+
+    const header = this.languageFactor === 'en' ? 'Confirm Return' : 'تأكيد الإرجاع';
+
+    this.confirmationService.confirm({
+      message: message,
+      header: header,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.salesOrdersService.returnSalesOrder(row.ID!).subscribe({
+          next: (response) => {
+            if (response?.Success) {
+              this.messageService.add({
+                severity: 'success',
+                summary: this.languageFactor === 'en' ? 'Success' : 'نجح',
+                detail: this.languageFactor === 'en' ? 'Order returned to pending successfully' : 'تم إرجاع الأوردر إلى معلق بنجاح'
+              });
+              // Update the order status in the signal
+              const updatedOrder = { ...row, Status: OrderStatus.Pending };
+              this.salesOrdersStore.updateSalesOrder(updatedOrder);
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: this.languageFactor === 'en' ? 'Error' : 'خطأ',
+                detail: response?.Message || (this.languageFactor === 'en' ? 'Failed to return order' : 'فشل إرجاع الأوردر')
+              });
+            }
+          },
+          error: (error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.languageFactor === 'en' ? 'Error' : 'خطأ',
+              detail: this.languageFactor === 'en' ? 'An error occurred while returning the order' : 'حدث خطأ أثناء إرجاع الأوردر'
+            });
+          }
+        });
+      }
+    });
   }
 
   /**

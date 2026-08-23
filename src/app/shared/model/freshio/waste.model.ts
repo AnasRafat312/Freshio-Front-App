@@ -14,6 +14,7 @@ export interface WasteOrderModel {
     ID?: number;
     WasteNumber?: string;
     WasteDate: Date;
+    TotalWasteAmount?: number;
     EmployeeEntityId?: number;
     EmployeeName?: string;
     Reason?: string;

@@ -31,7 +31,7 @@ export class SalesOrdersStore {
    * @param salesOrder - Sales order model to add
    */
   addSalesOrder(salesOrder: SalesOrderModel): void {
-    this.salesOrdersSignal.update(salesOrders => [...salesOrders, salesOrder]);
+    this.salesOrdersSignal.update(salesOrders => [salesOrder, ...salesOrders]);
   }
 
   /**

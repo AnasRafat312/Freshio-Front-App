@@ -29,8 +29,17 @@
       [mainList]="mainList" 
       [filteredList]="filteredList" 
       [model]="model" 
-      [ActionsList]="actionsList">
-      
+      [ActionsList]="actionsList"
+      (OnFiltereList)="calculateTotalProfit()"
+      [hasFooter]="true"
+      >
+      <ng-container class="footer">
+        <tr>
+          <td colspan="5"></td>
+          <td>{{totalProfit}}</td>
+          <td colspan="9"></td>
+        </tr>
+      </ng-container>
       <!-- Custom template for Status column -->
       <ng-template #statusTemplate let-row="row">
         <p-tag 
