@@ -130,6 +130,20 @@
                     [placeholder]="languageFactor === 'en' ? 'Optional reference' : 'مرجع اختياري'"
                     class="w-full">
                 }
+                @case (WasteDetailType.Purchase) {
+                  <input 
+                    pInputText 
+                    formControlName="deliveryReference"
+                    [placeholder]="languageFactor === 'en' ? 'Optional reference' : 'مرجع اختياري'"
+                    class="w-full">
+                }
+                @case (WasteDetailType.Carry) {
+                  <input 
+                    pInputText 
+                    formControlName="deliveryReference"
+                    [placeholder]="languageFactor === 'en' ? 'Optional reference' : 'مرجع اختياري'"
+                    class="w-full">
+                }
               }
             </td>
             
@@ -216,6 +230,40 @@
                   </p-inputNumber>
                 }
                 @case (WasteDetailType.Delivery) {
+                  <p-inputNumber
+                    formControlName="wasteAmount"
+                    mode="decimal"
+                    [min]="0.01"
+                    [minFractionDigits]="2"
+                    [maxFractionDigits]="2"
+                    [placeholder]="languageFactor === 'en' ? 'Enter amount' : 'أدخل المبلغ'"
+                    styleClass="w-full"
+                    [ngClass]="{'ng-invalid ng-dirty': row.get('wasteAmount')?.invalid && row.get('wasteAmount')?.touched}">
+                  </p-inputNumber>
+                  @if (row.get('wasteAmount')?.invalid && row.get('wasteAmount')?.touched) {
+                    <small class="p-error d-block">
+                      {{ languageFactor === 'en' ? 'Amount is required' : 'المبلغ مطلوب' }}
+                    </small>
+                  }
+                }
+                @case (WasteDetailType.Purchase) {
+                  <p-inputNumber
+                    formControlName="wasteAmount"
+                    mode="decimal"
+                    [min]="0.01"
+                    [minFractionDigits]="2"
+                    [maxFractionDigits]="2"
+                    [placeholder]="languageFactor === 'en' ? 'Enter amount' : 'أدخل المبلغ'"
+                    styleClass="w-full"
+                    [ngClass]="{'ng-invalid ng-dirty': row.get('wasteAmount')?.invalid && row.get('wasteAmount')?.touched}">
+                  </p-inputNumber>
+                  @if (row.get('wasteAmount')?.invalid && row.get('wasteAmount')?.touched) {
+                    <small class="p-error d-block">
+                      {{ languageFactor === 'en' ? 'Amount is required' : 'المبلغ مطلوب' }}
+                    </small>
+                  }
+                }
+                @case (WasteDetailType.Carry) {
                   <p-inputNumber
                     formControlName="wasteAmount"
                     mode="decimal"

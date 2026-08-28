@@ -182,6 +182,11 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ['/pages/orders-dashboard'],
             },
             {
+                label: this.languagePipe.transform('Customers Report', this.languageFactor),
+                icon: 'pi pi-users',
+                routerLink: ['/pages/customers-report'],
+            },
+            {
                 label: this.languagePipe.transform('Stock Shortages', this.languageFactor),
                 icon: 'pi pi-exclamation-triangle',
                 routerLink: ['/pages/stock-shortages'],

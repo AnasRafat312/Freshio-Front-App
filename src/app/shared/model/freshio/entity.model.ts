@@ -62,3 +62,17 @@ export interface CreateEntityDto {
     Notes?: string;
     IsActive: boolean;
 }
+
+export interface CustomerReportRequestDto {
+    fromDate?: string | Date;
+    toDate?: string | Date;
+}
+
+export interface CustomerReportDto {
+    entityId: number;
+    name: string;
+    ordersCount: number;
+    averageOrderPrice: number;
+    lastOrderDate: Date | string;
+    whatsappPhoneNumber: string;
+}

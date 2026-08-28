@@ -48,7 +48,9 @@ export class WasteAddEditComponent implements OnInit, OnDestroy {
   detailTypeOptions: any[] = [
     { label: 'Item', value: WasteDetailType.Item },
     { label: 'Material', value: WasteDetailType.Material },
-    { label: 'Delivery', value: WasteDetailType.Delivery }
+    { label: 'Delivery', value: WasteDetailType.Delivery },
+    { label: 'Purchase', value: WasteDetailType.Purchase },
+    { label: 'Carry (مشال)', value: WasteDetailType.Carry }
   ];
   
   constructor(
@@ -233,8 +235,8 @@ export class WasteAddEditComponent implements OnInit, OnDestroy {
       if (detailType === WasteDetailType.Item || detailType === WasteDetailType.Material) {
         quantityControl?.addValidators(this.stockAvailabilityValidator.bind(this));
       }
-    } else if (detailType === WasteDetailType.Delivery) {
-      // Delivery: only require waste amount
+    } else if (detailType === WasteDetailType.Delivery || detailType === WasteDetailType.Purchase || detailType === WasteDetailType.Carry) {
+      // Delivery/Purchase/Carry: only require waste amount
       wasteAmountControl?.setValidators([Validators.required, Validators.min(0.01)]);
     }
 
@@ -341,7 +343,7 @@ export class WasteAddEditComponent implements OnInit, OnDestroy {
       const quantity = group.get('quantity')?.value || 0;
       const unitCost = group.get('unitCost')?.value || 0;
       total = quantity * unitCost;
-    } else if (detailType === WasteDetailType.Delivery) {
+    } else if (detailType === WasteDetailType.Delivery || detailType === WasteDetailType.Purchase || detailType === WasteDetailType.Carry) {
       total = group.get('wasteAmount')?.value || 0;
     }
 
@@ -419,16 +421,20 @@ export class WasteAddEditComponent implements OnInit, OnDestroy {
         wasteType = WasteType.Items;
       } else if (detailType === WasteDetailType.Material) {
         wasteType = WasteType.Materials;
-      } else {
+      } else if (detailType === WasteDetailType.Delivery) {
         wasteType = WasteType.Delivery;
+      } else if (detailType === WasteDetailType.Purchase) {
+        wasteType = WasteType.Purchase;
+      } else {
+        wasteType = WasteType.Carry;
       }
 
-      // For Delivery, set quantity to 1 if backend requires it, otherwise use actual quantity
+      // For Delivery/Purchase/Carry, set quantity to 1 if backend requires it, otherwise use actual quantity
       let quantity: number;
       let cost: number;
       
-      if (detailType === WasteDetailType.Delivery) {
-        quantity = 1; // Backend requirement for delivery
+      if (detailType === WasteDetailType.Delivery || detailType === WasteDetailType.Purchase || detailType === WasteDetailType.Carry) {
+        quantity = 1; // Backend requirement for delivery-like types
         cost = rawValue.wasteAmount || 0;
       } else {
         quantity = rawValue.quantity || 0;

@@ -1,0 +1,76 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <div class="p-3">
+                        <h4 class="mb-0">
+                            <i class="pi pi-users me-2"></i>
+                            {{languageFactor === 'en' ? 'Customers Report' : 'تقرير العملاء'}}
+                        </h4>
+                    </div>
+                </ng-template>
+
+                <!-- Date Range Filters -->
+                <div class="row mb-3">
+                    <div class="col-md-4 mb-2">
+                        <label class="mb-2">{{languageFactor === 'en' ? 'From Date (Optional)' : 'من تاريخ (اختياري)'}}</label>
+                        <p-calendar 
+                            [(ngModel)]="fromDate"
+                            [showIcon]="true"
+                            dateFormat="yy-mm-dd"
+                            [placeholder]="languageFactor === 'en' ? 'Select from date' : 'اختر من تاريخ'"
+                            [showClear]="true"
+                            appendTo="body"
+                            styleClass="w-full">
+                        </p-calendar>
+                    </div>
+
+                    <div class="col-md-4 mb-2">
+                        <label class="mb-2">{{languageFactor === 'en' ? 'To Date (Optional)' : 'إلى تاريخ (اختياري)'}}</label>
+                        <p-calendar 
+                            [(ngModel)]="toDate"
+                            [showIcon]="true"
+                            dateFormat="yy-mm-dd"
+                            [placeholder]="languageFactor === 'en' ? 'Select to date' : 'اختر إلى تاريخ'"
+                            [showClear]="true"
+                            appendTo="body"
+                            styleClass="w-full">
+                        </p-calendar>
+                    </div>
+
+                    <div class="col-md-4 mb-2 d-flex align-items-end">
+                        <button 
+                            pButton 
+                            type="button" 
+                            [label]="languageFactor === 'en' ? 'Search' : 'بحث'" 
+                            icon="pi pi-search" 
+                            class="p-button-primary w-100"
+                            [loading]="loading"
+                            (click)="searchCustomers()">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Table -->
+                <div *ngIf="mainList.length > 0">
+                    <app-basic-table 
+                        [mainList]="mainList" 
+                        [filteredList]="filteredList" 
+                        [model]="model"
+                        [rowReorder] = false
+                        >
+                    </app-basic-table>
+                </div>
+
+                <!-- No Results Message -->
+                <div *ngIf="mainList.length === 0 && !loading" class="text-center p-4">
+                    <p-message 
+                        severity="info" 
+                        [text]="languageFactor === 'en' ? 'Click Search to view customers report. Date range is optional.' : 'اضغط بحث لعرض تقرير العملاء. الفترة الزمنية اختيارية.'">
+                    </p-message>
+                </div>
+            </p-card>
+        </div>
+    </div>
+</div>

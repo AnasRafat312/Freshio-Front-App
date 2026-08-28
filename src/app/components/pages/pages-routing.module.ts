@@ -57,6 +57,12 @@ import { RouterModule } from '@angular/router';
             ]
         },
         { 
+            path: 'customers-report',
+            children: [
+                { path: '', loadComponent: () => import('./customers-report/customers-report.component').then(m => m.CustomersReportComponent) }
+            ]
+        },
+        { 
             path: 'stock-shortages',
             children: [
                 { path: '', loadComponent: () => import('./stock-shortages/components/report/stock-shortages-report.component').then(m => m.StockShortagesReport) }

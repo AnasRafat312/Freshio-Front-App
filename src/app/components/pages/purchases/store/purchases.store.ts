@@ -31,7 +31,7 @@ export class PurchasesStore {
    * @param purchase - Purchase model to add
    */
   addPurchase(purchase: PurchaseOrderModel): void {
-    this.purchasesSignal.update(purchases => [...purchases, purchase]);
+    this.purchasesSignal.update(purchases => [purchase,...purchases]);
   }
 
   /**

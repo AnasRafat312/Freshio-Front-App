@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Constant } from 'src/app/core/constants/constant';
 import { ResponseModel } from 'src/app/shared/model/response';
 import { EntitiesStore } from '../store/entities.store';
-import { EntityDto, CreateEntityDto, EntityRole } from 'src/app/shared/model/freshio/entity.model';
+import { EntityDto, CreateEntityDto, EntityRole, CustomerReportRequestDto } from 'src/app/shared/model/freshio/entity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -138,5 +138,14 @@ export class EntitiesService {
   getDrivers(): Observable<ResponseModel> {
     const url = `${this.constant.API_ENDPOINT}Entities/GetEntitiesByRoleType/Driver`;
     return this.http.get<ResponseModel>(url);
+  }
+
+  /**
+   * Get customer report with optional date range
+   * @param request - Date range filter
+   */
+  getCustomerReport(request: CustomerReportRequestDto): Observable<ResponseModel> {
+    const url = `${this.constant.API_ENDPOINT}Entities/CustomerReport`;
+    return this.http.post<ResponseModel>(url, request);
   }
 }

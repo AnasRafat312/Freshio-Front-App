@@ -1,13 +1,17 @@
 export enum WasteType {
     Items = 1,
     Delivery = 2,
-    Materials = 3
+    Materials = 3,
+    Purchase = 4,
+    Carry = 5
 }
 
 export enum WasteDetailType {
     Item = 1,
     Material = 2,
-    Delivery = 3
+    Delivery = 3,
+    Purchase = 4,
+    Carry = 5
 }
 
 export interface WasteOrderModel {
