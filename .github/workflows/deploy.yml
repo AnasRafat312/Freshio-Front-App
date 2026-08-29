@@ -1,4 +1,4 @@
-name: Deploy Freshio Frontend
+name: Deploy Freshio Frontend To IIS
 
 on:
   push:
@@ -7,21 +7,173 @@ on:
 
   workflow_dispatch:
 
+concurrency:
+  group: freshio-frontend-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
 jobs:
-  test-runner:
+  build-and-deploy:
     runs-on:
       - self-hosted
       - Windows
       - X64
       - FreshioFrontAPP
 
+    timeout-minutes: 30
+
+    env:
+      BUILD_ROOT: dist/FreshioFrontendHTTP
+      IIS_PATH: C:\inetpub\wwwroot\FreshioFrontendHTTP
+      BACKUP_ROOT: C:\Deployments\Backups\FreshioFrontendHTTP
+
     steps:
       - name: Checkout master
         uses: actions/checkout@v4
 
-      - name: Verify runner
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        shell: powershell
+        run: npm ci
+
+      - name: Build Angular production
+        shell: powershell
+        run: npm run build -- --configuration production
+
+      - name: Resolve Angular build path
+        id: build-path
         shell: powershell
         run: |
-          Write-Host "Runner connected successfully"
-          Write-Host "Branch: $env:GITHUB_REF_NAME"
-          Write-Host "Commit: $env:GITHUB_SHA"
+          $buildRoot = Join-Path $env:GITHUB_WORKSPACE "${{ env.BUILD_ROOT }}"
+          $browserPath = Join-Path $buildRoot "browser"
+
+          if (Test-Path (Join-Path $browserPath "index.html")) {
+              $resolvedPath = $browserPath
+          }
+          elseif (Test-Path (Join-Path $buildRoot "index.html")) {
+              $resolvedPath = $buildRoot
+          }
+          else {
+              Write-Host "Build root contents:"
+              Get-ChildItem $buildRoot -Recurse -ErrorAction SilentlyContinue
+              throw "Angular index.html was not found in the build output."
+          }
+
+          Write-Host "Resolved build path: $resolvedPath"
+          "path=$resolvedPath" >> $env:GITHUB_OUTPUT
+
+      - name: Backup current IIS files
+        shell: powershell
+        run: |
+          $iisPath = "${{ env.IIS_PATH }}"
+          $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+          $backupPath = Join-Path "${{ env.BACKUP_ROOT }}" $timestamp
+
+          if (Test-Path $iisPath) {
+              New-Item `
+                -ItemType Directory `
+                -Path $backupPath `
+                -Force | Out-Null
+
+              robocopy `
+                $iisPath `
+                $backupPath `
+                /MIR `
+                /R:2 `
+                /W:2
+
+              if ($LASTEXITCODE -ge 8) {
+                  throw "Backup failed with Robocopy exit code $LASTEXITCODE"
+              }
+
+              Write-Host "Backup created at: $backupPath"
+          }
+
+      - name: Preserve server configuration
+        shell: powershell
+        run: |
+          $preservedPath = Join-Path $env:RUNNER_TEMP "FreshioPreservedConfig"
+
+          if (Test-Path $preservedPath) {
+              Remove-Item $preservedPath -Recurse -Force
+          }
+
+          New-Item `
+            -ItemType Directory `
+            -Path $preservedPath `
+            -Force | Out-Null
+
+          $configPath = Join-Path "${{ env.IIS_PATH }}" "config.json"
+          $webConfigPath = Join-Path "${{ env.IIS_PATH }}" "web.config"
+
+          if (Test-Path $configPath) {
+              Copy-Item $configPath $preservedPath -Force
+          }
+
+          if (Test-Path $webConfigPath) {
+              Copy-Item $webConfigPath $preservedPath -Force
+          }
+
+      - name: Deploy build to IIS
+        shell: powershell
+        run: |
+          $buildPath = "${{ steps.build-path.outputs.path }}"
+          $iisPath = "${{ env.IIS_PATH }}"
+          $preservedPath = Join-Path $env:RUNNER_TEMP "FreshioPreservedConfig"
+
+          New-Item `
+            -ItemType Directory `
+            -Path $iisPath `
+            -Force | Out-Null
+
+          robocopy `
+            $buildPath `
+            $iisPath `
+            /MIR `
+            /R:3 `
+            /W:3 `
+            /XF config.json web.config
+
+          if ($LASTEXITCODE -ge 8) {
+              throw "Deployment failed with Robocopy exit code $LASTEXITCODE"
+          }
+
+          $preservedConfig = Join-Path $preservedPath "config.json"
+          $preservedWebConfig = Join-Path $preservedPath "web.config"
+
+          if (Test-Path $preservedConfig) {
+              Copy-Item `
+                $preservedConfig `
+                (Join-Path $iisPath "config.json") `
+                -Force
+          }
+
+          if (Test-Path $preservedWebConfig) {
+              Copy-Item `
+                $preservedWebConfig `
+                (Join-Path $iisPath "web.config") `
+                -Force
+          }
+
+      - name: Verify deployed files
+        shell: powershell
+        run: |
+          $indexPath = Join-Path "${{ env.IIS_PATH }}" "index.html"
+          $configPath = Join-Path "${{ env.IIS_PATH }}" "config.json"
+
+          if (-not (Test-Path $indexPath)) {
+              throw "Deployment failed: index.html is missing."
+          }
+
+          if (-not (Test-Path $configPath)) {
+              throw "Deployment failed: config.json is missing."
+          }
+
+          Write-Host "Freshio frontend deployed successfully."
