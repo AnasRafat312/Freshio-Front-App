@@ -1,0 +1,26 @@
+name: Deploy Freshio Frontend
+
+on:
+  push:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on:
+      - self-hosted
+      - Windows
+      - X64
+      - FreshioFrontAPP
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Check runner
+        shell: powershell
+        run: |
+          Write-Host "Runner is connected successfully"
+          Write-Host "Deployment commit: $env:GITHUB_SHA"
