@@ -45,7 +45,7 @@ jobs:
 
       - name: Build Angular production
         shell: powershell
-        run: npm run build -- --configuration production
+        run: npm run build -- --configuration production --output-path dist/FreshioFrontendHTTP
 
       - name: Resolve Angular build path
         id: build-path
