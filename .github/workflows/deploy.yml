@@ -45,7 +45,7 @@ jobs:
 
       - name: Build Angular production
         shell: powershell
-        run: npm run build -- --configuration production
+        run: npm run build -- --configuration production --output-path dist/FreshioFrontendHTTP
 
       - name: Resolve Angular build path
         id: build-path
@@ -75,25 +75,28 @@ jobs:
           $iisPath = "${{ env.IIS_PATH }}"
           $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
           $backupPath = Join-Path "${{ env.BACKUP_ROOT }}" $timestamp
-
+      
           if (Test-Path $iisPath) {
               New-Item `
                 -ItemType Directory `
                 -Path $backupPath `
                 -Force | Out-Null
-
+      
               robocopy `
                 $iisPath `
                 $backupPath `
                 /MIR `
                 /R:2 `
                 /W:2
-
-              if ($LASTEXITCODE -ge 8) {
-                  throw "Backup failed with Robocopy exit code $LASTEXITCODE"
+      
+              $robocopyExitCode = $LASTEXITCODE
+      
+              if ($robocopyExitCode -ge 8) {
+                  throw "Backup failed with Robocopy exit code $robocopyExitCode"
               }
-
-              Write-Host "Backup created at: $backupPath"
+      
+              $global:LASTEXITCODE = 0
+              Write-Host "Backup created successfully at: $backupPath"
           }
 
       - name: Preserve server configuration
@@ -140,10 +143,14 @@ jobs:
             /R:3 `
             /W:3 `
             /XF config.json web.config
-
-          if ($LASTEXITCODE -ge 8) {
-              throw "Deployment failed with Robocopy exit code $LASTEXITCODE"
+          
+          $robocopyExitCode = $LASTEXITCODE
+          
+          if ($robocopyExitCode -ge 8) {
+              throw "Deployment failed with Robocopy exit code $robocopyExitCode"
           }
+          
+          $global:LASTEXITCODE = 0
 
           $preservedConfig = Join-Path $preservedPath "config.json"
           $preservedWebConfig = Join-Path $preservedPath "web.config"
