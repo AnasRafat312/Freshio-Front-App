@@ -24,6 +24,7 @@ import { PurchasesStore } from '../../store/purchases.store';
 export class PurchasesList implements OnInit, OnDestroy {
   mainList: PurchaseOrderModel[] = [];
   filteredList: PurchaseOrderModel[] = [];
+  totalAmount: number = 0;
   model: any = {};
   actionsList: ActionData[] = [];
   Add = true;
@@ -48,6 +49,7 @@ export class PurchasesList implements OnInit, OnDestroy {
     effect(() => {
       this.mainList = this.purchasesStore.purchases();
       this.filteredList = [...this.mainList];
+      this.calculateTotalAmount();
     });
   }
 
@@ -66,6 +68,16 @@ export class PurchasesList implements OnInit, OnDestroy {
    */
   getAllRows(): void {
     this.purchasesService.getPurchases();
+  }
+
+  /**
+   * Calculate total amount from filtered list
+   */
+  calculateTotalAmount(): void {
+    this.totalAmount = 0;
+    this.filteredList.forEach(row => {
+      this.totalAmount += row.TotalAmount || 0;
+    });
   }
 
   private initializeModel(): void {

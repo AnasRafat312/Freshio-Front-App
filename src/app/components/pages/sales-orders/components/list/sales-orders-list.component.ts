@@ -27,7 +27,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 export class SalesOrdersList implements OnInit, OnDestroy {
   mainList: SalesOrderModel[] = [];
   filteredList: SalesOrderModel[] = [];
-  totalProfit:number = 0
+  totalProfit: number = 0;
+  totalAmount: number = 0;
   model: any = {};
   actionsList: ActionData[] = [];
   Add = true;
@@ -96,10 +97,12 @@ export class SalesOrdersList implements OnInit, OnDestroy {
     }
   }
   calculateTotalProfit() {
-    this.totalProfit = 0
+    this.totalProfit = 0;
+    this.totalAmount = 0;
     this.filteredList.forEach(row => {
-      this.totalProfit += row.TotalProfit
-    })
+      this.totalProfit += row.TotalProfit || 0;
+      this.totalAmount += row.TotalAmount || 0;
+    });
   }
   /**
    * Get status badge severity
